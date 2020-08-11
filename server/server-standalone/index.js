@@ -1,42 +1,53 @@
-// var http = require('http');
 const express = require('express')
 const app = express()
 const router = express.Router()
 const cors = require('cors')
 const port = 4545
-const request = require('request');
+const axios = require('axios');
 import render from './../../tables'
+import tree from './../../tables/tree'
+import withLicense from './../server-with-database/license'
 
+app.set('json spaces', 2)
 router.get('/inflection', cors(), (req, res) => {
   let { id, type } = req.query
 
-  request(`https://ylhyra.is/api/inflection?id=${id}&type=flat`, (error, response, body) => {
-    if(error) return error;
-    console.log(body)
-    res.send(render(body))
-  });
+  if (req.query.search) {
+    axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(req.query.search)}`)
+      .then(function({ data }) {
+        res.send(data)
+      })
+      .catch(function(error) {
+        res.send('error')
+        console.log(error);
+      })
+  } else if (id) {
+    axios.get(`https://ylhyra.is/api/inflection?id=${id}&type=flat`)
+      .then(function({ data }) {
+        const rows = data.results
 
-  // if (req.query.search) {
-  //   return search(req.query.search, res)
-  // } else if (id) {
-  //   get_by_id(id, res, (rows) => {
-  //     /* Flat */
-  //     if (type === 'flat') {
-  //       return res.json(withLicense(rows, id))
-  //     }
-  //     /* HTML */
-  //     else if (type === 'html') {
-  //       return res.send(render(rows))
-  //     }
-  //     /* Nested */
-  //     else {
-  //       return res.send(withLicense(tree(rows), id))
-  //     }
-  //   })
-  // } else {
-  //   return res.status(400).send({ error: 'Parameters needed' })
-  //   // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
-  // }
+        /* Flat */
+        if (type === 'flat') {
+          return res.json(withLicense(rows, id))
+        }
+        /* HTML */
+        else if (type === 'html') {
+          return res.send(render(rows))
+        }
+        /* Nested */
+        else {
+          return res.json(withLicense(tree(rows), id))
+        }
+      })
+      .catch(function(error) {
+        res.send('error')
+        console.log(error);
+      })
+
+  } else {
+    return res.status(400).send({ error: 'Parameters needed' })
+    // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
+  }
 })
 
 app.use('/api', router)

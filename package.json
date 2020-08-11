@@ -22,9 +22,9 @@
   },
   "homepage": "https://github.com/ylhyra/icelandic-inflections#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "cors": "^2.8.5",
     "esm": "^3.2.25",
-    "express": "^4.17.1",
-    "request": "^2.88.2"
+    "express": "^4.17.1"
   }
 }

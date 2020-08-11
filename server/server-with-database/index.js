@@ -6,6 +6,7 @@ import get_by_id from './get_by_id'
 import tree from 'server/inflection/tables/tree'
 import render from 'server/inflection/tables/index'
 import path from 'path'
+import withLicense from './../server-with-database/license'
 
 /*
   Find possible base words and tags for a given word
@@ -35,15 +36,3 @@ router.get('/inflection', cors(), (req, res) => {
   }
 })
 export default router
-
-export const withLicense = (input, id) => {
-  return {
-    urls: {
-      nested: `https://ylhyra.is/api/inflection?id=${id}`,
-      flat: `https://ylhyra.is/api/inflection?id=${id}&type=flat`,
-      html: `https://ylhyra.is/api/inflection?id=${id}&type=html`,
-    },
-    results: input,
-    license: "CC BY-SA 4.0; https://ylhyra.is/Project:Inflections; © Árni Magnússon Institute for Icelandic Studies",
-  }
-}
