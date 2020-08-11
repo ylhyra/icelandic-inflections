@@ -1,0 +1,26 @@
+{
+  "name": "icelandic-inflections",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ylhyra/icelandic-inflections.git"
+  },
+  "keywords": [
+    "icelandic"
+  ],
+  "author": "Egill",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ylhyra/icelandic-inflections/issues"
+  },
+  "homepage": "https://github.com/ylhyra/icelandic-inflections#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

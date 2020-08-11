@@ -1,7 +1,6 @@
 /*
   Turns rows into nested tree
 */
-require('array-sugar')
 import { sort_by_classification } from 'server/inflection/tables/classify'
 export default (rows) => {
   // let output = []
@@ -25,7 +24,7 @@ export default (rows) => {
           tag,
           values: []
         })
-        currentArray = currentArray.last.values
+        currentArray = currentArray[currentArray.length - 1].values
       } else {
         /* Tag is number, indicating variant */
         currentArray.push({

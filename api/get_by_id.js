@@ -1,3 +1,6 @@
+/*
+  Note: This file currently relies on being a submodule of Ylhýra.
+*/
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import classify, { sort_by_classification } from 'inflection/tables/classify'
