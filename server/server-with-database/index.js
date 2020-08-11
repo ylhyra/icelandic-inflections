@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 import cors from 'cors'
 import search from './search'
-import get_by_id from './get_by_id'
-import tree from './..//tree'
-import render from './../'
+import get_by_id from 'server/inflections/tables/get_by_id'
+import tree from 'server/inflections/tables/tree'
+import render from 'server/inflections/tables/index'
 import path from 'path'
 
 /*
