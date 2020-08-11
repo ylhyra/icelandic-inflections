@@ -1,7 +1,7 @@
 /*
   Turns rows into nested tree
 */
-import { sort_by_classification } from './..//classify'
+const { sort_by_classification } = require('./classify')
 export default (rows) => {
   // let output = []
   let output = {

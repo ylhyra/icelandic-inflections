@@ -30,8 +30,8 @@ router.get('/inflection', cors(), (req, res) => {
       }
     })
   } else {
-    // return res.status(400).send({ error: 'Parameters needed' })
-    return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
+    return res.status(400).send({ error: 'Parameters needed' })
+    // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
   }
 })
 export default router

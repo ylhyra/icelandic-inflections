@@ -1,8 +1,8 @@
-import React from 'react'
-import link from './..//link'
-import Table from './..//table'
-import tree from './..//tree'
-import { getHelperWordsBefore, getHelperWordsAfter } from './..//helperWords'
+
+const link = require('./link')
+const Table = require('./table')
+const tree = require('./tree')
+const { getHelperWordsBefore, getHelperWordsAfter } = require('./helperWords')
 
 class Word {
   form_classification = []

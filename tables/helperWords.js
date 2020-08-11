@@ -1,4 +1,4 @@
-import link from './..//link'
+const link = require('./link')
 
 /*
   Before

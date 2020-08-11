@@ -1,7 +1,7 @@
-import React from 'react'
-import ReactDOMServer from 'react-dom/server'
-import Word from './..//word'
-import link from './..//link'
+
+const ReactDOMServer = require('react-dom/server')
+const Word = require('./word')
+const link = require('./link')
 
 export default (rows) => {
   const word = (new Word()).importTree(rows)
