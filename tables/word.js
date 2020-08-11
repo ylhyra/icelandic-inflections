@@ -15,8 +15,15 @@ class Word {
       this.form_classification = form_classification || []
       this.word_class = word_class || []
     })
-    this.rows = rows
-    this.original = original || rows
+
+    let temporary_pointer = this
+    this.rows = rows.map(row => {
+      if(!row.pointerToOriginalClass) {
+        row.pointerToOriginalClass = temporary_pointer
+      }
+      return row
+    })
+    this.original = original || rows//.map(row => row.pointerToOriginalClass)
   }
   is(...values) {
     return values.every(value => (
@@ -29,8 +36,11 @@ class Word {
       values.filter(Boolean).every(value => row.form_classification.includes(value))
     )), this.original)
   }
+  getOriginal() {
+    return new Word(this.original)
+  }
   getFirstValue() {
-    return this.rows[0].inflectional_form
+    return this.rows.length > 0 && this.rows[0].inflectional_form
   }
   without(...values) {
     return new Word(this.rows.filter(row => (

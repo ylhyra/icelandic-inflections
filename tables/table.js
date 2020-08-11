@@ -1,8 +1,8 @@
 import link from './link'
 import Word from './word'
-
+import {highlightIrregularities} from './functions'
 export default (word) => {
-  return TraverseTree(word.getTree(), word)
+  return TraverseTree(word.getTree(), word, word)
 }
 
 const TraverseTree = (row, word) => {
@@ -150,7 +150,7 @@ export const renderCell = (word, shouldHighlight) => {
   }
   const value = word.rows.map((row, index) => {
     return `<span>`+
-      row.inflectional_form +
+      highlightIrregularities(row.inflectional_form, word) +
       (index + 1 < word.rows.length ? `<span className="light-gray"> / </span>` : '') +
     `</span>`
   }).join('')

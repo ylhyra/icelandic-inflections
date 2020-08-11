@@ -27,6 +27,7 @@ export default (rows) => {
       } else {
         /* Tag is number, indicating variant */
         currentArray.push({
+          base_word: rows[0].base_word,
           form_classification: row.form_classification,
           word_class: row.word_class,
           variant_number: parseInt(tag),
