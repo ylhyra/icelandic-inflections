@@ -11,6 +11,8 @@ router.get('/inflection', cors(), (req, res) => {
   let { id, type } = req.query
 
   request(`https://ylhyra.is/api/inflection?id=${id}&type=flat`, (error, response, body) => {
+    if(error) return error;
+    console.log(body)
     res.send(render(body))
   });
 

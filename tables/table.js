@@ -1,4 +1,3 @@
-
 import link from './link'
 import Word from './word'
 
@@ -56,15 +55,15 @@ const IterateOver = (row, word) => {
     })
   }
 
-  return <dl className="indent">
-    <dt>{row.tag}</dt>
-    <dd>{table ? table :
+  return `<dl className="indent">
+    <dt>${row.tag}</dt>
+    <dd>${table ? table :
       (row.values
-        ? row.values.map(i => IterateOver(i, word))
-        : <table className="wikitable"><tbody><tr>{renderCell(new Word([row]))}</tr></tbody></table>
+        ? row.values.map(i => IterateOver(i, word)).join('')
+        : `<table className="wikitable"><tbody><tr>${renderCell(new Word([row]))}</tr></tbody></table>`
       )
     }</dd>
-  </dl>
+  </dl>`
 }
 
 /* Expects nested array of Columns -> Rows -> Values */
@@ -98,37 +97,37 @@ const GenerateTable = (input, structure) => {
 }
 
 const TableHTML = (input, highlight = []) => {
-  return (
+  return `
     <table className="wikitable">
       <tbody>
-        {input.map((row, index) => (
-          <tr key={index}>
-            {row.map((cell, index2) => {
+        ${input.map((row, index) => `
+          <tr>
+            ${row.map((cell, index2) => {
               if(cell instanceof Word) {
                 const shouldHighlight = true //highlight.length > 0 && cell.is(...highlight)
                 return renderCell(cell, shouldHighlight)
               } else {
-                return <th key={index2} colSpan={2}>{cell}</th>
+                return `<th colSpan="2">${cell}</th>`
               }
-            })}
+            }).join('')}
           </tr>
-        ))}
+        `).join('')}
       </tbody>
     </table>
-  )
+  `
 }
 
 export const renderCell = (word, shouldHighlight) => {
   const value = word.rows.map((row, index) => {
-    return <span>
-      {row.inflectional_form}
-      {index+1<word.rows.length && <span className="light-gray"> / </span>}
-    </span>
+    return `<span>
+      ${row.inflectional_form}
+      ${index + 1 < word.rows.length ? `<span className="light-gray"> / </span>` : ''}
+    </span>`
   })
-  return [
-    <td className={`right ${shouldHighlight ? 'highlight' : ''}`}><span className="gray">{word.getHelperWordsBefore()}</span></td>,
-    <td className={`left ${shouldHighlight ? 'highlight' : ''}`}>
-      <b>{value}</b><span className="gray">{word.getHelperWordsAfter()}</span>
-    </td>,
-  ]
+  return `
+    <td className="right ${shouldHighlight ? 'highlight' : ''}"><span className="gray">${word.getHelperWordsBefore()}</span></td>
+    <td className="left ${shouldHighlight ? 'highlight' : ''}">
+      <b>${value}</b><span className="gray">${word.getHelperWordsAfter()}</span>
+    </td>
+  `
 }
