@@ -113,7 +113,7 @@ const TableHTML = (input, highlight = []) => {
                 const shouldHighlight = true //highlight.length > 0 && cell.is(...highlight)
                 return renderCell(cell, shouldHighlight)
               } else {
-                return `<th colSpan="2">${cell}</th>`
+                return `<th colSpan="2">${cell || ''}</th>`
               }
             }).join('')}
           </tr>
