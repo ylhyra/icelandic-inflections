@@ -1,8 +1,8 @@
 import React from 'react'
-import link from 'server/inflection/tables/link'
-import Table from 'server/inflection/tables/table'
-import tree from 'server/inflection/tables/tree'
-import { getHelperWordsBefore, getHelperWordsAfter } from 'server/inflection/tables/helperWords'
+import link from './..//link'
+import Table from './..//table'
+import tree from './..//tree'
+import { getHelperWordsBefore, getHelperWordsAfter } from './..//helperWords'
 
 class Word {
   form_classification = []

@@ -2,11 +2,12 @@
   "name": "icelandic-inflections",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
   "directories": {
     "doc": "docs"
   },
-  "scripts": {},
+  "scripts": {
+    "start": "node ./server/server-standalone/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ylhyra/icelandic-inflections.git"

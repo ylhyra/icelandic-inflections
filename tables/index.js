@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import Word from 'server/inflection/tables/word'
-import link from 'server/inflection/tables/link'
+import Word from './..//word'
+import link from './..//link'
 
 export default (rows) => {
   const word = (new Word()).importTree(rows)

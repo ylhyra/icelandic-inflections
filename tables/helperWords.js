@@ -1,4 +1,4 @@
-import link from 'server/inflection/tables/link'
+import link from './..//link'
 
 /*
   Before

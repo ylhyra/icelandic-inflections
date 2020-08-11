@@ -1,6 +1,6 @@
 import React from 'react'
-import link from 'server/inflection/tables/link'
-import Word from 'server/inflection/tables/word'
+import link from './..//link'
+import Word from './..//word'
 
 export default (word) => {
   return word.getTree().values.map(row => IterateOver(row, word))

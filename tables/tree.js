@@ -1,7 +1,7 @@
 /*
   Turns rows into nested tree
 */
-import { sort_by_classification } from 'server/inflection/tables/classify'
+import { sort_by_classification } from './..//classify'
 export default (rows) => {
   // let output = []
   let output = {

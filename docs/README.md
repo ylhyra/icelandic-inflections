@@ -1,6 +1,6 @@
-Icelandic inflections 🇮🇸
+# Icelandic inflections 🇮🇸
 
-This is an application programming interface for receiving the inflections (conjugations and declensions) of Icelandic words, either as a list or in a tabular form.
+This is an interface for receiving the inflections (conjugations and declensions) of Icelandic words, both as a list and as HTML tables.
 
 The dataset is the *[Database of Modern Icelandic Inflection](https://bin.arnastofnun.is/DMII/LTdata/k-format/)* (DMII), or *Beygingarlýsing íslensks nútímamáls* (BÍN), by the Árni Magnússon Institute for Icelandic Studies. The author and editor of DMII is [Kristín Bjarnadóttir](https://www.arnastofnun.is/is/stofnunin/starfsfolk/kristin-bjarnadottir). <small>([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/))</small>
 
@@ -17,6 +17,10 @@ Types:
 * html
 * flat
 * nested (default)
+
+## Documentation
+
+* [Development](Development.md)
 
 ## License
 

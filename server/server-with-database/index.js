@@ -3,8 +3,8 @@ const router = express.Router()
 import cors from 'cors'
 import search from './search'
 import get_by_id from './get_by_id'
-import tree from 'server/inflection/tables/tree'
-import render from 'server/inflection/tables'
+import tree from './..//tree'
+import render from './../'
 import path from 'path'
 
 /*
