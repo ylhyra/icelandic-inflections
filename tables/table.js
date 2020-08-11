@@ -2,8 +2,8 @@ import link from './link'
 import Word from './word'
 
 export default (word) => {
-  return word.getTree().values
-  .map(row => IterateOver(row, word)).join('')
+  return IterateOver(word.getTree(), word)
+  // return word.getTree().values.map(row => IterateOver(row, word)).join('')
 }
 
 const IterateOver = (row, word) => {
@@ -13,6 +13,27 @@ const IterateOver = (row, word) => {
   if (word.is('noun') && ['singular', 'plural'].includes(row.tag)) {
     table = GenerateTable(row.values, {
       column_names: ['without definite article', 'with definite article'],
+      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+    })
+  }
+  /* Pronouns */
+  else if (word.is('pronoun') && ['singular', 'plural'].includes(row.tag)) {
+    table = GenerateTable(row.values, {
+      column_names: ['masculine', 'feminine', 'neuter'],
+      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+    })
+  }
+  /* Personal pronouns */
+  else if ( word.is('personal pronoun')) {
+    table = GenerateTable(row.values, {
+      column_names: ['singular', 'plural'],
+      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+    })
+  }
+  /* Reflexive pronouns */
+  else if (word.is('reflexive pronoun')) {
+    table = GenerateTable(row.values, {
+      column_names: [null],
       row_names: ['nominative', 'accusative', 'dative', 'genitive']
     })
   }
@@ -124,12 +145,16 @@ const TableHTML = (input, highlight = []) => {
 }
 
 export const renderCell = (word, shouldHighlight) => {
+  /* No value */
+  if(word.rows.length ===0 ){
+    return '<td></td><td>–</td>'
+  }
   const value = word.rows.map((row, index) => {
     return `<span>
       ${row.inflectional_form}
       ${index + 1 < word.rows.length ? `<span className="light-gray"> / </span>` : ''}
     </span>`
-  })
+  }).join('')
   return `
     <td className="right ${shouldHighlight ? 'highlight' : ''}"><span className="gray">${word.getHelperWordsBefore()}</span></td>
     <td className="left ${shouldHighlight ? 'highlight' : ''}">

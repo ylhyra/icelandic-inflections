@@ -3,7 +3,6 @@
 */
 import { sort_by_classification } from './classify'
 export default (rows) => {
-  // let output = []
   let output = {
     BIN_id: rows[0].BIN_id,
     base_word: rows[0].base_word,
@@ -43,14 +42,12 @@ export default (rows) => {
 
   output = TraverseAndSort(output)
 
-  // console.log(output)
   return output
 }
 
 const isNumber = (string) => {
   return /^\d+$/.test(string + '')
 }
-
 
 const TraverseAndSort = (input) => {
   if (Array.isArray(input)) {

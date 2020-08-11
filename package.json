@@ -6,7 +6,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "node -r esm ./server/server-standalone/index.js"
+    "start": "nodemon -r esm ./server/server-standalone/index.js -e js",
+    "start_nowatch": "node -r esm ./server/server-standalone/index.js"
   },
   "repository": {
     "type": "git",

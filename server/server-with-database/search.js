@@ -5,7 +5,6 @@ import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import classify from 'server/inflection/tables/classify'
 const IcelandicCharacters = /^[a-záéíóúýðþæö]+$/i
-import withLicense from './../server-with-database/license'
 
 /*
   Find possible base words and tags for a given word
@@ -54,7 +53,7 @@ export default (word, res) => {
           descriptive: row.descriptive,
         })
       })
-      res.json(withLicense(grouped))
+      res.json(grouped)
     }
   })
 }

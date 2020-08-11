@@ -6,7 +6,14 @@ import link from './link'
 export const getHelperWordsBefore = (word) => {
   let text = ''
   /* Nouns et al. */
-  if (word.is('noun') || word.is('adjective') || word.is('past participle')) {
+  if (
+    word.is('noun') ||
+    word.is('adjective') ||
+    word.is('past participle') ||
+    word.is('pronoun') ||
+    word.is('personal pronoun') ||
+    word.is('reflexive pronoun')
+  ) {
     if (word.is('nominative') && word.is('singular')) {
       text = 'hér er'
     }

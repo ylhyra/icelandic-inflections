@@ -42,7 +42,24 @@ class Word {
       case 'gender':
         return classification.find(i => ['masculine', 'feminine', 'neuter'].includes(i))
       case 'class':
-        return classification.find(i => ['noun', 'verb', 'adjective'].includes(i))
+        return classification.find(i => [
+          'noun',
+          'verb',
+          'adjective',
+          'preposition',
+          'adverb',
+          'article',
+          'adjective',
+          'infinitive particle',
+          'verb',
+          'conjunction',
+          'interjection',
+          'numeral',
+          'ordinal number',
+          'pronoun',
+          'reflexive pronoun',
+          'personal pronoun',
+        ].includes(i))
       case 'plurality':
         return classification.find(i => ['singular', 'plural'].includes(i))
       case 'article':
