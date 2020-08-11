@@ -2,11 +2,10 @@ import link from './link'
 import Word from './word'
 
 export default (word) => {
-  return IterateOver(word.getTree(), word)
-  // return word.getTree().values.map(row => IterateOver(row, word)).join('')
+  return TraverseTree(word.getTree(), word)
 }
 
-const IterateOver = (row, word) => {
+const TraverseTree = (row, word) => {
   let table = null
   word = (new Word()).importTree(row)
   /* Nouns */
@@ -79,7 +78,7 @@ const IterateOver = (row, word) => {
 
   const output = table ? table :
     (row.values
-      ? row.values.map(i => IterateOver(i, word)).join('')
+      ? row.values.map(i => TraverseTree(i, word)).join('')
       : `<table className="wikitable"><tbody><tr>${renderCell(new Word([row]))}</tr></tbody></table>`
     )
 

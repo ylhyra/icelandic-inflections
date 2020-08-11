@@ -1,3 +1,6 @@
+/*
+  Various helper functions
+*/
 export const characters = 'a-záéíóúýðþæö'
 export const vowels = 'aeiouyáéíóúýæö'
 import Word from './word'

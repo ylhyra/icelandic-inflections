@@ -21,6 +21,7 @@ Types:
 ## Documentation
 
 * [Development](Development.md)
+* [Open tasks](https://github.com/ylhyra/icelandic-inflections/projects/1)
 
 ## License
 

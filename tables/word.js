@@ -156,7 +156,6 @@ class Word {
   }
   /* Principal parts (kennimyndir) */
   getPrincipalParts() {
-    console.log(this.isStrong())
     if (this.is('verb')) {
       const word = this.without(
         'impersonal with accusative subject',
