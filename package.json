@@ -6,7 +6,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "node ./server/server-standalone/index.js"
+    "start": "node -r esm ./server/server-standalone/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,8 @@
   "homepage": "https://github.com/ylhyra/icelandic-inflections#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "request": "^2.88.2"
   }
 }

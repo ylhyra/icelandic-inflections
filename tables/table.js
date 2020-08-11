@@ -1,6 +1,6 @@
 
-const link = require('./link')
-const Word = require('./word')
+import link from './link'
+import Word from './word'
 
 export default (word) => {
   return word.getTree().values.map(row => IterateOver(row, word))
