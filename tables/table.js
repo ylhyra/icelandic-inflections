@@ -150,10 +150,10 @@ export const renderCell = (word, shouldHighlight) => {
     return '<td></td><td>–</td>'
   }
   const value = word.rows.map((row, index) => {
-    return `<span>
-      ${row.inflectional_form}
-      ${index + 1 < word.rows.length ? `<span className="light-gray"> / </span>` : ''}
-    </span>`
+    return `<span>`+
+      row.inflectional_form +
+      (index + 1 < word.rows.length ? `<span className="light-gray"> / </span>` : '') +
+    `</span>`
   }).join('')
   return `
     <td className="right ${shouldHighlight ? 'highlight' : ''}"><span className="gray">${word.getHelperWordsBefore()}</span></td>

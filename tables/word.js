@@ -2,6 +2,7 @@ import link from './link'
 import Table from './table'
 import tree from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './helperWords'
+import { endsInVowel, endsInConsonant } from './functions'
 
 class Word {
   constructor(rows, original) {
@@ -26,6 +27,14 @@ class Word {
   get(...values) {
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value => row.form_classification.includes(value))
+    )), this.original)
+  }
+  getFirstValue() {
+    return this.rows[0].inflectional_form
+  }
+  without(...values) {
+    return new Word(this.rows.filter(row => (
+      values.filter(Boolean).every(value => !row.form_classification.includes(value))
     )), this.original)
   }
   getCases() {
@@ -104,6 +113,12 @@ class Word {
   getTree() {
     return tree(this.rows)
   }
+  render() {
+    const value = this.rows.map((row, index) => {
+      return `<b>${row.inflectional_form}</b>`
+    }).join(' / ')
+    return this.getHelperWordsBefore() + ' ' + value + this.getHelperWordsAfter()
+  }
   importTree(input) {
     let rows = []
     const traverse = (x) => {
@@ -123,7 +138,43 @@ class Word {
     this.word_class = rows[0].word_class
     return this
   }
-}
+  isStrong() {
+    if (this.is('verb')) {
+      const word = this.without(
+        'impersonal with accusative subject',
+        'impersonal with dative subject',
+        'impersonal with genitive subject',
+        'impersonal with dummy subject',
+      ).get('active voice')
 
+      const past_tense = word.get('indicative', 'past tense', '1st person', 'singular')
+      /* Does not end in "-i" */
+      return !/i$/.test(past_tense.getFirstValue())
+    } else if (this.is('noun')) {
+      return this.get('singular', 'without definite article').getCases().some(endsInConsonant)
+    }
+  }
+  /* Principal parts (kennimyndir) */
+  getPrincipalParts() {
+    console.log(this.isStrong())
+    if (this.is('verb')) {
+      const word = this.without(
+        'impersonal with accusative subject',
+        'impersonal with dative subject',
+        'impersonal with genitive subject',
+        'impersonal with dummy subject',
+      ).get('active voice')
+
+      let principalParts = [
+        word.get('infinitive'),
+        word.get('indicative', 'past tense', '1st person', 'singular'),
+        word.isStrong() && word.get('indicative', 'past tense', '1st person', 'plural'),
+        word.get('supine'),
+      ]
+      return principalParts.filter(Boolean).map(i => i.render()).join(', ')
+    }
+    return ''
+  }
+}
 
 export default Word
