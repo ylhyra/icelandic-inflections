@@ -3,7 +3,7 @@
 */
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-import classify, { sort_by_classification } from 'inflection/tables/classify'
+import classify, { sort_by_classification } from 'server/inflection/tables/classify'
 
 /*
   Full table for id

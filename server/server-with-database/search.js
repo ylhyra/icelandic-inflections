@@ -3,7 +3,7 @@
 */
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-import classify from 'inflection/tables/classify'
+import classify from 'server/inflection/tables/classify'
 import { withLicense } from './index'
 const IcelandicCharacters = /^[a-záéíóúýðþæö]+$/i
 
