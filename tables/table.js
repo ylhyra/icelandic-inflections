@@ -56,15 +56,20 @@ const IterateOver = (row, word) => {
     })
   }
 
-  return `<dl className="indent">
-    <dt>${row.tag}</dt>
-    <dd>${table ? table :
-      (row.values
-        ? row.values.map(i => IterateOver(i, word)).join('')
-        : `<table className="wikitable"><tbody><tr>${renderCell(new Word([row]))}</tr></tbody></table>`
-      )
-    }</dd>
-  </dl>`
+  const output = table ? table :
+    (row.values
+      ? row.values.map(i => IterateOver(i, word)).join('')
+      : `<table className="wikitable"><tbody><tr>${renderCell(new Word([row]))}</tr></tbody></table>`
+    )
+
+  if(row.tag) {
+    return `<dl className="indent">
+      <dt>${row.tag}</dt>
+      <dd>${output}</dd>
+    </dl>`
+  } else {
+    return output
+  }
 }
 
 /* Expects nested array of Columns -> Rows -> Values */
