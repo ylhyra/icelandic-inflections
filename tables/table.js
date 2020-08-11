@@ -2,7 +2,8 @@ import link from './link'
 import Word from './word'
 
 export default (word) => {
-  return word.getTree().values.map(row => IterateOver(row, word))
+  return word.getTree().values
+  .map(row => IterateOver(row, word)).join('')
 }
 
 const IterateOver = (row, word) => {

@@ -1,15 +1,15 @@
-
 import link from './link'
 import Table from './table'
 import tree from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './helperWords'
 
 class Word {
-  form_classification = []
-  word_class = []
-  rows = []
-  original = []
   constructor(rows, original) {
+    this.form_classification = []
+    this.word_class = []
+    this.rows = []
+    this.original = []
+
     Array.isArray(rows) && rows.forEach(({ word_class, form_classification }) => {
       this.form_classification = form_classification || []
       this.word_class = word_class || []
@@ -17,18 +17,18 @@ class Word {
     this.rows = rows
     this.original = original || rows
   }
-  is = (...values) => {
+  is(...values) {
     return values.every(value => (
       this.form_classification.includes(value) ||
       this.word_class.includes(value)
     ))
   }
-  get = (...values) => {
+  get(...values) {
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value => row.form_classification.includes(value))
     )), this.original)
   }
-  getCases = () => {
+  getCases() {
     return [
       this.get('nominative'),
       this.get('accusative'),
@@ -36,7 +36,7 @@ class Word {
       this.get('genitive'),
     ]
   }
-  getType = (type) => {
+  getType(type) {
     const classification = [...this.word_class, ...this.form_classification]
     switch (type) {
       case 'gender':
@@ -49,16 +49,16 @@ class Word {
         return classification.find(i => ['with definite article', 'without definite article'].includes(i))
     }
   }
-  getHelperWordsBefore = () => {
+  getHelperWordsBefore() {
     return getHelperWordsBefore(this)
   }
-  getHelperWordsAfter = () => {
+  getHelperWordsAfter() {
     return getHelperWordsAfter(this)
   }
-  dependingOnGender = (...values) => {
+  dependingOnGender(...values) {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
   }
-  dependingOnSubject = (...values) => {
+  dependingOnSubject(...values) {
     /* Input is a list of [nom, acc, dat, get, dummy] */
     if (this.is('impersonal with accusative subject')) {
       return values[1]
@@ -72,22 +72,22 @@ class Word {
       return values[0]
     }
   }
-  getId = () => (
-    this.original[0].BIN_id
-  )
-  getBaseWord = () => {
+  getId() {
+    return this.original[0].BIN_id
+  }
+  getBaseWord() {
     return this.rows[0] ? this.rows[0].base_word : null
   }
-  getTable = () => {
+  getTable() {
     return Table(this)
   }
-  getRows = () => {
+  getRows() {
     return this.rows
   }
-  getTree = () => {
+  getTree() {
     return tree(this.rows)
   }
-  importTree = (input) => {
+  importTree(input) {
     let rows = []
     const traverse = (x) => {
       if (Array.isArray(x)) {
@@ -107,8 +107,6 @@ class Word {
     return this
   }
 }
-
-
 
 
 export default Word
