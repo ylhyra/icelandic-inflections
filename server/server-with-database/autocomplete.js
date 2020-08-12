@@ -10,45 +10,32 @@ import sql from 'server/database/functions/SQL-template-literal'
 const { colognePhonetic  } = require('cologne-phonetic')
 const diacritics = require('diacritics').remove
 
-export default (word, callback) => {
-  /*
-    TODO GROUP BY AFTER SORTING
-    so that "ugla" is selected before "Ugla"
-
-    TODO! TODO!
-    Þetta er hræðilega ljót skipun!!!!
-    Hver kann að joina og velja bara maxið?
-  */
-  query(`
-    SELECT * FROM (
-      SELECT score, keyword, keyword_lowercase FROM (
-        SELECT score, keywords.*
-        FROM input_to_keyword AS input
-        LEFT JOIN keywords
-        ON input.keyword_id = keywords.id
-        WHERE input = ?
-          OR input = ?
-          OR input = ?
+export default (word, res) => {
+  query(sql`
+    SELECT score, inflectional_form, base_word, BIN_id, word_class, grammatical_tag FROM (
+      SELECT score, output FROM autocomplete
+        WHERE input = ${word}
+        OR input = ${with_spelling_errors(word)}
+        OR input = ${phonetic(word)}
         ORDER BY
-        	input.score DESC,
-        	keyword ASC
-        LIMIT 100
-      ) c
-      GROUP BY keyword_lowercase
-      ORDER BY score ASC
-      ) d
-      ORDER BY score DESC
-      LIMIT 20
-  `, [
-    word,
-    with_spelling_errors(word),
-    phonetic(word),
-  ], (err, results) => {
+        autocomplete.score DESC,
+        autocomplete.output ASC
+        LIMIT 20
+    ) a
+    LEFT JOIN inflection
+      ON a.output = inflectional_form_lowercase
+    GROUP BY BIN_id
+    ORDER BY
+      a.score DESC,
+      descriptive DESC,
+      correctness_grade_of_word_form DESC,
+      inflectional_form ASC;
+  `,(err, results) => {
     if (err) {
       console.error(err)
-      callback(null)
+      return res.status(404).send({ error: 'No results' })
     } else {
-      callback(results)
+      res.json(results)
     }
   })
 }

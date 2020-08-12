@@ -6,7 +6,7 @@ CREATE TABLE inflection (
   BIN_id INT(8),
   base_word VARCHAR(120),
   base_word_lowercase VARCHAR(120) COLLATE utf8mb4_bin,
-  inflectional_form VARCHAR(120),
+  inflectional_form VARCHAR(120) COLLATE utf8mb4_bin,
   inflectional_form_lowercase VARCHAR(120) COLLATE utf8mb4_bin,
   word_class VARCHAR(5),
   correctness_grade_of_base_word VARCHAR(1),
