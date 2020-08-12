@@ -20,13 +20,13 @@ export const endsInVowel = (input) => {
 export const endsInConsonant = (string) => {
   return !endsInVowel(string)
 }
-const splitOnVowels = (input) => {
+export const splitOnVowels = (input) => {
   return input && input.split(new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, 'i'))
 }
-const splitOnAll = (input) => {
+export const splitOnAll = (input) => {
   return input && input.split(new RegExp(`(${vowellike_clusters}|[${characters}])`, 'i'))
 }
-const removeFirstVowel = (input) => {
+export const removeFirstVowel = (input) => {
   let output = splitOnVowels(input)
   output.splice(1, 1)
   return output.join('')

@@ -5,7 +5,7 @@ module.exports = {
     es6: true
   },
   extends: "eslint:recommended",
-  parser: "babel-eslint",
+  // parser: "babel-eslint",
   parserOptions: {
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
@@ -14,9 +14,9 @@ module.exports = {
     experimentalDecorators: true,
     sourceType: "module",
   },
-  plugins: [
-    "react",
-  ],
+  // plugins: [
+  //   "react",
+  // ],
   rules: {
     "linebreak-style": [
       "error",
@@ -25,10 +25,8 @@ module.exports = {
     "no-unused-vars": 0,
     "no-console": 0,
     "array-callback-return": 1,
-    "no-lonely-if": 1,
     "no-unreachable": 0,
     "no-mixed-spaces-and-tabs": 1,
-    "no-unneeded-ternary": 1,
     "no-const-assign": 2,
     "no-duplicate-imports": 2,
     "no-useless-rename": 1,

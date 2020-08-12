@@ -1,3 +1,5 @@
+import { vowels } from './vowels'
+
 /* See https://is.wikipedia.org/wiki/Stofn_(m%C3%A1lfr%C3%A6%C3%B0i) */
 /* NOTE: This is not the "real" stem, it is simplified for the purpose of finding irregularities, it removes the last vowel which should be included for certain weak verbs  */
 export function getStem(word) {

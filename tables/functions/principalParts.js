@@ -5,7 +5,7 @@ export function getPrincipalParts() {
       'impersonal with accusative subject',
       'impersonal with dative subject',
       'impersonal with genitive subject',
-      'impersonal with dummy subject',
+      'impersonal with dummy subject'
     ).get('active voice')
 
     let principalParts = [

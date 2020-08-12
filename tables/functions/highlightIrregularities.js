@@ -1,3 +1,5 @@
+import { endsInConsonant, splitOnVowels, splitOnAll, removeFirstVowel } from './vowels'
+
 export const highlightIrregularities = (form, word) => {
   let output = form
   const baseWord = word.getBaseWord()
@@ -14,7 +16,7 @@ export const highlightIrregularities = (form, word) => {
   }
 
   /* Highlight in entirety if word is considerably different from the stem */
-  const stem = getStem(word)
+  const stem = word.getStem()
   if (stem) {
     /*
       Is there a change in the stem region?
