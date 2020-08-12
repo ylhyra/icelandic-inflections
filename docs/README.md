@@ -6,17 +6,24 @@ The dataset is the *[Database of Modern Icelandic Inflection](https://bin.arnast
 
 ## API
 
-* `https://ylhyra.is/api/inflection?search=maður`
+**Search**
 
-* `https://ylhyra.is/api/inflection?id=433568`
+Exact matches:
+* https://ylhyra.is/api/inflection?search=mamma
 
-* `https://ylhyra.is/api/inflection?id=433568&type=html`
+Fuzzy matches with autocompletion:
+* https://ylhyra.is/api/inflection?search=thorsmork&autocomplete=true
 
-Types:
+**Items**
 
-* html
-* flat
-* nested (default)
+Get rendered HTML tables:
+* https://ylhyra.is/api/inflection?id=433568&type=html
+
+Get a nested JSON object:
+* https://ylhyra.is/api/inflection?id=433568&type=nested
+
+Get a flat array of all rows:
+* https://ylhyra.is/api/inflection?id=433568&type=flat
 
 ## Documentation
 
