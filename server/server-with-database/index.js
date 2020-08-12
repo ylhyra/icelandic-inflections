@@ -7,6 +7,9 @@ import tree from 'server/inflection/tables/tree'
 import render from 'server/inflection/tables/index'
 import path from 'path'
 import withLicense from './../server-with-database/license'
+// var compression = require('compression')
+// app.use(compression({}))
+
 
 /*
   Find possible base words and tags for a given word
@@ -35,4 +38,7 @@ router.get('/inflection', cors(), (req, res) => {
     // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
   }
 })
+
+
+
 export default router
