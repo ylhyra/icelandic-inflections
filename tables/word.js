@@ -1,8 +1,11 @@
 import link from './link'
 import Table from './table'
 import tree from './tree'
-import { getHelperWordsBefore, getHelperWordsAfter } from './helperWords'
-import { endsInVowel, endsInConsonant } from './functions'
+import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
+import { highlightIrregularities } from './functions/highlightIrregularities'
+import { getPrincipalParts } from './functions/principalParts'
+import { getStem } from './functions/stem'
+import { isStrong } from './functions/strong'
 
 class Word {
   constructor(rows, original) {
@@ -82,12 +85,6 @@ class Word {
         return classification.find(i => ['with definite article', 'without definite article'].includes(i))
     }
   }
-  getHelperWordsBefore() {
-    return getHelperWordsBefore(this)
-  }
-  getHelperWordsAfter() {
-    return getHelperWordsAfter(this)
-  }
   dependingOnGender(...values) {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
   }
@@ -121,8 +118,9 @@ class Word {
     return tree(this.rows)
   }
   render() {
+    let word = this
     const value = this.rows.map((row, index) => {
-      return `<b>${row.inflectional_form}</b>`
+      return `<b>${highlightIrregularities(row.inflectional_form, word)}</b>`
     }).join(' / ')
     return this.getHelperWordsBefore() + ' ' + value + this.getHelperWordsAfter()
   }
@@ -145,42 +143,13 @@ class Word {
     this.word_class = rows[0].word_class
     return this
   }
-  isStrong() {
-    if (this.is('verb')) {
-      const word = this.without(
-        'impersonal with accusative subject',
-        'impersonal with dative subject',
-        'impersonal with genitive subject',
-        'impersonal with dummy subject',
-      ).get('active voice')
-
-      const past_tense = word.get('indicative', 'past tense', '1st person', 'singular')
-      /* Does not end in "-i" */
-      return !/i$/.test(past_tense.getFirstValue())
-    } else if (this.is('noun')) {
-      return this.get('singular', 'without definite article').getCases().some(endsInConsonant)
-    }
-  }
-  /* Principal parts (kennimyndir) */
-  getPrincipalParts() {
-    if (this.is('verb')) {
-      const word = this.without(
-        'impersonal with accusative subject',
-        'impersonal with dative subject',
-        'impersonal with genitive subject',
-        'impersonal with dummy subject',
-      ).get('active voice')
-
-      let principalParts = [
-        word.get('infinitive'),
-        word.get('indicative', 'past tense', '1st person', 'singular'),
-        word.isStrong() && word.get('indicative', 'past tense', '1st person', 'plural'),
-        word.get('supine'),
-      ]
-      return principalParts.filter(Boolean).map(i => i.render()).join(', ')
-    }
-    return ''
-  }
 }
+
+Word.prototype.getHelperWordsBefore = getHelperWordsBefore
+Word.prototype.getHelperWordsAfter = getHelperWordsAfter
+Word.prototype.getPrincipalParts = getPrincipalParts
+Word.prototype.getStem = getStem
+Word.prototype.isStrong = isStrong
+Word.prototype.highlightIrregularities = highlightIrregularities
 
 export default Word

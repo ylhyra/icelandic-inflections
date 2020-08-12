@@ -1,6 +1,6 @@
 import link from './link'
 import Word from './word'
-import { highlightIrregularities } from './functions'
+import { highlightIrregularities } from './functions/highlightIrregularities'
 export default (word) => {
   const original_word = word
   return TraverseTree(word.getTree(), word, original_word)

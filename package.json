@@ -29,5 +29,8 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-dot": "^0.1.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0"
   }
 }
