@@ -15,10 +15,8 @@ class Word {
       this.form_classification = form_classification || []
       this.word_class = word_class || []
     })
-
-    // console.log(rows)
-
-    this.original = original /*|| (rows[0] && rows[0].original_rows) */|| rows
+    this.rows = rows
+    this.original = original || rows
   }
   is(...values) {
     return values.every(value => (
@@ -107,7 +105,7 @@ class Word {
     return this.original[0].BIN_id
   }
   getBaseWord() {
-    return this.rows[0] ? this.rows[0].base_word : null
+    return this.original[0].base_word
   }
   getTable() {
     return Table(this)
@@ -124,7 +122,7 @@ class Word {
     }).join(' / ')
     return this.getHelperWordsBefore() + ' ' + value + this.getHelperWordsAfter()
   }
-  importTree(input) {
+  importTree(input, original_word) {
     let rows = []
     const traverse = (x) => {
       if (Array.isArray(x)) {
@@ -137,7 +135,7 @@ class Word {
     }
     traverse(input)
     this.rows = rows
-    this.original = (rows[0] && rows[0].original_rows) || rows //?
+    this.original = (original_word && original_word.original) || rows
     // TODO: Does not make sense, needs restructuring
     this.form_classification = rows[0].form_classification
     this.word_class = rows[0].word_class
