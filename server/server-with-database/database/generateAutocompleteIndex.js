@@ -12,64 +12,73 @@
   Then run:
   > node build/ylhyra_server.js --generate-autocomplete-index
 
+
 */
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-import { cleanInput, phonetic, with_spelling_errors } from './../autocomplete'
+import {
+  cleanInput,
+  phonetic,
+  without_special_characters,
+  with_spelling_errors,
+  removeTemporaryMarkers,
+  WITHOUT_SPECIAL_CHARACTERS_MARKER,
+  WITH_SPELLING_ERROR_MARKER,
+  PHONETIC_MARKER,
+} from './../autocomplete'
 import path from 'path'
 import _ from 'underscore'
 import flattenArray from 'project/frontend/App/functions/flattenArray'
 var LineByLineReader = require('line-by-line')
+
 const CSV_FILE_NAME = 'ordalisti_unique.csv'
 const CSV_FILE_LINES = 289374 // Number of lines, calculated with "wc -l"
 let count = 0
 // import { compareTwoStrings } from 'string-similarity'
 
-query(`TRUNCATE TABLE autocomplete;`, (err, res) => {
-  var lr = new LineByLineReader(path.resolve(__dirname, `./${CSV_FILE_NAME}`))
-  lr.on('error', (err) => {
-    console.error(err)
-  });
-
-  lr.on('line', (line) => {
-    lr.pause()
-    if (line.trim() == '') {
-      lr.resume()
-    } else {
-      const word = line
-      let inputs
-      inputs = [{
-        text: cleanInput(word),
-        score: word === cleanInput(word) ? 100 : 90,
-      }]
-      inputs = UniqueByMaxScore(autocomplete(inputs))
-      inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
-      inputs = inputs.filter(input => input.score >= 3)
-
-      const values = flattenArray(inputs.map(input => ([input.text, word, input.score])))
-      query(`INSERT INTO autocomplete SET input = ?, output = ?, score = ?;`.repeat(inputs.length), values, (err, results) => {
-        if (err) {
-          console.error(err)
-          throw (err)
-        } else {
-
-          count++
-          if (count % 100 === 1) {
-            process.stdout.write(`\x1Bc\r${(count / CSV_FILE_LINES * 100).toFixed(1)}% ${word}`)
-          }
-
-          lr.resume()
-        }
-      })
-    }
-  });
-
-  lr.on('end', () => {
-    process.exit()
-  });
-})
-
-
+// query(`TRUNCATE TABLE autocomplete;`, (err, res) => {
+//   var lr = new LineByLineReader(path.resolve(__dirname, `./${CSV_FILE_NAME}`))
+//   lr.on('error', (err) => {
+//     console.error(err)
+//   });
+//
+//   lr.on('line', (line) => {
+//     lr.pause()
+//     if (line.trim() == '') {
+//       lr.resume()
+//     } else {
+//       const word = line
+//       let inputs
+//       inputs = [{
+//         text: cleanInput(word),
+//         score: word === cleanInput(word) ? 100 : 80,
+//       }]
+//       inputs = UniqueByMaxScore(autocomplete(inputs))
+//       inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
+//       inputs = inputs.filter(input => input.score >= 3)
+//
+//       const values = flattenArray(inputs.map(input => ([input.text, word, input.score])))
+//       query(`INSERT INTO autocomplete SET input = ?, output = ?, score = ?;`.repeat(inputs.length), values, (err, results) => {
+//         if (err) {
+//           console.error(err)
+//           throw (err)
+//         } else {
+//
+//           count++
+//           if (count % 100 === 1) {
+//             process.stdout.write(`\x1Bc\r${(count / CSV_FILE_LINES * 100).toFixed(1)}% ${word}`)
+//           }
+//
+//           lr.resume()
+//         }
+//       })
+//     }
+//   });
+//
+//   lr.on('end', () => {
+//     process.exit()
+//   });
+// })
 
 
 
@@ -91,6 +100,14 @@ const clean = (words) => words.map(word => ({
   - "Examp"
   - "Exampl"
   - "Example"
+
+  Scoring:
+
+  * 100 - original word
+  * 90 - without special characters
+  * 85 - major spelling errors
+  * 80 - phonetic
+  * 70 - last letter missing
 
 */
 const autocomplete = (inputs) => {
@@ -122,24 +139,29 @@ const autocomplete = (inputs) => {
 }
 
 
-
 const addPhoneticAndSpellingErrors = (inputs) => {
   let additions = []
 
   inputs.forEach(({ text, score }) => {
-    if (with_spelling_errors(text).length > 1) {
-      additions.push({
-        text: with_spelling_errors(text),
-        score: score / 4,
-      })
-    }
-    if (phonetic(text).length > 1) {
-      additions.push({
-        text: phonetic(text),
-        score: score / 7,
-      })
-    }
+    additions.push({
+      text: without_special_characters(text),
+      score: Math.round(Math.log(score)) - 10
+    })
+    additions.push({
+      text: with_spelling_errors(text),
+      score: Math.round(Math.log(score)) - 10
+    })
+    // if (score > 90) {
+    //   additions.push({
+    //     text: phonetic(text),
+    //     score: score / 7,
+    //   })
+    // }
   })
+  console.log([
+    ...inputs,
+    ...additions,
+  ])
 
   return [
     ...inputs,
@@ -151,24 +173,27 @@ const addPhoneticAndSpellingErrors = (inputs) => {
 
 const UniqueByMaxScore = (inputs) => {
   const sorted = inputs.sort((a, b) => b.score - a.score)
-  const texts = sorted.map(word => word.text)
+  /* Store array of texts so that we can filter out already-seen ones in the next step */
+  const texts = sorted.map(word => removeTemporaryMarkers(word.text))
   return sorted
-    .filter((word, index) => index === texts.indexOf(word.text))
+    .filter((word, index) => index === texts.indexOf(removeTemporaryMarkers(word.text)))
     .map(word => ({
       text: word.text,
       score: Math.round(word.score),
     }))
 }
 
+const demo = async () => {
+  const word = 'Þórsmörk'
+  let inputs = [{
+    text: cleanInput(word),
+    score: word === cleanInput(word) ? 100 : 90,
+  }]
+  inputs = UniqueByMaxScore(autocomplete(inputs))
+  inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
+  inputs = inputs.filter(input => input.score >= 3)
 
-// const demo = async () => {
-//   let inputs
-//   inputs = UniqueByMaxScore(await findVariations({ text: 'egill', score: 100, lang: 'isl', }))
-//   inputs = UniqueByMaxScore(clean(inputs))
-//   inputs = UniqueByMaxScore(autocomplete(inputs))
-//   inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
-//   inputs = inputs.filter(input => input.score >= 3)
-//
-//   console.log(inputs)
-// }
-// demo()
+  console.log(inputs)
+  process.exit()
+}
+demo()
