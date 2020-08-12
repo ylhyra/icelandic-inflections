@@ -25,13 +25,15 @@ CREATE INDEX _base_word_lowercase ON inflection (base_word_lowercase);
 CREATE INDEX _inflectional_form_lowercase ON inflection (inflectional_form_lowercase);
 CREATE INDEX _descriptive ON inflection (descriptive);
 
--- DROP TABLE IF EXISTS words_to_inflection;
--- CREATE TABLE words_to_inflection (
---   id INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
---   lowercase VARCHAR(120) COLLATE utf8_bin,
---   word VARCHAR(120) COLLATE utf8_bin,
---   classification VARCHAR(120),
---   inflection_hash VARCHAR(20)
--- );
--- CREATE INDEX _lowercase ON words_to_inflection (lowercase);
--- CREATE INDEX _inflection_hash ON words_to_inflection (inflection_hash);
+
+
+DROP TABLE IF EXISTS autocomplete;
+CREATE TABLE autocomplete (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  input VARCHAR(255) COLLATE utf8_bin,
+  word VARCHAR(255),
+  score INT UNSIGNED -- Between 1 and 100
+);
+CREATE INDEX _input ON autocomplete (input);
+CREATE INDEX _word ON autocomplete (word);
+CREATE INDEX _score ON autocomplete (score);
