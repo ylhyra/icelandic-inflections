@@ -5,7 +5,7 @@ export const characters = 'a-záéíóúýðþæö'
 export const vowels = 'aeiouyáéíóúýæö'
 export const dipthongs = 'au|e[yi]'
 export const vowellike_clusters = `au|e[yi]|j[auúóöyi]` // Umlaut (hljóðvarp) and Germanic a-mutation (klofning)
-import Word from './word'
+import Word from './../word'
 
 export const endsInVowel = (input) => {
   let string
@@ -30,4 +30,7 @@ export const removeFirstVowel = (input) => {
   let output = splitOnVowels(input)
   output.splice(1, 1)
   return output.join('')
+}
+export const removeLastVowel = (input) => {
+  return input && input.replace((new RegExp(`([${vowels}]+)$`, 'i')), '')
 }

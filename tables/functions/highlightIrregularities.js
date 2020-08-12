@@ -16,7 +16,7 @@ export const highlightIrregularities = (form, word) => {
   }
 
   /* Highlight in entirety if word is considerably different from the stem */
-  const stem = word.getStem()
+  const stem = word.getStem(true)
   if (stem) {
     /*
       Is there a change in the stem region?
