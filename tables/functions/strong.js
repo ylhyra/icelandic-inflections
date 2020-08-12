@@ -1,5 +1,9 @@
 import { endsInConsonant } from './vowels'
- 
+
+/**
+ * @memberof Word
+ * @return {?boolean}
+ */
 export function isStrong() {
   if (this.is('verb')) {
     const word = this.getOriginal().without(

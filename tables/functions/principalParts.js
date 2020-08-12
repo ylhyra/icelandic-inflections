@@ -1,4 +1,8 @@
-/* Principal parts (kennimyndir) */
+/**
+ * Principal parts (kennimyndir)
+ * @memberof Word
+ * @return {?boolean}
+ */
 export function getPrincipalParts() {
   if (this.is('verb')) {
     const word = this.getOriginal().without(

@@ -1,6 +1,11 @@
 import { endsInConsonant, splitOnVowels, splitOnAll, removeFirstVowel } from './vowels'
 
-export const highlightIrregularities = (form, word) => {
+/**
+ * @param  {string} form
+ * @param  {Word} word
+ * @return {?string} HTML string
+ */
+export function highlightIrregularities(form, word) {
   let output = form
   const baseWord = word.getBaseWord()
   if (!baseWord) return form;
@@ -11,7 +16,7 @@ export const highlightIrregularities = (form, word) => {
   const baseWord_first_vowel = baseWord_split[1]
   const form_first_vowel = form_split[1]
   if (baseWord_first_vowel !== form_first_vowel) {
-    form_split[1] = `<span style="color:#b00030">${form_split[1]}</span>`
+    form_split[1] = `<span class="umlaut" style="color:#b00030">${form_split[1]}</span>`
     output = form_split.join('')
   }
 
@@ -23,7 +28,7 @@ export const highlightIrregularities = (form, word) => {
       Skip over first vowel since it was already checked above
     */
     if (!removeFirstVowel(form).startsWith(removeFirstVowel(stem))) {
-      output = `<em>${output}</em>`
+      output = `<em class="irregular">${output}</em>`
     }
   }
 

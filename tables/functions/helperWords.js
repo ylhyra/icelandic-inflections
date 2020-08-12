@@ -1,8 +1,10 @@
 import link from './../link'
 
-/*
-  Before
-*/
+/**
+ * Before
+ * @memberof Word
+ * @return {string} HTML string
+ */
 export function getHelperWordsBefore() {
   let text = ''
   /* Nouns et al. */
@@ -76,9 +78,11 @@ export function getHelperWordsBefore() {
   return text
 }
 
-/*
-  After
-*/
+/**
+ * After
+ * @memberof Word
+ * @return {string} HTML string
+ */
 export function getHelperWordsAfter() {
   let text = ''
   let addSpace = true
