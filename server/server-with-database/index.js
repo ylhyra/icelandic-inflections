@@ -12,6 +12,7 @@ import withLicense from './../server-with-database/license'
   Find possible base words and tags for a given word
 */
 router.get('/inflection', cors(), (req, res) => {
+  res.setHeader('X-Robots-Tag', 'noindex')
   let { id, type, search, autocomplete } = req.query
   if (search) {
     return Search(search, autocomplete, res)

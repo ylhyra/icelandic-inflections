@@ -10,10 +10,10 @@ import withLicense from './../server-with-database/license'
 
 app.set('json spaces', 2)
 router.get('/inflection', cors(), (req, res) => {
-  let { id, type } = req.query
-
-  if (req.query.search) {
-    axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(req.query.search)}`)
+  res.setHeader('X-Robots-Tag', 'noindex')
+  let { id, type, search, autocomplete } = req.query
+  if (search) {
+    axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(req.query.search)}&autocomplete=${encodeURIComponent(autocomplete)}`)
       .then(function({ data }) {
         res.send(data)
       })
