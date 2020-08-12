@@ -1,6 +1,8 @@
 import { endsInConsonant } from './vowels'
 
 /**
+ * Strong or weak inflection
+ *
  * @memberof Word
  * @return {?boolean}
  */

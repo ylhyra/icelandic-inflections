@@ -14,9 +14,6 @@ module.exports = {
     experimentalDecorators: true,
     sourceType: "module",
   },
-  // plugins: [
-  //   "react",
-  // ],
   rules: {
     "linebreak-style": [
       "error",
@@ -30,8 +27,7 @@ module.exports = {
     "no-const-assign": 2,
     "no-duplicate-imports": 2,
     "no-useless-rename": 1,
-    "react/jsx-uses-vars": 1,
-    // "no-irregular-whitespace":0,
+    "no-irregular-whitespace": 1,
     // "prefer-arrow-callback": 1,
     "no-case-declarations": 0,
     "no-constant-condition": 0,
