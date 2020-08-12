@@ -105,6 +105,7 @@ class Word {
     return this.original[0].BIN_id
   }
   getBaseWord() {
+    // console.log(this.original)
     return this.original[0].base_word
   }
   getTable() {
