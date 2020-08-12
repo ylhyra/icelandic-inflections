@@ -16,14 +16,9 @@ class Word {
       this.word_class = word_class || []
     })
 
-    let temporary_pointer = this
-    this.rows = rows.map(row => {
-      if(!row.pointerToOriginalClass) {
-        row.pointerToOriginalClass = temporary_pointer
-      }
-      return row
-    })
-    this.original = original || rows//.map(row => row.pointerToOriginalClass)
+    // console.log(rows)
+
+    this.original = original /*|| (rows[0] && rows[0].original_rows) */|| rows
   }
   is(...values) {
     return values.every(value => (
@@ -142,7 +137,7 @@ class Word {
     }
     traverse(input)
     this.rows = rows
-    this.original = rows
+    this.original = (rows[0] && rows[0].original_rows) || rows //?
     // TODO: Does not make sense, needs restructuring
     this.form_classification = rows[0].form_classification
     this.word_class = rows[0].word_class

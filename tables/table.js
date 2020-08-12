@@ -8,6 +8,7 @@ export default (word) => {
 const TraverseTree = (row, word) => {
   let table = null
   word = (new Word()).importTree(row)
+  // console.log(word)
   /* Nouns */
   if (word.is('noun') && ['singular', 'plural'].includes(row.tag)) {
     table = GenerateTable(row.values, {
@@ -90,12 +91,13 @@ const TraverseTree = (row, word) => {
   } else {
     return output
   }
-}
+} 
 
 /* Expects nested array of Columns -> Rows -> Values */
 const GenerateTable = (input, structure) => {
   const { column_names, row_names } = structure
   let word = (new Word()).importTree(input)
+  console.log(word)
   let table = []
   row_names.forEach((row_name, row_index) => {
     /* Add column names */

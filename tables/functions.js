@@ -54,13 +54,7 @@ export const highlightIrregularities = (form, word) => {
       Is there a change in the stem region?
       Skip over first vowel since it was already checked above
     */
-    const form_full_split = splitOnAll(removeFirstVowel(form))
-    // console.log(form)
-    const isDifferent = splitOnAll(removeFirstVowel(stem)).some((part, index) => {
-      // form === 'kvenna' && console.log({part,ja:form_full_split[index]})
-      return part !== form_full_split[index]
-    })
-    if (isDifferent) {
+    if (!removeFirstVowel(form).startsWith(removeFirstVowel(stem))) {
       output = `<em>${output}</em>`
     }
   }

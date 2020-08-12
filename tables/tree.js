@@ -27,6 +27,7 @@ export default (rows) => {
       } else {
         /* Tag is number, indicating variant */
         currentArray.push({
+          original_rows: rows, // TODO! Cannot be printed!
           base_word: rows[0].base_word,
           form_classification: row.form_classification,
           word_class: row.word_class,
