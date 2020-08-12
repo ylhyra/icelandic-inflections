@@ -12,14 +12,25 @@
   Then run:
   > node build/ylhyra_server.js --generate-autocomplete-index
 
+
 */
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-import { cleanInput, phonetic, with_spelling_errors } from './../autocomplete'
+import {
+  cleanInput,
+  phonetic,
+  without_special_characters,
+  with_spelling_errors,
+  removeTemporaryMarkers,
+  WITHOUT_SPECIAL_CHARACTERS_MARKER,
+  WITH_SPELLING_ERROR_MARKER,
+  PHONETIC_MARKER,
+} from './../autocomplete'
 import path from 'path'
 import _ from 'underscore'
 import flattenArray from 'project/frontend/App/functions/flattenArray'
 var LineByLineReader = require('line-by-line')
+
 const CSV_FILE_NAME = 'ordalisti_unique.csv'
 const CSV_FILE_LINES = 289374 // Number of lines, calculated with "wc -l"
 let count = 0
@@ -40,7 +51,7 @@ query(`TRUNCATE TABLE autocomplete;`, (err, res) => {
       let inputs
       inputs = [{
         text: cleanInput(word),
-        score: word === cleanInput(word) ? 100 : 90,
+        score: word === cleanInput(word) ? 100 : 80,
       }]
       inputs = UniqueByMaxScore(autocomplete(inputs))
       inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
@@ -71,8 +82,6 @@ query(`TRUNCATE TABLE autocomplete;`, (err, res) => {
 
 
 
-
-
 const clean = (words) => words.map(word => ({
   text: cleanInput(word.text),
   score: word.score,
@@ -92,6 +101,14 @@ const clean = (words) => words.map(word => ({
   - "Exampl"
   - "Example"
 
+  Scoring:
+
+  * 100 - original word
+  * 90 - without special characters
+  * 85 - major spelling errors
+  * 80 - phonetic
+  * 70 - last letter missing
+
 */
 const autocomplete = (inputs) => {
   let additions = []
@@ -110,7 +127,7 @@ const autocomplete = (inputs) => {
       if (characters[i - 1] === ' ') continue; // TEMP
       additions.push({
         text: characters.slice(0, i).join(''),
-        score: 0.2 * score + 0.7 * (score * (i / characters.length))
+        score: 0.2 * score + 0.7 * (score * ((i / characters.length) ** 2))
       })
     }
   })
@@ -122,24 +139,33 @@ const autocomplete = (inputs) => {
 }
 
 
-
 const addPhoneticAndSpellingErrors = (inputs) => {
   let additions = []
 
   inputs.forEach(({ text, score }) => {
-    if (with_spelling_errors(text).length > 1) {
+    additions.push({
+      text: without_special_characters(text),
+      score: 0.90 * (score)
+    })
+    /* Extreme spelling errors only for the full word and without last letter, not all autocompletes */
+    if (score >= 70) {
       additions.push({
         text: with_spelling_errors(text),
-        score: score / 4,
+        score: 0.85 * score
       })
     }
-    if (phonetic(text).length > 1) {
+    /* Phonetic algorithm just for full word */
+    if (score >= 90) {
       additions.push({
         text: phonetic(text),
-        score: score / 7,
+        score: 0.8 * score,
       })
     }
   })
+  // console.log([
+  //   ...inputs,
+  //   ...additions,
+  // ])
 
   return [
     ...inputs,
@@ -151,24 +177,27 @@ const addPhoneticAndSpellingErrors = (inputs) => {
 
 const UniqueByMaxScore = (inputs) => {
   const sorted = inputs.sort((a, b) => b.score - a.score)
-  const texts = sorted.map(word => word.text)
+  /* Store array of texts so that we can filter out already-seen ones in the next step */
+  const texts = sorted.map(word => removeTemporaryMarkers(word.text))
   return sorted
-    .filter((word, index) => index === texts.indexOf(word.text))
+    .filter((word, index) => index === texts.indexOf(removeTemporaryMarkers(word.text)))
     .map(word => ({
       text: word.text,
       score: Math.round(word.score),
     }))
 }
 
-
 // const demo = async () => {
-//   let inputs
-//   inputs = UniqueByMaxScore(await findVariations({ text: 'egill', score: 100, lang: 'isl', }))
-//   inputs = UniqueByMaxScore(clean(inputs))
+//   const word = 'Þórsmörk'
+//   let inputs = [{
+//     text: cleanInput(word),
+//     score: word === cleanInput(word) ? 100 : 90,
+//   }]
 //   inputs = UniqueByMaxScore(autocomplete(inputs))
 //   inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
 //   inputs = inputs.filter(input => input.score >= 3)
 //
 //   console.log(inputs)
+//   process.exit()
 // }
 // demo()
