@@ -16,7 +16,11 @@ class Word {
       this.word_class = word_class || []
     })
     this.rows = rows
-    this.original = original || rows
+    if (original instanceof Word) {
+      this.original = original.original
+    } else {
+      this.original = original || rows
+    }
   }
   is(...values) {
     return values.every(value => (

@@ -80,7 +80,7 @@ const TraverseTree = (row, word, original_word) => {
   const output = table ? table :
     (row.values ?
       row.values.map(i => TraverseTree(i, word, original_word)).join('') :
-      `<table className="wikitable"><tbody><tr>${renderCell(new Word([row]))}</tr></tbody></table>`
+      `<table className="wikitable"><tbody><tr>${renderCell(new Word([row], original_word))}</tr></tbody></table>`
     )
 
   if (row.tag) {
