@@ -7,7 +7,7 @@ import express from 'express'
 const router = express.Router()
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-const cologne = require('cologne-phonetic')
+const { colognePhonetic  } = require('cologne-phonetic')
 const diacritics = require('diacritics').remove
 
 export default (word, callback) => {
@@ -71,5 +71,5 @@ export const with_spelling_errors = (string) => {
 }
 
 export const phonetic = (string) => {
-  return cologne(diacritics(string))
+  return colognePhonetic(diacritics(string))
 }

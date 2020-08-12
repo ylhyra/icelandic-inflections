@@ -1,6 +1,6 @@
 /*
 
-  Generator for variations and autocompletion.
+  Generates an index for autocompletion and fuzzy search
 
   Setup:
 
@@ -21,6 +21,8 @@ import _ from 'underscore'
 import flattenArray from 'project/frontend/App/functions/flattenArray'
 var LineByLineReader = require('line-by-line')
 const CSV_FILE_NAME = 'ordalisti_unique.csv'
+const CSV_FILE_LINES = 289374 // Number of lines, calculated with "wc -l"
+let count = 0
 
 query(`TRUNCATE TABLE autocomplete;`, (err, res) => {
   var lr = new LineByLineReader(path.resolve(__dirname, `./${CSV_FILE_NAME}`))
@@ -33,7 +35,31 @@ query(`TRUNCATE TABLE autocomplete;`, (err, res) => {
     if (line.trim() == '') {
       lr.resume()
     } else {
+      const word = line
+      let inputs
+      inputs = [{
+        text: cleanInput(word),
+        score: word === cleanInput(word) ? 100 : 90,
+      }]
+      inputs = UniqueByMaxScore(autocomplete(inputs))
+      inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
+      inputs = inputs.filter(input => input.score >= 3)
 
+      const values = flattenArray(inputs.map(input => ([input.text, word, input.score])))
+      query(`INSERT INTO autocomplete SET input = ?, output = ?, score = ?;`.repeat(inputs.length), values, (err, results) => {
+        if (err) {
+          console.error(err)
+          throw (err)
+        } else {
+
+          count++
+          if (count % 100 === 1) {
+            process.stdout.write(`\x1Bc\r${(count / CSV_FILE_LINES * 100).toFixed(1)}% ${word}`)
+          }
+
+          lr.resume()
+        }
+      })
     }
   });
 
@@ -45,157 +71,11 @@ query(`TRUNCATE TABLE autocomplete;`, (err, res) => {
 
 
 
-const makeSuggestions = ({ entry_id, keywords }) => {
-  return new Promise(async resolve => {
-
-    await Promise.all(keywords.map(keyword => (
-      new Promise(async resolve => {
-
-        /*
-          Insert keyword
-        */
-        let skipSuggestions = false
-        const keyword_id = await new Promise(async resolve_1 => {
-          const lowercase = keyword.text.toLowerCase()
-          const original = (keyword.text !== lowercase) ? keyword.text : null
-
-          /*
-            Check if keyword with a similar score already exists
-            (no need to recalculate suggestions)
-          */
-          await new Promise((resolve_2) => {
-            query(`
-              SELECT keywords.id FROM keywords
-              LEFT JOIN keyword_to_entry
-              ON keyword_to_entry.keyword_id = keywords.id
-              WHERE keyword_lowercase = ?
-                AND (score < ? OR score > ?)
-              ORDER BY score DESC
-              LIMIT 1
-            `, [lowercase, keyword.score + 10, keyword.score - 10], (err, results) => {
-              if (err) {
-                console.error(err)
-                throw (err)
-              } else {
-                if (results.length > 0) {
-                  skipSuggestions = true
-                  resolve_2()
-                  resolve_1(results[0].id)
-                } else {
-                  resolve_2()
-                }
-              }
-            })
-          })
-
-          if (!skipSuggestions) {
-            query(`INSERT INTO keywords SET keyword = ?, keyword_lowercase = ?`, [original, lowercase], (err, results) => {
-              if (err) {
-                console.error(err)
-                throw (err)
-              } else {
-                resolve_1(results.insertId)
-              }
-            })
-          }
-        })
-
-        /*
-          Keyword to entry
-        */
-        await new Promise(resolve_1 => {
-          query(`INSERT INTO keyword_to_entry SET keyword_id = ?, entry_id = ?, score = ?`, [keyword_id, entry_id, keyword.score], (err, results) => {
-            if (err) {
-              console.error(err)
-              throw (err)
-            } else {
-              resolve_1()
-            }
-          })
-        })
-
-        if (!skipSuggestions) {
-
-          let inputs
-          inputs = UniqueByMaxScore(await findVariations({
-            ...keyword,
-            text: keyword.text.toLowerCase(),
-          }))
-          inputs = UniqueByMaxScore(clean(inputs))
-          inputs = UniqueByMaxScore(autocomplete(inputs))
-          inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
-          inputs = inputs.filter(input => input.score >= 3)
-
-          /*
-            Input to keyword
-          */
-          await new Promise(resolve_1 => {
-            const values = flattenArray(inputs.map(input => ([input.text, input.score, keyword_id])))
-            query(`INSERT INTO input_to_keyword SET input = ?, score = ?, keyword_id = ?;`.repeat(inputs.length), values, (err, results) => {
-              if (err) {
-                console.error(err)
-                throw (err)
-              } else {
-                resolve_1()
-              }
-            })
-          })
-        }
-
-        resolve()
-      })
-    )))
-
-
-    resolve()
-  })
-}
-
-
-
-export default makeSuggestions
-
-
-
-
-const findVariations = (keyword) => {
-  return new Promise(resolve => {
-    if (keyword.lang !== 'isl') {
-      resolve([keyword])
-    } else {
-      query(`
-        SELECT DISTINCT t2.lowercase
-        FROM word_variations t1
-        LEFT JOIN word_variations t2
-        ON t2.belongs_to = t1.belongs_to
-        WHERE t1.language = ?
-          AND t1.lowercase = ?`, [
-        keyword.lang,
-        keyword.text.toLowerCase()
-      ], (err, results) => {
-        if (err) {
-          console.error(err)
-          throw (err)
-        } else {
-          resolve([
-            keyword,
-            ...results.map(result => ({
-              text: result.lowercase,
-              score: keyword.score * 0.7,
-            }))
-          ])
-        }
-      })
-    }
-  })
-}
-
 
 const clean = (words) => words.map(word => ({
   text: cleanInput(word.text),
   score: word.score,
 }))
-
 
 
 
@@ -229,7 +109,7 @@ const autocomplete = (inputs) => {
       if (characters[i - 1] === ' ') continue; // TEMP
       additions.push({
         text: characters.slice(0, i).join(''),
-        score: 0.2 * score +  0.7 * (score * (i / characters.length))
+        score: 0.2 * score + 0.7 * (score * (i / characters.length))
       })
     }
   })
