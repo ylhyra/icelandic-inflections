@@ -7,13 +7,26 @@ const axios = require('axios');
 import render from './../../tables'
 import tree from './../../tables/tree'
 import withLicense from './../server-with-database/license'
+import path from 'path'
+var doT = require('express-dot')
+var fs = require('fs')
+
+doT.setGlobals({
+  load: function(file) {
+    return fs.readFileSync(path.join(path.dirname(process.argv[1]), file));
+  }
+});
+app.engine('dot', doT.__express)
+app.set('views', path.join(__dirname, '/../views'))
+app.set('view engine', 'dot')
+
 
 app.set('json spaces', 2)
-router.get('/inflection', cors(), (req, res) => {
-  res.setHeader('X-Robots-Tag', 'noindex')
-  let { id, type, search, autocomplete } = req.query
-  if (search) {
-    axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(req.query.search)}&autocomplete=${encodeURIComponent(autocomplete)}`)
+router.get('/api/inflection', cors(), (req, res) => {
+  let { id, type } = req.query
+
+  if (req.query.search) {
+    axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(req.query.search)}`)
       .then(function({ data }) {
         res.send(data)
       })
@@ -50,7 +63,14 @@ router.get('/inflection', cors(), (req, res) => {
   }
 })
 
-app.use('/api', router)
+router.get('/', cors(), (req, res) => {
+  let { q } = req.query
+  res.render('index', {
+    layout: false,
+  })
+})
+
+app.use('/', router)
 app.listen(port, null, (err) => {
   if (err) {
     console.log(err.message)

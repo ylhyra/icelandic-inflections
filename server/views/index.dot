@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<title>Icelandic inflection search</title>
+
+<meta charset="utf-8"/>
+<!-- <base href="/"/> -->
+<!-- <link href="/style.css" rel="stylesheet" type="text/css"/> -->
+<!-- <meta name="description" content=""/> -->
+<meta name="google" content="notranslate" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- <link rel="shortcut icon" href="/~/favicon.png"> -->
+
+<!--
+<script type="text/javascript">
+if(/[?&]q=/.test(location.search)) {
+  var match = location.search.match(/[?&]q=([A-zÀ-ÿ%0-9+]+)/);
+  if (match && window.history.replaceState) {
+     window.history.replaceState(null, null, '/'+match[1]);
+  }
+}
+</script>
+-->
+<body>
+<div id="content">
+  <form method="get" action="/">
+    <input name="q" id="s" placeholder="Search" type="search" value="{{=it.string||''}}" spellcheck="false" autocomplete="off"/>
+  </form>
+  <main>
+    {{?it.results}}
+      {{=it.results}}
+    {{?}}
+  </main>
+</div>
+<!--
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://rimordabok.is/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://rimordabok.is/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+-->
+</body>
+</html>
