@@ -7,11 +7,11 @@ import express from 'express'
 const router = express.Router()
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-const { colognePhonetic  } = require('cologne-phonetic')
+const { colognePhonetic } = require('cologne-phonetic')
 const diacritics = require('diacritics').remove
 
 export default (word, res) => {
-  query(sql`
+  query(sql `
     SELECT score, inflectional_form, base_word, BIN_id, word_class, grammatical_tag FROM (
       SELECT score, output FROM autocomplete
         WHERE input = ${word}
@@ -30,12 +30,12 @@ export default (word, res) => {
       descriptive DESC,
       correctness_grade_of_word_form DESC,
       inflectional_form ASC;
-  `,(err, results) => {
+  `, (err, results) => {
     if (err) {
       console.error(err)
       return res.status(404).send({ error: 'No results' })
     } else {
-      res.json(results)
+      res.json({ results })
     }
   })
 }
