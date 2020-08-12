@@ -9,18 +9,18 @@ import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 const { colognePhonetic } = require('cologne-phonetic')
 const diacritics = require('diacritics').remove
-export const WITHOUT_SPECIAL_CHARACTERS_TAG = '@'
-export const WITH_SPELLING_ERROR_TAG = '^'
-export const PHONETIC_TAG = '~'
+export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
+export const WITH_SPELLING_ERROR_MARKER = '^'
+export const PHONETIC_MARKER = '~'
 
 export default (word, res) => {
   query(sql `
     SELECT score, inflectional_form, base_word, BIN_id, word_class, grammatical_tag FROM (
       SELECT score, output FROM autocomplete
         WHERE input = ${word}
-        OR input = ${WITHOUT_SPECIAL_CHARACTERS_TAG + without_special_characters}
-        OR input = ${WITH_SPELLING_ERROR_TAG + with_spelling_errors(word)}
-        OR input = ${PHONETIC_TAG + phonetic(word)}
+        OR input = ${WITHOUT_SPECIAL_CHARACTERS_MARKER + without_special_characters}
+        OR input = ${WITH_SPELLING_ERROR_MARKER + with_spelling_errors(word)}
+        OR input = ${PHONETIC_MARKER + phonetic(word)}
         ORDER BY
         autocomplete.score DESC,
         autocomplete.output ASC
@@ -49,7 +49,7 @@ export const cleanInput = (input) => {
 }
 
 export const without_special_characters = (string) => {
-  string = string
+  string = WITHOUT_SPECIAL_CHARACTERS_MARKER + string
     .replace(/þ/g, 'th')
     .replace(/ð/g, 'd')
     .replace(/ö/g, 'o')
@@ -57,7 +57,7 @@ export const without_special_characters = (string) => {
 }
 
 export const with_spelling_errors = (string) => {
-  return without_special_characters(string)
+  return WITH_SPELLING_ERROR_MARKER + without_special_characters(string)
     .replace(/y/g, 'i')
     .replace(/au/g, 'o')
     .replace(/sg/g, 'sk')
@@ -75,14 +75,14 @@ export const with_spelling_errors = (string) => {
 }
 
 export const phonetic = (string) => {
-  return colognePhonetic(
+  return PHONETIC_MARKER + colognePhonetic(
     removeTemporaryMarkers(with_spelling_errors(string))
   )
 }
 
 export const removeTemporaryMarkers = (input) => {
   return input
-    .replace(WITHOUT_SPECIAL_CHARACTERS_TAG, '')
-    .replace(WITH_SPELLING_ERROR_TAG, '')
-    .replace(PHONETIC_TAG, '')
+    .replace(WITHOUT_SPECIAL_CHARACTERS_MARKER, '')
+    .replace(WITH_SPELLING_ERROR_MARKER, '')
+    .replace(PHONETIC_MARKER, '')
 }
