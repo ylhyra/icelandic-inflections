@@ -4,10 +4,10 @@
 
   Setup:
 
-  Fetch ordalisti.csv from BÍN.
+  Fetch KRISTINsnid.csv from BÍN.
   Then generate a simple list of unique lowercase words with:
 
-  > awk -F ';' '{print $1}' ordalisti.csv | tr '[:upper:]' '[:lower:]' | sort -u > ordalisti_unique.csv
+  > awk -F ';' '{print $10}' KRISTINsnid.csv | tr '[:upper:]' '[:lower:]' | sort -u > ordalisti.csv
 
   Then run:
   > node build/ylhyra_server.js --generate-autocomplete-index
@@ -31,8 +31,8 @@ import _ from 'underscore'
 import flattenArray from 'project/frontend/App/functions/flattenArray'
 var LineByLineReader = require('line-by-line')
 
-const CSV_FILE_NAME = 'ordalisti_unique.csv'
-const CSV_FILE_LINES = 289374 // Number of lines, calculated with "wc -l"
+const CSV_FILE_NAME = 'ordalisti.csv'
+const CSV_FILE_LINES = 3071707 // Number of lines, calculated with "wc -l"
 let count = 0
 // import { compareTwoStrings } from 'string-similarity'
 
