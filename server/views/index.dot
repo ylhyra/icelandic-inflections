@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <title>Icelandic inflections</title>
-
 <meta charset="utf-8"/>
 <!-- <base href="/"/> -->
 <link href="/styles/build.css" rel="stylesheet" type="text/css"/>
@@ -25,7 +24,7 @@ if(/[?&]q=/.test(location.search)) {
 -->
 <body>
 <div id="content">
-  <h1><a href="/">Beygingar</a></h1>
+  <h1><a href="/">Icelandic inflections</a></h1>
   <form method="get" action="/">
     <input name="q" id="s" placeholder="Search" type="search" value="{{=it.string||''}}" spellcheck="false" autocomplete="off"/>
   </form>

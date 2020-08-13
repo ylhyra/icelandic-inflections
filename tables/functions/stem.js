@@ -21,6 +21,9 @@ export function getStem(trimVowelFromWeakVerbs) {
   if (this.is('adjective')) {
     return this.getOriginal().get('feminine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
   }
+  if (this.is('numeral')) {
+    return this.getOriginal().get('feminine', 'nominative', 'singular').getFirstValue()
+  }
   if (this.is('verb')) {
     const output = this.getOriginal().get('clipped imperative', 'active voice').getFirstValue()
     /* Remove last vowel */

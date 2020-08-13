@@ -39,14 +39,18 @@ const TraverseTree = (row, word, original_word) => {
   }
   /* Adjectives */
   else if (
-    (word.is('adjective') && ['singular', 'plural'].includes(row.tag)) ||
-    (word.is('past participle') && ['singular', 'plural'].includes(row.tag))
-  ) {
-    table = GenerateTable(row.values, original_word, {
-      column_names: ['masculine', 'feminine', 'neuter'],
-      row_names: ['nominative', 'accusative', 'dative', 'genitive']
-    })
-  }
+    (word.is('adjective') ||
+      word.is('past participle') ||
+      word.is('ordinal number')||
+      word.is('numeral')
+    ) &&
+    ['singular', 'plural'].includes(row.tag)
+) {
+  table = GenerateTable(row.values, original_word, {
+    column_names: ['masculine', 'feminine', 'neuter'],
+    row_names: ['nominative', 'accusative', 'dative', 'genitive']
+  })
+}
   /* Verbs */
   else if (
     word.is('verb') && ['present tense', 'past tense'].includes(row.tag) &&
@@ -125,18 +129,25 @@ const GenerateTable = (input, original_word, structure) => {
 }
 
 
-const TableHTML = (input, highlight = []) => {
+const TableHTML = (rows, highlight = []) => {
   return `
     <table class="table">
       <tbody>
-        ${input.map((row, index) => `
+        ${rows.map((row, row_index) => `
           <tr>
-            ${row.map((cell, index2) => {
+            ${row.map((cell, column_index) => {
               if(cell instanceof Word) {
                 const shouldHighlight = true //highlight.length > 0 && cell.is(...highlight)
                 return renderCell(cell, shouldHighlight)
               } else {
-                return `<th colSpan="2">${link(ucfirst(cell)) || ''}</th>`
+                let isCellToTheLeftEmpty =
+                  rows[row_index][column_index - 1] === null
+                let isCellAboveEmpty =
+                  rows[row_index - 1] && (rows[row_index - 1][column_index] === null)
+                let css_class = (
+                  isCellAboveEmpty || isCellToTheLeftEmpty
+                ) ? 'first-top' : ''
+                return `<th colSpan="2" class="${css_class}">${link(ucfirst(cell)) || ''}</th>`
               }
             }).join('')}
           </tr>
@@ -149,7 +160,7 @@ const TableHTML = (input, highlight = []) => {
 export const renderCell = (word, shouldHighlight) => {
   /* No value */
   if(word.rows.length ===0 ){
-    return '<td></td><td>–</td>'
+    return '<td colSpan="2">–</td>'
   }
   const value = word.rows.map((row, index) => {
     return `<span>`+
