@@ -7,7 +7,9 @@
   },
   "scripts": {
     "start": "nodemon -r esm ./server/server-standalone/index.js -e js",
-    "start_nowatch": "node -r esm ./server/server-standalone/index.js"
+    "start_nowatch": "node -r esm ./server/server-standalone/index.js",
+    "styles2": "nodemon --watch 'styles/' --ignore 'styles/build/' --exec 'npm run server:build && npm run server:run'",
+    "styles": "stylus -w styles/index.styl -o styles/build.css"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,8 @@
     "eslint": "^7.6.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "express-dot": "^0.1.0"
+    "express-dot": "^0.1.0",
+    "stylus": "^0.54.8"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0"

@@ -9,9 +9,9 @@ export default (link, label) => {
     return '';
   }
   const url = 'https://ylhyra.is/' + encodeURIComponent(ucfirst(link.trim().replace(/( )/g, '_')))
-  return `<a className="plainlink" target="_blank" href="${url}">${label}</a>`
+  return `<a class="plainlink" target="_blank" href="${url}">${label}</a>`
 }
 
-const ucfirst = (input) => (
-  input.charAt(0).toUpperCase() + input.slice(1)
+export const ucfirst = (input) => (
+  input && (input.charAt(0).toUpperCase() + input.slice(1))
 )

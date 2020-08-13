@@ -98,6 +98,9 @@ router.get('/', cors(), (req, res) => {
   }
 })
 
+app.use('/styles', express.static(path.join(__dirname, '/../../styles')))
+
+
 app.use('/', router)
 app.listen(port, null, (err) => {
   if (err) {

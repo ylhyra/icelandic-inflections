@@ -1,0 +1,289 @@
+sans-serif()
+  font-family -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica Neue,Helvetica,Arial,sans-serif;
+
+@import 'reset'
+@import 'site/*'
+@import 'inflections/*'
+
+body
+  font-family sans-serif()
+  font-size 14px
+  background #f9f9f9
+
+$red = #CF4A26
+$blue = #266BCF
+
+
+.hidden
+  display none
+
+*
+  box-sizing border-box
+
+a
+  &:not(:hover)
+    text-decoration none
+
+html
+  width 100%
+  background white
+
+body
+  font-size 16px
+  line-height 1.3em
+  color #131313
+  // background #F6F5F3
+  // border 1px solid #F6F5F4
+  // margin 14px
+  margin 0
+  background #FCFCFC
+  padding 35px
+  padding-bottom 20px
+  // min-height calc(100vh - @margin*2)
+  min-height calc(100vh)
+  display flex
+  flex-direction column
+
+body > #content
+  min-width 500px
+  margin auto
+  flex 1
+
+h1, h2, h3, h4, h5, p, ul
+  margin 0
+  padding 0
+
+// a
+//   text-decoration none
+
+ul
+  // list-style-type none
+
+pre
+  font-family Fira Code, monospace
+  line-height 15px
+  font-size 11px
+  white-space pre-wrap
+  word-wrap break-word
+
+/* _______ _ _   _
+  |__   __(_) | | |
+     | |   _| |_| | ___
+     | |  | | __| |/ _ \
+     | |  | | |_| |  __/
+     |_|  |_|\__|_|\___|   */
+h1
+  font-weight bold
+  font-size 28px
+  line-height 1.1em
+  text-align center
+  color #000000
+  display block
+  margin-top 23px
+  margin-bottom 30px
+  font-family $serif
+  a
+    color $red
+
+
+
+/* _   _
+  | \ | |
+  |  \| | __ ___   __
+  | . ` |/ _` \ \ / /
+  | |\  | (_| |\ V /
+  |_| \_|\__,_| \_/    */
+nav
+  text-align center
+  margin-top 32px
+  max-width 540px
+  margin auto
+  a
+    background none
+    border none
+    padding 0
+    margin 4px 8px
+    font-family inherit
+    font-size 15px
+    line-height 19px
+    font-weight bold
+    display inline-block
+    outline none
+    color $red
+    font-family $sans-serif
+    cursor pointer
+    border-bottom 2px solid rgba(0,0,0,0)
+    &.selected, &:hover
+      border-bottom-color @color
+    &:active
+      color darken(@color,10)
+      border-bottom-color @color
+    &[data-small]
+      // font-size 14px
+      font-weight 500
+      color #a7a7a7
+      &.selected, &:hover
+        border-bottom-color @color
+      &:active
+        color darken(@color,10)
+        border-bottom-color @color
+
+
+/*   _____                     _        _
+    / ____|                   | |      | |
+   | (___   ___  __ _ _ __ ___| |__    | |__   _____  __
+    \___ \ / _ \/ _` | '__/ __| '_ \   | '_ \ / _ \ \/ /
+    ____) |  __/ (_| | | | (__| | | |  | |_) | (_) >  <
+   |_____/ \___|\__,_|_|  \___|_| |_|  |_.__/ \___/_/\_\    */
+input[type="search"]
+  font-size 18px
+  outline none
+  border 1px solid #C2C2C2
+  box-shadow inset 0px 0px 1px 0 #F2F2F2, inset 0px 1px 0px 0 #F6F6F6
+  -webkit-appearance none
+  $padding = 10px
+  padding $padding
+  border-radius 1px
+  width 100%
+  max-width 420px
+  display block
+  margin 30px auto 50px auto
+  &:focus
+    border 3px solid $blue
+    $padding = $padding - 2
+    padding $padding
+    border-radius 2px
+
+
+/*  _____            _        _
+   / ____|          | |      (_)
+  | |     ___  _ __ | |_ __ _ _ _ __   ___ _ __
+  | |    / _ \| '_ \| __/ _` | | '_ \ / _ \ '__|
+  | |___| (_) | | | | || (_| | | | | |  __/ |
+   \_____\___/|_| |_|\__\__,_|_|_| |_|\___|_|   */
+main
+  display flex
+  max-width 650px
+  margin auto
+
+/*   _____ _     _      _
+    / ____(_)   | |    | |
+   | (___  _  __| | ___| |__   __ _ _ __
+    \___ \| |/ _` |/ _ \ '_ \ / _` | '__|
+    ____) | | (_| |  __/ |_) | (_| | |
+   |_____/|_|\__,_|\___|_.__/ \__,_|_|  */
+.sidebar
+  width 125px
+  // border 1px solid gray
+  font-size 14px
+  line-height 19px
+  padding-right 20px
+  list-style-type none
+  position relative
+  li
+    // border-bottom 1px solid #EBEBEB
+    // &:before
+    //   content '‣'
+    //   position absolute
+    //   left -10px
+    a
+      color black
+      display block
+      padding 2px 0
+      &:hover
+        color $blue
+        text-decoration underline
+      &.selected
+        color $blue
+        font-weight 600
+        // padding 2px 0 4px 0
+        text-decoration none
+
+/*  _____                 _ _
+   |  __ \               | | |
+   | |__) |___  ___ _   _| | |_ ___
+   |  _  // _ \/ __| | | | | __/ __|
+   | | \ \  __/\__ \ |_| | | |_\__ \
+   |_|  \_\___||___/\__,_|_|\__|___/  */
+#entries
+  flex 1
+
+
+main a
+  color black
+  &:hover
+    color $blue
+    text-decoration underline
+
+
+
+
+
+
+
+/*  ______          _
+   |  ____|        | |
+   | |__ ___   ___ | |_ ___ _ __
+   |  __/ _ \ / _ \| __/ _ \ '__|
+   | | | (_) | (_) | ||  __/ |
+   |_|  \___/ \___/ \__\___|_|   */
+footer
+  // font-weight bold
+  font-size 13px
+  // text-align center
+  margin-top 100px
+  a
+    color $blue
+  //   &.selected, &:hover
+  //     border-bottom 2px solid @color
+
+
+
+
+@media (max-width: 600px)
+  body
+    margin 0
+    padding 10px
+    min-height 100vh
+  nav a
+    line-height 15px
+
+
+
+
+
+
+
+
+
+
+
+#reload, #random
+  height 40px
+  width 200px
+  float left
+  background #71b1e3
+  display block
+  text-align center
+  vertical-align middle
+  cursor pointer
+  font-size 17px
+  font-weight bold
+  color black!important
+  text-decoration none!important
+  margin 0
+
+#reload
+  background #a9e23d
+#random
+  padding 10px
+  baseline-shift 16px
+  // margin-left 20px
+
+
+// ::selection {
+//   background: #ffb7b7; /* WebKit/Blink Browsers */
+// }
+// ::-moz-selection {
+//   background: #ffb7b7; /* Gecko Browsers */
+// }

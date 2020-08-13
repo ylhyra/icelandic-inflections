@@ -1,0 +1,139 @@
+#frontpage
+  font-size 18px
+  line-height 1.5em
+  color #222222
+  min-height 100vh
+  display flex
+  flex-direction column
+  > *
+    padding 20px
+    > *
+      max-width 700px
+      min-width 400px
+      margin auto
+      @media only screen and (max-width 600px)
+        padding 0
+
+  iframe
+    background white
+  a
+    color #004FFF
+    font-weight 600
+    text-decoration none
+    &:hover
+      text-decoration underline
+
+  header
+    border-bottom 1px solid #F2F2F2
+    border-bottom 1px solid #eeeeee
+    font-size 15px
+    font-weight 500
+    padding 10px
+    > *
+      display flex
+      justify-content center
+      align-items center
+
+    #logo
+      background url('/assets/logo.png')
+      background-repeat no-repeat
+      width 245px
+      height 30px
+      background-size 245px 30px
+      flex 1
+    #tryitout
+      background #d1d6f5
+      background #dde1fa
+      margin-left 10px
+      border-radius 20px
+      padding 4px 9px
+      &:hover
+        text-decoration none
+        background darken(@background, 4%)
+
+
+  main
+    flex 1
+    display flex
+    padding-bottom 0px
+    > div
+      flex 1
+      max-width 650px
+      font-weight 500
+      text-align center
+      p
+        max-width 400px
+        margin auto
+        padding-top 15px
+        padding-bottom 39px
+      // display flex
+
+      // justify-content center
+      // align-items center
+      // #left
+      //   max-width 300px
+      //   font-weight 500
+      //   padding-right 15px
+      // #right
+      //   flex 1
+
+
+  footer
+    text-align center
+    font-size 14px
+
+//
+// #frontpage
+//   color #222222
+//   // a, p
+//   //   color #222222
+//   a
+//     font-weight 600
+//     text-decoration none
+//     &:hover
+//       text-decoration underline
+//   p
+//     margin-bottom 27px
+//   iframe
+//     margin-bottom 14px
+//     height 700px
+//   // #upper_links
+//   //   text-align right
+//   //   font-size 14px
+//   //   a
+//   //     display inline-block
+//   //     padding 6px 8px
+//   //     margin 18px 2px
+//   //     line-height 1.1em
+//   //   #tryitout
+//   //     background #b3c8d7
+//   //     border-radius 20px
+//   //     &:hover
+//   //       text-decoration none
+//   //       background darken(@background, 10%);
+//
+//   // #header
+//   //   margin 12px 0
+//   //   padding 12px 0
+//   //   text-align center
+//   //   #logo
+//   //     font-family Times, serif
+//   //     font-size 51px
+//   //     letter-spacing -2.3px
+//   //     font-weight bold
+//   //     font-style italic
+//   //     flex 1
+//   //     display block
+//   //     + h5
+//   //       color #3E5D74
+//   //       opacity 0.6
+//   //       letter-spacing 0.7px
+//   #hmm
+//     display flex
+//     margin 30px 0 60px
+//     #examples
+//       flex 1
+//       margin-left 30px
+//       background #F5F2EB
+//       box-shadow 0 1px 0 0 rgba(0, 0, 0, 0), inset 0 0 0 1px rgba(0, 0, 0, 0.11)
+//       border-radius 2px

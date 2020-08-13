@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<title>Icelandic inflection search</title>
+<title>Icelandic inflections</title>
 
 <meta charset="utf-8"/>
 <!-- <base href="/"/> -->
-<!-- <link href="/style.css" rel="stylesheet" type="text/css"/> -->
+<link href="/styles/build.css" rel="stylesheet" type="text/css"/>
 <!-- <meta name="description" content=""/> -->
 <meta name="google" content="notranslate" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,6 +25,7 @@ if(/[?&]q=/.test(location.search)) {
 -->
 <body>
 <div id="content">
+  <h1><a href="/">Beygingar</a></h1>
   <form method="get" action="/">
     <input name="q" id="s" placeholder="Search" type="search" value="{{=it.string||''}}" spellcheck="false" autocomplete="off"/>
   </form>
@@ -33,6 +34,11 @@ if(/[?&]q=/.test(location.search)) {
       {{=it.results}}
     {{?}}
   </main>
+  <footer>
+  <div class="license">
+  Data from the <em><a href="https://bin.arnastofnun.is/DMII/LTdata/k-format/" rel="nofollow">Database of Modern Icelandic Inflection</a></em> (DMII),
+  or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnússon Institute for Icelandic Studies. The author and editor of the DMII is <a href="https://www.arnastofnun.is/is/stofnunin/starfsfolk/kristin-bjarnadottir" rel="nofollow">Kristín Bjarnadóttir</a>. <small><a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="nofollow">CC BY-SA&nbsp;4.0</a></small></div>
+  </footer>
 </div>
 <!--
 <script type="application/ld+json">

@@ -1,4 +1,4 @@
-import link from './link'
+import link, {ucfirst} from './link'
 import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 export default (word) => {
@@ -80,12 +80,12 @@ const TraverseTree = (row, word, original_word) => {
   const output = table ? table :
     (row.values ?
       row.values.map(i => TraverseTree(i, word, original_word)).join('') :
-      `<table className="wikitable"><tbody><tr>${renderCell(new Word([row], original_word))}</tr></tbody></table>`
+      `<table class="table not-center"><tbody><tr>${renderCell(new Word([row], original_word))}</tr></tbody></table>`
     )
 
   if (row.tag) {
-    return `<dl className="indent">
-      <dt>${row.tag}</dt>
+    return `<dl class="indent">
+      <dt>${link(row.tag)}</dt>
       <dd>${output}</dd>
     </dl>`
   } else {
@@ -127,7 +127,7 @@ const GenerateTable = (input, original_word, structure) => {
 
 const TableHTML = (input, highlight = []) => {
   return `
-    <table className="wikitable">
+    <table class="table">
       <tbody>
         ${input.map((row, index) => `
           <tr>
@@ -136,7 +136,7 @@ const TableHTML = (input, highlight = []) => {
                 const shouldHighlight = true //highlight.length > 0 && cell.is(...highlight)
                 return renderCell(cell, shouldHighlight)
               } else {
-                return `<th colSpan="2">${cell || ''}</th>`
+                return `<th colSpan="2">${link(ucfirst(cell)) || ''}</th>`
               }
             }).join('')}
           </tr>
@@ -154,13 +154,13 @@ export const renderCell = (word, shouldHighlight) => {
   const value = word.rows.map((row, index) => {
     return `<span>`+
       highlightIrregularities(row.inflectional_form, word) +
-      (index + 1 < word.rows.length ? `<span className="light-gray"> / </span>` : '') +
+      (index + 1 < word.rows.length ? `<span class="light-gray"> / </span>` : '') +
     `</span>`
   }).join('')
   return `
-    <td className="right ${shouldHighlight ? 'highlight' : ''}"><span className="gray">${word.getHelperWordsBefore()}</span></td>
-    <td className="left ${shouldHighlight ? 'highlight' : ''}">
-      <b>${value}</b><span className="gray">${word.getHelperWordsAfter()}</span>
+    <td class="right ${shouldHighlight ? 'highlight' : ''}"><span class="gray">${word.getHelperWordsBefore()}</span></td>
+    <td class="left ${shouldHighlight ? 'highlight' : ''}">
+      <b>${value}</b><span class="gray">${word.getHelperWordsAfter()}</span>
     </td>
   `
 }
