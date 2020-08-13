@@ -88,7 +88,15 @@ router.get('/', cors(), (req, res) => {
         res.render('index', {
           layout: false,
           string: q,
-          results: data.results.map(i => `<li><a href="/?id=${i.BIN_id}">${i.inflectional_form}</a></li>`).join('')
+          results: `<ul>
+            ${data.results.map(i => `
+              <li>
+                <a href="/?id=${i.BIN_id}">
+                  ${i.base_word}
+                </a>
+                ${i.inflectional_form !== i.base_word ? `<small>${i.inflectional_form}</small>` : ''}
+              </li>`).join('')}
+          </ul>`
         })
       })
       .catch(function (error) {
@@ -99,8 +107,6 @@ router.get('/', cors(), (req, res) => {
 })
 
 app.use('/styles', express.static(path.join(__dirname, '/../../styles')))
-
-
 app.use('/', router)
 app.listen(port, null, (err) => {
   if (err) {
