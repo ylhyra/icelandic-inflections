@@ -7,7 +7,7 @@ export default ({
 <title>Icelandic inflections</title>
 <meta charset="utf-8"/>
 <!-- <base href="/"/> -->
-<link href="/styles/build.css" rel="stylesheet" type="text/css"/>
+<link href="/inflection_styles/build.css" rel="stylesheet" type="text/css"/>
 <!-- <meta name="description" content=""/> -->
 <meta name="google" content="notranslate" />
 <meta name="viewport" content="width=device-width, initial-scale=1">

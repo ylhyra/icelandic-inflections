@@ -16,7 +16,7 @@ export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
 
-export default (word, res) => {
+export default (word, callback) => {
   query(sql `
     SELECT score, inflectional_form, base_word, BIN_id, word_class, grammatical_tag FROM (
       SELECT score, output FROM autocomplete
@@ -40,9 +40,10 @@ export default (word, res) => {
   `, (err, results) => {
     if (err) {
       console.error(err)
-      return res.status(404).send({ error: 'No results' })
+      callback(null)
+      // return res.status(404).send({ error: 'No results' })
     } else {
-      res.json({ results })
+      callback(results)
     }
   })
 }

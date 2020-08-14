@@ -59,7 +59,7 @@ export default (Search, Get_by_id) => {
         }))
 
       })
-    } else {
+    } else if (q) {
       Search(q, autocomplete, (data) => {
         if (!data) {
           return res.send(':(')
@@ -77,6 +77,8 @@ export default (Search, Get_by_id) => {
           </ul>`
         }))
       })
+    } else {
+      res.send(layout({}))
     }
   })
 
