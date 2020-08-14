@@ -14,17 +14,18 @@ const IcelandicCharacters = /^[a-záéíóúýðþæö ]+$/i
 /*
   Find possible base words and tags for a given word
 */
-export default (word, autocomplete, res) => {
+export default (word, autocomplete, callback) => {
   if (!word ||
     word.length > 100 ||
     !IcelandicCharacters.test(word)
   ) {
-    return res.status(400).send({ error: 'Invalid string' })
+    callback(null)
+    // return res.status(400).send({ error: 'Invalid string' })
   }
   word = word.trim().toLowerCase().replace(/\s+/g, ' ')
 
   if (autocomplete) {
-    return Autocomplete(word, res)
+    return Autocomplete(word, callback)
   } else {
     query(sql `
       SELECT BIN_id, base_word, inflectional_form, word_class, grammatical_tag, descriptive FROM inflection
@@ -35,9 +36,8 @@ export default (word, autocomplete, res) => {
       LIMIT 100
     `, (err, results) => {
       if (err) {
-        res.send(err)
-      } else if (results.length < 1) {
-        return res.status(404).send({ error: 'No results' })
+        // res.send(err)
+        callback(null)
       } else {
         let grouped = []
         results.forEach(row => {
@@ -62,7 +62,7 @@ export default (word, autocomplete, res) => {
             descriptive: row.descriptive,
           })
         })
-        res.json(grouped)
+        callback(grouped)
       }
     })
   }

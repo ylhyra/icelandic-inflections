@@ -7,13 +7,16 @@ import express from 'express'
 const router = express.Router()
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-const { colognePhonetic } = require('cologne-phonetic')
-const diacritics = require('diacritics').remove
+
+import { colognePhonetic } from 'cologne-phonetic'
+
+
+import { remove as remove_diacritics } from 'diacritics'
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
 
-export default (word, res) => {
+export default (word, callback) => {
   query(sql `
     SELECT score, inflectional_form, base_word, BIN_id, word_class, grammatical_tag FROM (
       SELECT score, output FROM autocomplete
@@ -37,9 +40,10 @@ export default (word, res) => {
   `, (err, results) => {
     if (err) {
       console.error(err)
-      return res.status(404).send({ error: 'No results' })
+      callback(null)
+      // return res.status(404).send({ error: 'No results' })
     } else {
-      res.json({ results })
+      callback(results)
     }
   })
 }
@@ -53,11 +57,11 @@ export const without_special_characters = (string) => {
     .replace(/þ/g, 'th')
     .replace(/ð/g, 'd')
     .replace(/ö/g, 'o')
-  return diacritics(string)
+  return remove_diacritics(string)
 }
 
 export const with_spelling_errors = (string) => {
-  return WITH_SPELLING_ERROR_MARKER + without_special_characters(string)
+  return WITH_SPELLING_ERROR_MARKER + removeTemporaryMarkers(without_special_characters(string))
     .replace(/y/g, 'i')
     .replace(/au/g, 'o')
     .replace(/sg/g, 'sk')

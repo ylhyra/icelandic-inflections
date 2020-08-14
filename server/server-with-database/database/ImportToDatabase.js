@@ -5,7 +5,9 @@
 var LineByLineReader = require('line-by-line')
 // var inflections = require('./inflections.js')
 import query from 'server/database'
-const string_hash = require('string-hash');
+
+import string_hash from 'string-hash'
+;
 let count = 0
 import path from 'path'
 import sql from 'server/database/functions/SQL-template-literal'

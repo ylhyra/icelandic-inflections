@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
 
-module.exports = (id, callback) => {
+export default (id, callback) => {
   axios.get(`https://ylhyra.is/api/inflection?id=${id}&type=flat`)
     .then(function({ data }) {
       callback(data)

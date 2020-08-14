@@ -8,7 +8,7 @@ import classify, { sort_by_classification } from 'server/inflection/tables/class
 /*
   Full table for id
 */
-module.exports = (id, callback) => {
+export default (id, callback) => {
   query(sql `
     SELECT
       BIN_id,
@@ -30,6 +30,7 @@ module.exports = (id, callback) => {
     -- AND descriptive = 1
   `, (err, results) => {
     if (err) {
+      // res.send(err)
       callback(null)
     } else {
       let output = results.map(i => classify(i)).sort(sort_by_classification)

@@ -30,7 +30,6 @@
     "eslint": "^7.6.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "express-dot": "^0.1.0",
     "stylus": "^0.54.8"
   },
   "devDependencies": {

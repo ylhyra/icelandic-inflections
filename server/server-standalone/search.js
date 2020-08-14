@@ -1,9 +1,9 @@
-const axios = require('axios');
+import axios from 'axios';
 
-module.exports = (word, autocomplete, callback) => {
+export default (word, autocomplete, callback) => {
   axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(word)}&autocomplete=${encodeURIComponent(autocomplete)}`)
     .then(function({ data }) {
-      callback(data)
+      callback(data.results)
     })
     .catch(function(error) {
       callback(null)
