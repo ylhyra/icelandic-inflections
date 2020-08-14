@@ -1,4 +1,6 @@
-const express = require('express')
+
+import express from 'express'
+
 const router = express.Router()
 import cors from 'cors'
 import Search from './search'

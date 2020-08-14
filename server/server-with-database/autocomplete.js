@@ -7,8 +7,12 @@ import express from 'express'
 const router = express.Router()
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-const { colognePhonetic } = require('cologne-phonetic')
-const diacritics = require('diacritics').remove
+
+import { colognePhonetic } from 'cologne-phonetic'
+
+
+import diacritics from 'diacritics'
+.remove
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'

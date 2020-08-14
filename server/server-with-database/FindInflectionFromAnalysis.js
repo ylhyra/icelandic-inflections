@@ -1,7 +1,9 @@
 // /*
 //   Note: This file currently relies on being a submodule of Ylhýra.
 // */
-// const express = require('express')
+// 
+import express from 'express'
+
 // const router = express.Router()
 // import query from 'server/database'
 // import sql from 'server/database/functions/SQL-template-literal'
