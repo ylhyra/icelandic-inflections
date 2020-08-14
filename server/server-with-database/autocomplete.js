@@ -11,8 +11,7 @@ import sql from 'server/database/functions/SQL-template-literal'
 import { colognePhonetic } from 'cologne-phonetic'
 
 
-import diacritics from 'diacritics'
-.remove
+import { remove as remove_diacritics } from 'diacritics'
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
@@ -57,11 +56,11 @@ export const without_special_characters = (string) => {
     .replace(/þ/g, 'th')
     .replace(/ð/g, 'd')
     .replace(/ö/g, 'o')
-  return diacritics(string)
+  return remove_diacritics(string)
 }
 
 export const with_spelling_errors = (string) => {
-  return WITH_SPELLING_ERROR_MARKER + without_special_characters(string)
+  return WITH_SPELLING_ERROR_MARKER + removeTemporaryMarkers(without_special_characters(string))
     .replace(/y/g, 'i')
     .replace(/au/g, 'o')
     .replace(/sg/g, 'sk')

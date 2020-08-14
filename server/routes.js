@@ -11,7 +11,7 @@ import cors from 'cors'
 import render from './../tables'
 import tree from './../tables/tree'
 import withLicense from './server-with-database/license'
-import layout from './../views/layout'
+import layout from './views/layout'
 
 /**
  * @param {boolean} use_database

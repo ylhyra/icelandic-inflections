@@ -5,7 +5,7 @@ import path from 'path'
 import routes from './route_loader'
 
 app.use('/styles', express.static(path.join(__dirname, '/../../styles')))
-app.use('/', routes)
+app.use('/', require(path.join(__dirname, './route_loader')).default)
 
 app.listen(port, null, (err) => {
   if (err) {
