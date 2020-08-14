@@ -66,15 +66,16 @@ export default (Search, Get_by_id) => {
         }
         res.send(layout({
           string: q,
-          results: `<ul>
-            ${results.map(i => `
-              <li>
-                <a href="/?id=${i.BIN_id}">
-                  ${i.base_word}
-                </a>
-                ${i.inflectional_form !== i.base_word ? `<small>${i.inflectional_form}</small>` : ''}
-              </li>`).join('')}
-          </ul>`
+          results: results,
+          // `<ul>
+          //   ${results.map(i => `
+          //     <li>
+          //       <a href="/?id=${i.BIN_id}">
+          //         ${i.base_word}
+          //       </a>
+          //       ${i.inflectional_form !== i.base_word ? `<small>${i.inflectional_form}</small>` : ''}
+          //     </li>`).join('')}
+          // </ul>`
         }))
       })
     } else {

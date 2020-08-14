@@ -10,17 +10,18 @@ import sql from 'server/database/functions/SQL-template-literal'
 require('array-sugar')
 import { colognePhonetic } from 'cologne-phonetic'
 import { remove as remove_diacritics } from 'diacritics'
-import Word from './word'
+import Word from './../../tables/word'
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
+import classify from 'server/inflection/tables/classify'
 
 export default (word, callback) => {
   query(sql `
 
     SELECT
       score, inner_table.inflectional_form as matched_term,
-      i2.BIN_id, i2.grammatical_tag, i2.inflectional_form, i2.word_class
+      i2.BIN_id, i2.grammatical_tag, i2.inflectional_form, i2.word_class, i2.base_word
     FROM
       (
        SELECT score, i1.inflectional_form, i1.BIN_id FROM (
@@ -57,7 +58,7 @@ export default (word, callback) => {
           words.push([])
         }
         lastBINid = row.BIN_id
-        words.last.push(row)
+        words.last.push(classify(row))
       })
 
       let output = []
@@ -68,9 +69,9 @@ export default (word, callback) => {
         `)
       })
 
-      console.log(words)
+      // console.log(words)
       // callback(results)
-      callback(null)
+      callback(output)
     }
   })
 }
