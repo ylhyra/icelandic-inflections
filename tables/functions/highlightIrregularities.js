@@ -1,6 +1,8 @@
 import { endsInConsonant, splitOnVowels, splitOnAll, removeFirstVowel } from './vowels'
 
 /**
+ * TODO: Does not work well for compound words
+ *
  * @param  {string} form
  * @param  {Word} word
  * @return {?string} HTML string
