@@ -7,7 +7,7 @@ import express from 'express'
 const router = express.Router()
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-
+require('array-sugar')
 import { colognePhonetic } from 'cologne-phonetic'
 
 
@@ -18,31 +18,52 @@ export const PHONETIC_MARKER = '~'
 
 export default (word, callback) => {
   query(sql `
-    SELECT score, inflectional_form, base_word, BIN_id, word_class, grammatical_tag FROM (
-      SELECT score, output FROM autocomplete
-        WHERE input = ${word}
-        OR input = ${without_special_characters(word)}
-        OR input = ${with_spelling_errors(word)}
-        OR input = ${phonetic(word)}
-        ORDER BY
-        autocomplete.score DESC
-        LIMIT 20
-    ) a
-    LEFT JOIN inflection
-      ON a.output = inflectional_form_lowercase
-    GROUP BY BIN_id
-    ORDER BY
-      a.score DESC,
-      descriptive DESC,
-      correctness_grade_of_word_form DESC,
-      inflectional_form ASC;
+
+    SELECT
+      score, inner_table.inflectional_form as matched_term,
+      i2.BIN_id, i2.grammatical_tag, i2.inflectional_form, i2.word_class
+    FROM
+      (
+       SELECT score, i1.inflectional_form, i1.BIN_id FROM (
+         SELECT score, output FROM autocomplete
+           WHERE input = ${word}
+           OR input = ${without_special_characters(word)}
+           OR input = ${with_spelling_errors(word)}
+           OR input = ${phonetic(word)}
+           ORDER BY
+           autocomplete.score DESC
+           LIMIT 20 -- Necessary?
+       ) a
+       LEFT JOIN inflection i1
+         ON a.output = i1.inflectional_form_lowercase
+         GROUP BY BIN_id
+       ORDER BY
+         a.score DESC,
+         i1.descriptive DESC,
+         i1.correctness_grade_of_word_form DESC,
+         i1.inflectional_form ASC
+
+       ) as inner_table
+     LEFT JOIN inflection i2
+       ON inner_table.BIN_id = i2.BIN_id
   `, (err, results) => {
     if (err) {
       console.error(err)
       callback(null)
-      // return res.status(404).send({ error: 'No results' })
     } else {
-      callback(results)
+      let output_array = []
+      let lastBINid = null
+      results.forEach(row => {
+        if (lastBINid !== row.BIN_id) {
+          output_array.push([])
+        }
+        lastBINid = row.BIN_id
+        output_array.last.push(row)
+      })
+
+      console.log(output_array)
+      // callback(results)
+      callback(null)
     }
   })
 }
