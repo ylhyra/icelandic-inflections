@@ -21,12 +21,11 @@ export default (word, callback) => {
     SELECT score, inflectional_form, base_word, BIN_id, word_class, grammatical_tag FROM (
       SELECT score, output FROM autocomplete
         WHERE input = ${word}
-        OR input = ${WITHOUT_SPECIAL_CHARACTERS_MARKER + without_special_characters}
-        OR input = ${WITH_SPELLING_ERROR_MARKER + with_spelling_errors(word)}
-        OR input = ${PHONETIC_MARKER + phonetic(word)}
+        OR input = ${without_special_characters(word)}
+        OR input = ${with_spelling_errors(word)}
+        OR input = ${phonetic(word)}
         ORDER BY
-        autocomplete.score DESC,
-        autocomplete.output ASC
+        autocomplete.score DESC
         LIMIT 20
     ) a
     LEFT JOIN inflection

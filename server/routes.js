@@ -21,9 +21,9 @@ export default (Search, Get_by_id) => {
   /* API */
   router.get('/api/inflection', cors(), (req, res) => {
     res.setHeader('X-Robots-Tag', 'noindex')
-    let { id, type, search, autocomplete } = req.query
+    let { id, type, search, fuzzy } = req.query
     if (search) {
-      return Search(search, autocomplete, results => {
+      return Search(search, fuzzy, results => {
         res.json({ results })
       })
     } else if (id) {
@@ -49,7 +49,7 @@ export default (Search, Get_by_id) => {
 
   /* Website */
   router.get('/', cors(), (req, res) => {
-    let { q, id, autocomplete } = req.query
+    let { q, id } = req.query
     if (id) {
       Get_by_id(id, (rows) => {
 
@@ -60,7 +60,7 @@ export default (Search, Get_by_id) => {
 
       })
     } else if (q) {
-      Search(q, autocomplete, (results) => {
+      Search(q, true, (results) => {
         if (!results) {
           return res.send(':(')
         }

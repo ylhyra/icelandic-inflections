@@ -7,14 +7,14 @@
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import classify from 'server/inflection/tables/classify'
-import Autocomplete from './autocomplete'
+import FuzzySearch from './fuzzy_search'
 // import { IcelandicCharacters } from 'server/inflection/tables/functions'
 const IcelandicCharacters = /^[a-záéíóúýðþæö ]+$/i
 
 /*
   Find possible base words and tags for a given word
 */
-export default (word, autocomplete, callback) => {
+export default (word, fuzzy, callback) => {
   if (!word ||
     word.length > 100 ||
     !IcelandicCharacters.test(word)
@@ -24,8 +24,8 @@ export default (word, autocomplete, callback) => {
   }
   word = word.trim().toLowerCase().replace(/\s+/g, ' ')
 
-  if (autocomplete) {
-    return Autocomplete(word, callback)
+  if (fuzzy) {
+    return FuzzySearch(word, callback)
   } else {
     query(sql `
       SELECT BIN_id, base_word, inflectional_form, word_class, grammatical_tag, descriptive FROM inflection

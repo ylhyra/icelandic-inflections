@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export default (word, autocomplete, callback) => {
-  axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(word)}&autocomplete=${encodeURIComponent(autocomplete)}`)
+export default (word, fuzzy, callback) => {
+  axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(word)}&fuzzy=${encodeURIComponent(fuzzy)}`)
     .then(function({ data }) {
       callback(data.results)
     })
