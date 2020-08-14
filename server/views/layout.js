@@ -1,3 +1,7 @@
+export default ({
+  string,
+  results,
+}) => `
 <!DOCTYPE html>
 <html>
 <title>Icelandic inflections</title>
@@ -26,12 +30,10 @@ if(/[?&]q=/.test(location.search)) {
 <div id="content">
   <h1><a href="/">Icelandic inflections</a></h1>
   <form method="get" action="/">
-    <input name="q" id="s" placeholder="Search" type="search" value="{{=it.string||''}}" spellcheck="false" autocomplete="off"/>
+    <input name="q" id="s" placeholder="Search" type="search" value="${string || ''}" spellcheck="false" autocomplete="off"/>
   </form>
   <main>
-    {{?it.results}}
-      {{=it.results}}
-    {{?}}
+    ${results || ''}
   </main>
   <footer>
   <div class="license">
@@ -55,3 +57,4 @@ if(/[?&]q=/.test(location.search)) {
 -->
 </body>
 </html>
+`
