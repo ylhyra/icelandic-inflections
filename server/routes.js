@@ -24,7 +24,7 @@ export default (Search, Get_by_id) => {
     let { id, type, search, autocomplete } = req.query
     if (search) {
       return Search(search, autocomplete, results => {
-        res.json(results)
+        res.json({ results })
       })
     } else if (id) {
       Get_by_id(id, (rows) => {
@@ -60,14 +60,14 @@ export default (Search, Get_by_id) => {
 
       })
     } else if (q) {
-      Search(q, autocomplete, (data) => {
-        if (!data) {
+      Search(q, autocomplete, (results) => {
+        if (!results) {
           return res.send(':(')
         }
         res.send(layout({
           string: q,
           results: `<ul>
-            ${data.results.map(i => `
+            ${results.map(i => `
               <li>
                 <a href="/?id=${i.BIN_id}">
                   ${i.base_word}
