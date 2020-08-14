@@ -11,8 +11,8 @@ The dataset is the *[Database of Modern Icelandic Inflection](https://bin.arnast
 Exact matches:
 * https://ylhyra.is/api/inflection?search=mamma
 
-Fuzzy matches with autocompletion:
-* https://ylhyra.is/api/inflection?search=thorsmork&autocomplete=true
+Fuzzy search:
+* https://ylhyra.is/api/inflection?search=thorsmork&fuzzy=true
 
 **Items**
 
