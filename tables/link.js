@@ -2,7 +2,7 @@
   Creates a link from our labels to relevant Ylhýra pages
 */
 export default (link, label) => {
-  if(!link || typeof link !== 'string') return '';
+  if (!link || typeof link !== 'string') return '';
   if (label === undefined) {
     label = link;
   } else if (!label) {
@@ -10,6 +10,12 @@ export default (link, label) => {
   }
   const url = 'https://ylhyra.is/' + encodeURIComponent(ucfirst(link.trim().replace(/( )/g, '_')))
   return `<a class="plainlink" target="_blank" href="${url}">${label}</a>`
+}
+
+export const removeLinks = (string) => {
+  return string
+    .replace(/<\/a>/g, '')
+    .replace(/<a .+?>/g, '')
 }
 
 export const ucfirst = (input) => (

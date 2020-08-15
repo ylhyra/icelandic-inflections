@@ -120,6 +120,7 @@ class Word {
     return tree(this.rows)
   }
   getWordDescription() {
+    // console.log(this.word_class)
     let output = ''
 
     if (this.is('noun')) {

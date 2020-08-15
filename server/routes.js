@@ -60,21 +60,37 @@ export default (Search, Get_by_id) => {
 
       })
     } else if (q) {
-      Search(q, true, (results) => {
-        if (!results) {
-          return res.send(':(')
+      Search(q, true, ({
+        any_matches,
+        perfect_matches,
+        did_you_mean,
+      }) => {
+        if (!any_matches) {
+          return
+          res.send(layout({
+            string: q,
+            results: 'No matches'
+          }))
         }
+
+        let output = ''
+        if (perfect_matches.length > 0) {
+          output += `<ul>
+            ${perfect_matches.map(renderItem).join('')}
+          </ul>`
+        }
+        if (did_you_mean.length > 0) {
+          output += `
+          <h4 class="did-you-mean">${perfect_matches.length>0 ? 'Or did you mean:' : 'Did you mean:'}</h4>
+          <ul>
+            ${did_you_mean.map(renderItem).join('')}
+          </ul>`
+        }
+
+
         res.send(layout({
           string: q,
-          results: `<ul>
-            ${results.map(i => `
-              <li>
-                <a href="/?id=${i.BIN_id}">
-                  ${i.base_word}
-                  – ${i.description}
-                </a>
-              </li>`).join('')}
-          </ul>`
+          results: output
         }))
       })
     } else {
@@ -84,3 +100,11 @@ export default (Search, Get_by_id) => {
 
   return router
 }
+
+const renderItem = (i) => `
+  <li>
+    <a href="/?id=${i.BIN_id}">
+      <strong>${i.base_word}</strong>
+      – ${i.description}
+    </a>
+  </li>`

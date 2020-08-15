@@ -11,6 +11,7 @@ require('array-sugar')
 import { colognePhonetic } from 'cologne-phonetic'
 import { remove as remove_diacritics } from 'diacritics'
 import Word from './../../tables/word'
+import { removeLinks } from './../../tables/link'
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
@@ -18,9 +19,8 @@ import classify from 'server/inflection/tables/classify'
 
 export default (word, callback) => {
   query(sql `
-
     SELECT
-        score, i2.BIN_id, i2.grammatical_tag, i2.inflectional_form, i2.word_class, i2.base_word,
+        score, i2.BIN_id, i2.BIN_domain, i2.grammatical_tag, i2.inflectional_form, i2.word_class, i2.base_word,
         inner_table.inflectional_form as matched_term,
         (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
       FROM
@@ -66,15 +66,30 @@ export default (word, callback) => {
       words.forEach(rows => {
         const word = new Word(rows)
         output.push({
+          perfect_match: rows[0].word_has_perfect_match,
           BIN_id: word.getId(),
           base_word: word.getBaseWord(),
-          description: word.getType('class'),
+          description: removeLinks(word.getWordDescription()),
+          principal_parts: removeLinks(word.getPrincipalParts()),
         })
       })
 
-      // console.log(words)
-      // callback(results)
-      callback(output)
+      let perfect_matches = []
+      let did_you_mean = []
+
+      output.forEach(item => {
+        if (item.perfect_match) {
+          perfect_matches.push(item)
+        } else {
+          did_you_mean.push(item)
+        }
+      })
+
+      callback({
+        any_matches: output.length >0,
+        perfect_matches,
+        did_you_mean,
+      })
     }
   })
 }

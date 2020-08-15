@@ -226,6 +226,7 @@ const relevant_BIN_domains = {
   erm: 'human name', // Foreign human name
   föð: 'patronymic',
   móð: 'matronymic',
+  gæl: 'human nickname',
   ætt: 'surname',
   hetja: 'name',
 

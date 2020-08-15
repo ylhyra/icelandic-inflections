@@ -6,10 +6,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "nodemon -r esm ./server/server-standalone/index.js -e js",
+    "start": "nodemon --exec 'npm run styles & node -r esm ./server/server-standalone/index.js' -e js,styl",
     "start_nowatch": "node -r esm ./server/server-standalone/index.js",
-    "styles2": "nodemon --watch 'styles/' --ignore 'styles/build/' --exec 'npm run server:build && npm run server:run'",
-    "styles": "stylus -w styles/index.styl -o styles/build.css"
+    "styles": "stylus --include ./styles/ < ./styles/index.styl > ./styles/build.css"
   },
   "repository": {
     "type": "git",
