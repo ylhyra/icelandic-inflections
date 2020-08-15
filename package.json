@@ -1,14 +1,14 @@
 {
   "name": "icelandic-inflections",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "start": "nodemon --exec 'npm run styles & node -r esm ./server/server-standalone/index.js' -e js,styl",
-    "start_nowatch": "node -r esm ./server/server-standalone/index.js",
-    "styles": "stylus --include ./styles/ < ./styles/index.styl > ./styles/build.css"
+    "start": "nodemon --exec 'npm run styles && npm run server' -e js,styl --ignore styles/build.css",
+    "server": "node -r esm ./server/server-standalone/index.js",
+    "styles": "stylus --include styles/ < styles/index.styl > styles/build.css"
   },
   "repository": {
     "type": "git",
