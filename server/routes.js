@@ -49,56 +49,57 @@ export default (Search, Get_by_id) => {
 
   /* Website */
   router.get('/', cors(), (req, res) => {
-    let { q, id } = req.query
-    if (id) {
-      Get_by_id(id, (rows) => {
+      let { q, id } = req.query
+      if (id) {
+        Get_by_id(id, (rows) => {
 
-        res.send(layout({
-          string: q,
-          results: render(rows)
-        }))
-
-      })
-    } else if (q) {
-      Search(q, true, ({
-        any_matches,
-        perfect_matches,
-        did_you_mean,
-      }) => {
-        if (!any_matches) {
-          return
           res.send(layout({
             string: q,
-            results: 'No matches'
+            results: render(rows)
           }))
-        }
 
-        let output = ''
-        if (perfect_matches.length > 0) {
-          output += `<ul>
+        })
+      } else if (q) {
+        Search(q, true, results => {
+
+          if (!results) {
+            return res.send(layout({
+              string: q,
+              results: 'No matches'
+            }))
+          }
+
+          const {
+            perfect_matches,
+            did_you_mean,
+          } = results
+
+          let output = ''
+          if (perfect_matches.length > 0) {
+            output += `<ul>
             ${perfect_matches.map(renderItem).join('')}
           </ul>`
-        }
-        if (did_you_mean.length > 0) {
-          output += `
+          }
+          if (did_you_mean.length > 0) {
+            output += `
           <h4 class="did-you-mean">${perfect_matches.length>0 ? 'Or did you mean:' : 'Did you mean:'}</h4>
           <ul>
             ${did_you_mean.map(renderItem).join('')}
           </ul>`
-        }
+          }
 
 
-        res.send(layout({
-          string: q,
-          results: output
-        }))
-      })
+          res.send(layout({
+            string: q,
+            results: output
+          }))
+        })
     } else {
       res.send(layout({}))
     }
   })
 
-  return router
+return router
 }
 
 const renderItem = (i) => `

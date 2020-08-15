@@ -51,6 +51,8 @@ export default (word, callback) => {
     if (err) {
       console.error(err)
       callback(null)
+    } else if(rows.length === 0) {
+      callback(null)
     } else {
       let words = []
       let lastBINid = null
@@ -86,7 +88,6 @@ export default (word, callback) => {
       })
 
       callback({
-        any_matches: output.length >0,
         perfect_matches,
         did_you_mean,
       })
