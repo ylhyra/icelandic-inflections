@@ -3,23 +3,11 @@ import link from './link'
 
 export default (rows) => {
   const word = (new Word()).importTree(rows)
-
-  let strongDescription = ''
-  const isStrong = word.isStrong()
-  if (isStrong === true) {
-    strongDescription = 'strongly conjugated'
-  } else if (isStrong === false) {
-    strongDescription = 'weakly conjugated'
-  }
-
   return `
     <div class="inflection">
       <div class="main">
         <h4>${(word.getBaseWord())}</h4>
-        <div>${link(word.getType('class'))}</div>
-        <div>
-          ${link(strongDescription)}
-        </div>
+        <div>${word.getWordDescription()}</div>
 
         <div>${word.getPrincipalParts()}</div>
 

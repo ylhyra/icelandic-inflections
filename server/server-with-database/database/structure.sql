@@ -10,6 +10,7 @@ CREATE TABLE inflection (
   inflectional_form_lowercase VARCHAR(120) COLLATE utf8mb4_bin,
   word_class VARCHAR(5),
   correctness_grade_of_base_word VARCHAR(1),
+  BIN_domain VARCHAR(8),
   register_of_base_word VARCHAR(8),
   grammar_group VARCHAR(20),
   cross_reference VARCHAR(16),

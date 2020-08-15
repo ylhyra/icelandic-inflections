@@ -2,7 +2,7 @@
   Creates a link from our labels to relevant Ylhýra pages
 */
 export default (link, label) => {
-  if(!link) return '';
+  if(!link || typeof link !== 'string') return '';
   if (label === undefined) {
     label = link;
   } else if (!label) {

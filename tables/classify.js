@@ -6,10 +6,16 @@
   © Árni Magnússon Institute for Icelandic Studies, CC BY-SA 4.0
 */
 export default (input, give_me) => {
-  let { word_class, grammatical_tag, ...rest } = input
+  let { word_class, grammatical_tag, BIN_domain, ...rest } = input
   if (!word_class && !grammatical_tag) return input;
 
+
   let word_class_output = (word_classes[word_class]).split(', ')
+
+  if (relevant_BIN_domains[BIN_domain]) {
+    word_class_output.push(relevant_BIN_domains[BIN_domain])
+  }
+
 
   let form_classification = []
   /* Adjectives: Arrange plurality before gender */
@@ -210,3 +216,24 @@ export const sort_by_classification = (a, b) => {
   /* Sort by variant number */
   return a.variant_number - b.variant_number
 }
+
+/*
+  We are only interested in knowing wether a word is a name or not
+  See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
+*/
+const relevant_BIN_domains = {
+  ism: 'human name',
+  erm: 'human name', // Foreign human name
+  föð: 'patronymic',
+  móð: 'matronymic',
+  ætt: 'surname',
+  hetja: 'name',
+
+  bær: 'place name',
+  göt: 'place name',
+  lönd: 'place name',
+  þor: 'place name',
+  örn: 'place name',
+  erl: 'place name',
+}
+export const BIN_domains = Object.keys(relevant_BIN_domains).map(key => relevant_BIN_domains[key])

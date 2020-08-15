@@ -5,7 +5,8 @@ import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWor
 import { highlightIrregularities } from './functions/highlightIrregularities'
 import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
-import { isStrong } from './functions/strong'
+import { isStrong, isWeak } from './functions/strong'
+import { BIN_domains } from './classify'
 
 class Word {
   constructor(rows, original) {
@@ -24,6 +25,12 @@ class Word {
     } else {
       this.original = original || rows
     }
+  }
+  getId() {
+    return this.original[0].BIN_id
+  }
+  getBaseWord() {
+    return this.original[0].base_word
   }
   is(...values) {
     return values.every(value => (
@@ -61,7 +68,8 @@ class Word {
       case 'gender':
         return classification.find(i => ['masculine', 'feminine', 'neuter'].includes(i))
       case 'class':
-        return classification.find(i => [
+        return [
+          ...BIN_domains,
           'noun',
           'verb',
           'adjective',
@@ -78,7 +86,7 @@ class Word {
           'pronoun',
           'reflexive pronoun',
           'personal pronoun',
-        ].includes(i))
+        ].find(i => classification.includes(i))
       case 'plurality':
         return classification.find(i => ['singular', 'plural'].includes(i))
       case 'article':
@@ -102,12 +110,6 @@ class Word {
       return values[0]
     }
   }
-  getId() {
-    return this.original[0].BIN_id
-  }
-  getBaseWord() {
-    return this.original[0].base_word
-  }
   getTable() {
     return Table(this)
   }
@@ -116,6 +118,23 @@ class Word {
   }
   getTree() {
     return tree(this.rows)
+  }
+  getWordDescription() {
+    let output = ''
+
+    if (this.is('noun')) {
+      output += link(this.getType('gender')) + ' '
+    }
+    output += link(this.getType('class'))
+
+    const isStrong = this.isStrong()
+    if (isStrong === true) {
+      output += ', ' + link('strongly conjugated')
+    } else if (isStrong === false) {
+      output += ', ' + link('weakly conjugated')
+    }
+
+    return output
   }
   render() {
     let word = this
@@ -150,6 +169,7 @@ Word.prototype.getHelperWordsAfter = getHelperWordsAfter
 Word.prototype.getPrincipalParts = getPrincipalParts
 Word.prototype.getStem = getStem
 Word.prototype.isStrong = isStrong
+Word.prototype.isWeak = isWeak
 Word.prototype.highlightIrregularities = highlightIrregularities
 
 export default Word

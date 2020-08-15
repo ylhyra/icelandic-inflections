@@ -22,3 +22,16 @@ export function isStrong() {
     return this.getOriginal().get('singular', 'without definite article').getCases().some(endsInConsonant)
   }
 }
+
+/**
+ * Opposite of the above
+ * 
+ * @memberof Word
+ * @return {?boolean}
+ */
+export function isWeak() {
+  const strong = this.isStrong()
+  if(strong !== undefined) {
+    return !strong
+  }
+}

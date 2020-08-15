@@ -6,8 +6,6 @@ var LineByLineReader = require('line-by-line')
 // var inflections = require('./inflections.js')
 import query from 'server/database'
 
-import string_hash from 'string-hash'
-;
 let count = 0
 import path from 'path'
 import sql from 'server/database/functions/SQL-template-literal'
@@ -33,7 +31,7 @@ query(`TRUNCATE TABLE inflection;`, (err, res) => {
         base_word, // 1
         BIN_id, // 2
         word_class, // 3
-        BIN_domain, // 4
+        BIN_domain, // 4  https://bin.arnastofnun.is/ordafordi/hlutiBIN/
         correctness_grade_of_base_word, // 5
         register_of_base_word, // 6
         grammar_group, // 7
@@ -62,6 +60,7 @@ query(`TRUNCATE TABLE inflection;`, (err, res) => {
           BIN_id = ${BIN_id},
           word_class = ${word_class},
           correctness_grade_of_base_word = ${correctness_grade_of_base_word || null},
+          BIN_domain = ${BIN_domain},
           register_of_base_word = ${register_of_base_word},
           grammar_group = ${grammar_group},
           cross_reference = ${cross_reference || null},

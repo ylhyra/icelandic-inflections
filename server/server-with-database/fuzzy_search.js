@@ -20,9 +20,10 @@ export default (word, callback) => {
   query(sql `
 
     SELECT
-      score, inner_table.inflectional_form as matched_term,
-      i2.BIN_id, i2.grammatical_tag, i2.inflectional_form, i2.word_class, i2.base_word
-    FROM
+        score, i2.BIN_id, i2.grammatical_tag, i2.inflectional_form, i2.word_class, i2.base_word,
+        inner_table.inflectional_form as matched_term,
+        (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
+      FROM
       (
        SELECT score, i1.inflectional_form, i1.BIN_id FROM (
          SELECT score, output FROM autocomplete
@@ -64,9 +65,11 @@ export default (word, callback) => {
       let output = []
       words.forEach(rows => {
         const word = new Word(rows)
-        output.push(`
-          ${word.getBaseWord()} ${word.getType('class')}
-        `)
+        output.push({
+          BIN_id: word.getId(),
+          base_word: word.getBaseWord(),
+          description: word.getType('class'),
+        })
       })
 
       // console.log(words)

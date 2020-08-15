@@ -15,6 +15,7 @@ export default (id, callback) => {
       base_word,
       inflectional_form,
       word_class,
+      BIN_domain,
       correctness_grade_of_base_word,
       register_of_base_word,
       grammar_group,
