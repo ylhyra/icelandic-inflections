@@ -80,6 +80,14 @@ const TraverseTree = (row, word, original_word) => {
       row_names: ['singular', 'plural', 'clipped imperative']
     })
   }
+  // else if (
+  //   word.is('question form')
+  // ) {
+  //   table = GenerateTable(row.values, original_word, {
+  //     column_names: [null],
+  //     row_names: ['singular', 'plural', 'clipped imperative']
+  //   })
+  // }
 
   const output = table ? table :
     (row.values ?
