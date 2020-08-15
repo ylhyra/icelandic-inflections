@@ -159,8 +159,8 @@ class Word {
     this.rows = rows
     this.original = (original_word && original_word.original) || rows
     // TODO: Does not make sense, needs restructuring
-    this.form_classification = rows[0].form_classification
-    this.word_class = rows[0].word_class
+    this.form_classification = rows[0] && rows[0].form_classification
+    this.word_class = rows[0] && rows[0].word_class
     return this
   }
 }

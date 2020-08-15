@@ -1,1 +1,3 @@
 - http://localhost:9123/?id=165697 "Weak declension" is wrong
+- https://inflections.ylhyra.is/?q=allir Why is there a null?
+- http://localhost:9123/?id=418150 missing parts

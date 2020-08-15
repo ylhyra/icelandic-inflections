@@ -30,7 +30,7 @@ export default (word, callback) => {
            WHERE input = ${word}
            OR input = ${without_special_characters(word)}
            OR input = ${with_spelling_errors(word)}
-           OR input = ${phonetic(word)}
+           -- OR input = ${phonetic(word)} -- Temporarily remove phonetic matches
            ORDER BY
            autocomplete.score DESC
            LIMIT 20 -- Necessary?
