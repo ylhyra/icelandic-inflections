@@ -112,7 +112,7 @@ export default (Search, Get_by_id) => {
 
 const renderItem = (i) => `
   <li>
-    <a href="/?id=${i.BIN_id}">
+    <a href="/${i.base_word ? encodeURIComponent(i.base_word) + '/' : ''}${i.BIN_id}">
       <strong>${i.base_word}</strong>
       – ${i.description}
     </a>

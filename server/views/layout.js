@@ -16,12 +16,16 @@ export default ({
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <!-- <link rel="shortcut icon" href="/~/favicon.png"> -->
 
-
 <script type="text/javascript">
-if(/[?&]q=/.test(location.search)) {
-  var match = location.search.match(/[?&]q=([A-zÀ-ÿ%0-9+]+)/);
-  if (match && window.history.replaceState) {
-     window.history.replaceState(null, null, '/'+match[1]);
+if (/[?&](q|id)=/.test(location.search)) {
+  var word = location.search.match(/[?&]q=([A-zÀ-ÿ%0-9+]+)/);
+  if (word) word = word[1];
+  var id = location.search.match(/[?&]id=([A-zÀ-ÿ%0-9+]+)/);
+  if (id) id = id[1];
+  if ((word || id) && window.history.replaceState) {
+    var unused_parameters = location.search.replace(/[?&](q|id)=([A-zÀ-ÿ%0-9+]+)/,'')
+    var url = '/' + (word ? word + '/' : '') + (id || '') + (unused_parameters ||'')
+    window.history.replaceState(null, null, url);
   }
 }
 </script>
