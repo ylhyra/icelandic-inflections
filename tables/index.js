@@ -2,6 +2,7 @@ import Word from './word'
 import link from './link'
 
 export default (rows) => {
+  if(!rows || rows.length === 0) return '<!-- No rows sent -->';
   const word = (new Word()).importTree(rows)
   return `
     <div class="inflection">

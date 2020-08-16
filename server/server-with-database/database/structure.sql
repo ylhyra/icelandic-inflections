@@ -20,6 +20,7 @@ CREATE TABLE inflection (
   register_of_word_form VARCHAR(5),
   only_found_in_idioms VARCHAR(5),
   alternative_entry VARCHAR(60)
+  ROW_FORMAT=COMPRESSED
 );
 CREATE INDEX _BIN_id ON inflection (BIN_id);
 CREATE INDEX _base_word_lowercase ON inflection (base_word_lowercase);
@@ -34,6 +35,7 @@ CREATE TABLE autocomplete (
   input VARCHAR(255) COLLATE utf8_bin,
   output VARCHAR(255),
   score INT UNSIGNED -- Between 1 and 100
+  ROW_FORMAT=COMPRESSED
 );
 CREATE INDEX _input ON autocomplete (input);
 CREATE INDEX _output ON autocomplete (output);

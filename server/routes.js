@@ -48,58 +48,65 @@ export default (Search, Get_by_id) => {
   })
 
   /* Website */
-  router.get('/', cors(), (req, res) => {
-      let { q, id } = req.query
-      if (id) {
-        Get_by_id(id, (rows) => {
-
-          res.send(layout({
-            string: q,
-            results: render(rows)
+  router.get(['/', '/:id(\\d+)/', '/:word?/:id?'], cors(), (req, res) => {
+    const id = req.query.id || req.params.id
+    const word = req.query.q || req.params.word
+    // /^\d+$/.test(word)
+    if (id) {
+      Get_by_id(id, (rows) => {
+        if (rows.length === 0) {
+          return res.send(layout({
+            string: word,
+            results: 'No matches'
           }))
+        }
 
-        })
-      } else if (q) {
-        Search(q, true, results => {
+        res.send(layout({
+          string: word,
+          results: render(rows)
+        }))
 
-          if (!results) {
-            return res.send(layout({
-              string: q,
-              results: 'No matches'
-            }))
-          }
+      })
+    } else if (word) {
+      Search(word, true, results => {
+        if (!results) {
+          return res.send(layout({
+            string: word,
+            results: 'No matches'
+          }))
+        }
 
-          const {
-            perfect_matches,
-            did_you_mean,
-          } = results
+        const {
+          perfect_matches,
+          did_you_mean,
+        } = results
 
-          let output = ''
-          if (perfect_matches.length > 0) {
-            output += `<ul>
+        let output = ''
+        if (perfect_matches.length > 0) {
+          output += `<ul>
             ${perfect_matches.map(renderItem).join('')}
           </ul>`
-          }
-          if (did_you_mean.length > 0) {
-            output += `
+        }
+        if (did_you_mean.length > 0) {
+          output += `
           <h4 class="did-you-mean">${perfect_matches.length>0 ? 'Or did you mean:' : 'Did you mean:'}</h4>
           <ul>
             ${did_you_mean.map(renderItem).join('')}
           </ul>`
-          }
+        }
 
 
-          res.send(layout({
-            string: q,
-            results: output
-          }))
-        })
+        res.send(layout({
+          string: word,
+          results: output
+        }))
+      })
     } else {
       res.send(layout({}))
     }
   })
 
-return router
+  return router
 }
 
 const renderItem = (i) => `

@@ -4,11 +4,11 @@
 import { sort_by_classification } from './classify'
 export default (rows) => {
   let output = {
-    BIN_id: rows[0].BIN_id,
-    base_word: rows[0].base_word,
-    correctness_grade_of_base_word: rows[0].correctness_grade_of_base_word,
-    register_of_base_word: rows[0].register_of_base_word,
-    word_class: rows[0].word_class,
+    BIN_id: rows[0] && rows[0].BIN_id,
+    base_word: rows[0] && rows[0].base_word,
+    correctness_grade_of_base_word: rows[0] && rows[0].correctness_grade_of_base_word,
+    register_of_base_word: rows[0] && rows[0].register_of_base_word,
+    word_class: rows[0] && rows[0].word_class,
     values: [],
   }
 

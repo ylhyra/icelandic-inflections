@@ -8,6 +8,13 @@ export default (link, label) => {
   } else if (!label) {
     return '';
   }
+
+  /* Temporary */
+  return label;
+
+
+
+
   const url = 'https://ylhyra.is/' + encodeURIComponent(ucfirst(link.trim().replace(/( )/g, '_')))
   return `<a class="plainlink" target="_blank" href="${url}">${label}</a>`
 }
