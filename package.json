@@ -26,12 +26,12 @@
   "dependencies": {
     "axios": "^0.19.2",
     "cors": "^2.8.5",
-    "eslint": "^7.6.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "stylus": "^0.54.8"
   },
   "devDependencies": {
+    "eslint": "^7.6.0",
     "babel-eslint": "^10.1.0"
   }
 }

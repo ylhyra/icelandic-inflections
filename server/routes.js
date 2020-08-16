@@ -49,7 +49,7 @@ export default (Search, Get_by_id) => {
 
   /* Website */
   router.get('/', cors(), (req, res) => {
-    let { q, id } = req.query
+    let { q, id, give_me } = req.query
     if (id) {
       Get_by_id(id, (rows) => {
 
@@ -61,7 +61,7 @@ export default (Search, Get_by_id) => {
         }
         res.send(layout({
           string: q,
-          results: render(rows)
+          results: render(rows, give_me)
         }))
 
       })

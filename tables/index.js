@@ -1,7 +1,7 @@
 import Word from './word'
 import link from './link'
 
-export default (rows) => {
+export default (rows, give_me) => {
   const word = (new Word()).importTree(rows)
   return `
     <div class="inflection">
@@ -11,7 +11,7 @@ export default (rows) => {
 
         <div>${word.getPrincipalParts()}</div>
 
-        ${word.getTable()}
+        ${word.getTable(give_me)}
       </div>
       <div class="license">
         <a href="https://bin.arnastofnun.is/beyging/${word.getId()}" target="_blank">View on BÍN</a> •
