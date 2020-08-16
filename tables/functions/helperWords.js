@@ -3,7 +3,7 @@ import link from './../link'
 /**
  * Before
  * @memberof Word
- * @return {string} HTML string
+ * @return {string} HTML as string
  */
 export function getHelperWordsBefore() {
   let text = ''

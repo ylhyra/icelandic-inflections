@@ -24,8 +24,8 @@ if (/[?&](q|id)=/.test(location.search)) {
   var id = location.search.match(/[?&]id=([A-zÀ-ÿ%0-9+]+)/);
   if (id) id = id[1];
   if ((word || id) && window.history.replaceState) {
-    var unused_parameters = location.search.replace(/[?&](q|id)=([A-zÀ-ÿ%0-9+]+)/,'')
-    var url = '/' + (word ? word + '/' : '') + (id || '') + (unused_parameters ||'')
+    var unused_parameters = location.search.replace(/[?&](q|id)=([A-zÀ-ÿ%0-9+]+)/,'').replace('?','')
+    var url = '/' + (word ? word + '/' : '') + (id || '') + (unused_parameters ? '?'+unused_parameters:'')
     window.history.replaceState(null, null, url);
   }
 }

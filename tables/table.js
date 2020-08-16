@@ -2,7 +2,13 @@ import link, { ucfirst } from './link'
 import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 
+/**
+ * @memberof Word
+ * @param {array} give_me
+ * @return {string} HTML as string
+ */
 export default function getTable(give_me) {
+  console.log(give_me)
   return TraverseTree(this.getTree(), this, this)
 }
 

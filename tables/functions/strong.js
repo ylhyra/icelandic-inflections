@@ -25,7 +25,7 @@ export function isStrong() {
 
 /**
  * Opposite of the above
- * 
+ *
  * @memberof Word
  * @return {?boolean}
  */

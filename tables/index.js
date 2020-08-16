@@ -3,7 +3,7 @@ import link from './link'
 
 export default (rows, give_me) => {
   if (give_me) {
-    give_me = give_me.replace(/_/g,' ').split(', ')
+    give_me = give_me.replace(/_/g, ' ').split(', ')
   }
 
   const word = (new Word()).importTree(rows)
