@@ -399,12 +399,12 @@ i {
 footer {
   max-width: 500px;
   margin: auto;
-}
-footer .license {
   color: #929292;
   font-size: 11px;
-  line-height: inherit;
+}
+footer .license {
   margin-top: 2px;
+  line-height: 1.7em;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 footer .license .license-link {
@@ -420,6 +420,17 @@ footer .license .info {
   margin-left: 4px;
   padding: 1px 4px 2px 4px;
   letter-spacing: -0.3px;
+}
+footer .contact {
+  margin-top: 7px;
+  text-align: center;
+  padding-top: 7px;
+  border-top: 1px solid #e8e8e8;
+}
+footer .contact .name {
+  font-family: serif;
+  font-style: italic;
+  font-size: 12px;
 }
 .inflection {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -614,23 +625,20 @@ a:not(:hover) {
 }
 html {
   width: 100%;
-  background: #fff;
+  background: #fcfcfc;
 }
 body {
   font-size: 16px;
   line-height: 1.3em;
   color: #131313;
   margin: 0;
-  background: #fcfcfc;
-  padding: 35px;
-  padding-bottom: 20px;
-  min-height: calc(100vh);
   display: flex;
   flex-direction: column;
+  padding: 35px;
+  padding-bottom: 10px;
+  min-height: 100vh;
 }
-body > #content {
-  min-width: 500px;
-  margin: auto;
+body > main {
   flex: 1;
 }
 h1,
@@ -642,13 +650,6 @@ p,
 ul {
   margin: 0;
   padding: 0;
-}
-pre {
-  font-family: Fira Code, monospace;
-  line-height: 15px;
-  font-size: 11px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
 }
 /* _______ _ _   _
   |__   __(_) | | |
@@ -668,54 +669,6 @@ h1 {
 }
 h1 a {
   color: #266bcf;
-}
-/* _   _
-  | \ | |
-  |  \| | __ ___   __
-  | . ` |/ _` \ \ / /
-  | |\  | (_| |\ V /
-  |_| \_|\__,_| \_/    */
-nav {
-  text-align: center;
-  margin-top: 32px;
-  max-width: 540px;
-  margin: auto;
-}
-nav a {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 4px 8px;
-  font-family: inherit;
-  font-size: 15px;
-  line-height: 19px;
-  font-weight: bold;
-  display: inline-block;
-  outline: none;
-  color: #cf4a26;
-  font-family: $sans-serif;
-  cursor: pointer;
-  border-bottom: 2px solid rgba(0,0,0,0);
-}
-nav a.selected,
-nav a:hover {
-  border-bottom-color: #cf4a26;
-}
-nav a:active {
-  color: #a43b1e;
-  border-bottom-color: #a43b1e;
-}
-nav a[data-small] {
-  font-weight: 500;
-  color: #a7a7a7;
-}
-nav a[data-small].selected,
-nav a[data-small]:hover {
-  border-bottom-color: #a7a7a7;
-}
-nav a[data-small]:active {
-  color: #8d8d8d;
-  border-bottom-color: #8d8d8d;
 }
 /*   _____                     _        _
     / ____|                   | |      | |
@@ -750,42 +703,7 @@ input[type="search"]:focus {
 main {
   max-width: 650px;
   margin: auto;
-}
-/*   _____ _     _      _
-    / ____(_)   | |    | |
-   | (___  _  __| | ___| |__   __ _ _ __
-    \___ \| |/ _` |/ _ \ '_ \ / _` | '__|
-    ____) | | (_| |  __/ |_) | (_| | |
-   |_____/|_|\__,_|\___|_.__/ \__,_|_|  */
-.sidebar {
-  width: 125px;
-  font-size: 14px;
-  line-height: 19px;
-  padding-right: 20px;
-  list-style-type: none;
-  position: relative;
-}
-.sidebar li a {
-  color: #000;
-  display: block;
-  padding: 2px 0;
-}
-.sidebar li a:hover {
-  color: #266bcf;
-  text-decoration: underline;
-}
-.sidebar li a.selected {
-  color: #266bcf;
-  font-weight: 600;
-  text-decoration: none;
-}
-/*  _____                 _ _
-   |  __ \               | | |
-   | |__) |___  ___ _   _| | |_ ___
-   |  _  // _ \/ __| | | | | __/ __|
-   | | \ \  __/\__ \ |_| | | |_\__    |_|  \_\___||___/\__,_|_|\__|___/  */
-#entries {
-  flex: 1;
+  min-width: calc(min(100vw, 500px));
 }
 main a {
   color: #000;
@@ -801,44 +719,19 @@ main a:hover {
    | | | (_) | (_) | ||  __/ |
    |_|  \___/ \___/ \__\___|_|   */
 footer {
-  font-size: 13px;
   margin-top: 100px;
 }
 footer a {
   color: #266bcf;
 }
-@media (max-width: 600px) {
-  body {
-    margin: 0;
-    padding: 10px;
-    min-height: 100vh;
-  }
-  nav a {
-    line-height: 15px;
-  }
+.gray {
+  color: #7d7d7d;
 }
-#reload,
-#random {
-  height: 40px;
-  width: 200px;
-  float: left;
-  background: #71b1e3;
-  display: block;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  font-size: 17px;
-  font-weight: bold;
-  color: #000 !important;
-  text-decoration: none !important;
-  margin: 0;
+a.gray:not(:hover) {
+  color: #7d7d7d;
 }
-#reload {
-  background: #a9e23d;
-}
-#random {
-  padding: 10px;
-  baseline-shift: 16px;
+a.gray:hover {
+  color: #266bcf;
 }
 .did-you-mean {
   font-size: 14px;

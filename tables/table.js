@@ -3,9 +3,6 @@ import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 
 export default function getTable(give_me) {
-
-  // console.log(give_me.replace(/_/g,' ').split(', '))
-
   return TraverseTree(this.getTree(), this, this)
 }
 

@@ -1,10 +1,11 @@
 export default ({
+  title,
   string,
   results,
 }) => `
 <!DOCTYPE html>
 <html>
-<title>Icelandic inflections</title>
+<title>${title && title + ' – ' || ''} Icelandic inflections</title>
 <meta charset="utf-8"/>
 <!-- <base href="/"/> -->
 <link href="/inflection_styles/build.css" rel="stylesheet" type="text/css"/>
@@ -29,22 +30,29 @@ if (/[?&](q|id)=/.test(location.search)) {
   }
 }
 </script>
-
 <body>
-<div id="content">
-  <h1><a href="/">Icelandic inflections</a></h1>
-  <form method="get" action="/">
-    <input name="q" id="s" placeholder="Search" type="search" value="${string || ''}" spellcheck="false" autocomplete="off"/>
-  </form>
-  <main>
-    ${results || ''}
-  </main>
-  <footer>
-  <div class="license">
-  Data from the <em><a href="https://bin.arnastofnun.is/DMII/LTdata/k-format/" rel="nofollow">Database of Modern Icelandic Inflection</a></em> (DMII),
-  or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnússon Institute for Icelandic Studies. The author and editor of the DMII is <a href="https://www.arnastofnun.is/is/stofnunin/starfsfolk/kristin-bjarnadottir" rel="nofollow">Kristín Bjarnadóttir</a>. <small><a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="nofollow">CC BY-SA&nbsp;4.0</a></small></div>
-  </footer>
+
+<h1><a href="/">Icelandic inflections</a></h1>
+<form method="get" action="/">
+  <input name="q" id="s" placeholder="Search" type="search" value="${string || ''}" spellcheck="false" autocomplete="off"/>
+</form>
+<main>
+  ${results || ''}
+</main>
+<footer>
+
+<div class="license">
+Data from the <em><a href="https://bin.arnastofnun.is/DMII/LTdata/k-format/" rel="nofollow">Database of Modern Icelandic Inflection</a></em> (DMII),
+or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnússon Institute for Icelandic Studies. The author and editor of the DMII is <a href="https://www.arnastofnun.is/is/stofnunin/starfsfolk/kristin-bjarnadottir" rel="nofollow">Kristín Bjarnadóttir</a>. <small><a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="nofollow">CC BY-SA&nbsp;4.0</a></small></div>
+
+<div class="contact">
+<a href="https://ylhyra.is/Project:Inflections" class="gray name"><b>Ylhýra</b></a> •
+<a href="mailto:ylhyra@ylhyra.is">Report errors</a> •
+<a href="https://github.com/ylhyra/icelandic-inflections#readme">API</a>
 </div>
+
+</footer>
+
 <!--
 <script type="application/ld+json">
 {

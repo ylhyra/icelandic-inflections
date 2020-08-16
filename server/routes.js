@@ -51,18 +51,20 @@ export default (Search, Get_by_id) => {
   router.get(['/', '/:id(\\d+)/', '/:word?/:id(\\d+)?'], cors(), (req, res) => {
     const id = req.query.id || req.params.id
     const word = req.query.q || req.params.word
-    const give_me = req.query
+    const give_me = req.query.give_me
     // /^\d+$/.test(word)
     if (id) {
       Get_by_id(id, (rows) => {
         if (rows.length === 0) {
           return res.send(layout({
+            title: word,
             string: word,
             results: 'No matches'
           }))
         }
 
         res.send(layout({
+          title: rows[0].base_word || '',
           string: word,
           results: render(rows, give_me)
         }))
@@ -72,6 +74,7 @@ export default (Search, Get_by_id) => {
       Search(word, true, results => {
         if (!results) {
           return res.send(layout({
+            title: word,
             string: word,
             results: 'No matches'
           }))
@@ -98,6 +101,7 @@ export default (Search, Get_by_id) => {
 
 
         res.send(layout({
+          title: word,
           string: word,
           results: output
         }))
