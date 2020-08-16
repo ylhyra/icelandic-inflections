@@ -16,7 +16,7 @@ export default ({
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <!-- <link rel="shortcut icon" href="/~/favicon.png"> -->
 
-<!--
+
 <script type="text/javascript">
 if(/[?&]q=/.test(location.search)) {
   var match = location.search.match(/[?&]q=([A-zÀ-ÿ%0-9+]+)/);
@@ -25,7 +25,7 @@ if(/[?&]q=/.test(location.search)) {
   }
 }
 </script>
--->
+
 <body>
 <div id="content">
   <h1><a href="/">Icelandic inflections</a></h1>

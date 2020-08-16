@@ -48,9 +48,10 @@ export default (Search, Get_by_id) => {
   })
 
   /* Website */
-  router.get(['/', '/:id(\\d+)/', '/:word?/:id?'], cors(), (req, res) => {
+  router.get(['/', '/:id(\\d+)/', '/:word?/:id(\\d+)?'], cors(), (req, res) => {
     const id = req.query.id || req.params.id
     const word = req.query.q || req.params.word
+    const give_me = req.query
     // /^\d+$/.test(word)
     if (id) {
       Get_by_id(id, (rows) => {
@@ -63,7 +64,7 @@ export default (Search, Get_by_id) => {
 
         res.send(layout({
           string: word,
-          results: render(rows)
+          results: render(rows, give_me)
         }))
 
       })

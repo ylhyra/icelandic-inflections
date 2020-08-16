@@ -51,7 +51,7 @@ export default (word, callback) => {
     if (err) {
       console.error(err)
       callback(null)
-    } else if(rows.length === 0) {
+    } else if (rows.length === 0) {
       callback(null)
     } else {
       let words = []
@@ -67,13 +67,16 @@ export default (word, callback) => {
       let output = []
       words.forEach(rows => {
         const word = new Word(rows)
-        output.push({
-          perfect_match: rows[0].word_has_perfect_match,
-          BIN_id: word.getId(),
-          base_word: word.getBaseWord(),
-          description: removeLinks(word.getWordDescription()),
-          principal_parts: removeLinks(word.getPrincipalParts()),
-        })
+        /* Prevent "null" from appearing during index creation, which causes Word() to fail */
+        if (word.getId()) {
+          output.push({
+            perfect_match: rows[0].word_has_perfect_match,
+            BIN_id: word.getId(),
+            base_word: word.getBaseWord(),
+            description: removeLinks(word.getWordDescription()),
+            principal_parts: removeLinks(word.getPrincipalParts()),
+          })
+        }
       })
 
       let perfect_matches = []

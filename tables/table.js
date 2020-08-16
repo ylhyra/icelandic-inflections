@@ -1,9 +1,12 @@
-import link, {ucfirst} from './link'
+import link, { ucfirst } from './link'
 import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
-export default (word) => {
-  const original_word = word
-  return TraverseTree(word.getTree(), word, original_word)
+
+export default function getTable(give_me) {
+
+  console.log(give_me.replace(/_/g,' ').split(', '))
+
+  return TraverseTree(this.getTree(), this, this)
 }
 
 const TraverseTree = (row, word, original_word) => {

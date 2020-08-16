@@ -1,5 +1,5 @@
 import link from './link'
-import Table from './table'
+import getTable from './table'
 import tree from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
 import { highlightIrregularities } from './functions/highlightIrregularities'
@@ -110,9 +110,6 @@ class Word {
       return values[0]
     }
   }
-  getTable() {
-    return Table(this)
-  }
   getRows() {
     return this.rows
   }
@@ -172,5 +169,6 @@ Word.prototype.getStem = getStem
 Word.prototype.isStrong = isStrong
 Word.prototype.isWeak = isWeak
 Word.prototype.highlightIrregularities = highlightIrregularities
+Word.prototype.getTable = getTable
 
 export default Word
