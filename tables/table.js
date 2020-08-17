@@ -7,8 +7,7 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
  * @param {array} give_me
  * @return {string} HTML as string
  */
-export default function getTable(give_me) {
-  console.log(give_me)
+export default function getTable() {
   return TraverseTree(this.getTree(), this, this)
 }
 

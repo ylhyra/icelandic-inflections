@@ -2,11 +2,15 @@ import Word from './word'
 import link from './link'
 
 export default (rows, give_me) => {
+  let word = (new Word(rows))
+  // const word = (new Word()).importTree(rows)
+
   if (give_me) {
     give_me = give_me.replace(/_/g, ' ').split(', ')
+    console.log(give_me)
+    word = word.get(...give_me)
   }
 
-  const word = (new Word()).importTree(rows)
   return `
     <div class="inflection">
       <div class="main">
