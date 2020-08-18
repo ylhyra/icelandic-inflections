@@ -1,5 +1,5 @@
 /**
- *  Turns BÍN's classification abbreviations into English
+ *  Turns BÍN's classifications into English
  *
  *  Descriptions from:
  *  - https://bin.arnastofnun.is/gogn/k-snid and
@@ -26,9 +26,8 @@
  * - grammatical_tag
  * - BIN_domain
  * And the following keys added:
- * - word_class
- * - form_classification
- * Which are
+ * - word_class - An array of values that apply to all the forms of the word (a noun, adjective...)
+ * - form_classification - An array of values that only apply to certain forms of the word (plurality, case...)
 */
 const classify = (input, i_am_only_interested_in) => {
   let { word_class, grammatical_tag, BIN_domain, ...rest } = input

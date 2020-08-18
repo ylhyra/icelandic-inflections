@@ -1,8 +1,22 @@
-/*
-  Turns rows into nested tree
-*/
 import { sort_by_classification } from './classify'
 
+/**
+ * Turns rows into nested tree, with each leaf containing a collection of items that have the same classification
+ *
+ * @param {array} rows - Raw list of rows with classifications from ./classify.js
+ * @returns {object}
+ * The tree is on the form:
+ *   {
+ *     values: [{
+ *       tag: 'singular',
+ *       values: [{
+ *         tag: 'nominative',
+ *         values: []
+ *       }]
+ *     }]
+ *   }
+ *
+ */
 const tree = (rows) => {
   let output = {
     BIN_id: rows[0] && rows[0].BIN_id,
@@ -46,10 +60,9 @@ const tree = (rows) => {
   return output
 }
 
-const isNumber = (string) => {
-  return /^\d+$/.test(string + '')
-}
-
+/**
+ * Sort tree based on the list `sorted_tags` array in ./classify.js
+ */
 const TraverseAndSort = (input) => {
   if (Array.isArray(input)) {
     return input.sort(sort_by_classification).map(TraverseAndSort)
@@ -61,6 +74,10 @@ const TraverseAndSort = (input) => {
   } else {
     return input
   }
+}
+
+const isNumber = (string) => {
+  return /^\d+$/.test(string + '')
 }
 
 export default tree
