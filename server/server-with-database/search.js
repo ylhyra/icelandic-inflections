@@ -19,11 +19,10 @@ export default (word, fuzzy, callback) => {
     word.length > 100 ||
     !IcelandicCharacters.test(word)
   ) {
-    callback(null)
+    return callback(null)
     // return res.status(400).send({ error: 'Invalid string' })
   }
   word = word.trim().toLowerCase().replace(/\s+/g, ' ')
-
   if (fuzzy) {
     return FuzzySearch(word, callback)
   } else {
@@ -36,7 +35,6 @@ export default (word, fuzzy, callback) => {
       LIMIT 100
     `, (err, results) => {
       if (err) {
-        // res.send(err)
         callback(null)
       } else {
         let grouped = []

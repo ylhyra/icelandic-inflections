@@ -31,7 +31,6 @@ export default (id, callback) => {
     -- AND descriptive = 1
   `, (err, results) => {
     if (err) {
-      // res.send(err)
       callback(null)
     } else {
       let output = results.map(i => classify(i)).sort(sort_by_classification)

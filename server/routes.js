@@ -18,7 +18,9 @@ import layout from './views/layout'
  */
 export default (Search, Get_by_id) => {
 
-  /* API */
+  /*
+    API
+  */
   router.get('/api/inflection', cors(), (req, res) => {
     res.setHeader('X-Robots-Tag', 'noindex')
     let { id, type, search, fuzzy } = req.query
@@ -47,7 +49,12 @@ export default (Search, Get_by_id) => {
     }
   })
 
-  /* Website */
+  /*
+    Website
+  */
+  router.get(['/robots.txt','/favicon.ico','/sitemap.xml'], (req, res) => {
+    res.send('')
+  })
   router.get(['/', '/:id(\\d+)/', '/:word?/:id(\\d+)?'], cors(), (req, res) => {
     const id = req.query.id || req.params.id
     const word = req.query.q || req.params.word
@@ -55,7 +62,7 @@ export default (Search, Get_by_id) => {
     // /^\d+$/.test(word)
     if (id) {
       Get_by_id(id, (rows) => {
-        if (rows.length === 0) {
+        if (!rows || rows.length === 0) {
           return res.send(layout({
             title: word,
             string: word,
@@ -66,7 +73,7 @@ export default (Search, Get_by_id) => {
         res.send(layout({
           title: rows[0].base_word || '',
           string: word,
-          results: render(rows, give_me)
+          // results: render(rows, give_me)
         }))
 
       })
@@ -98,7 +105,6 @@ export default (Search, Get_by_id) => {
             ${did_you_mean.map(renderItem).join('')}
           </ul>`
         }
-
 
         res.send(layout({
           title: word,
