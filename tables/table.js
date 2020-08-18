@@ -46,16 +46,15 @@ const TraverseTree = (row, word, original_word) => {
   else if (
     (word.is('adjective') ||
       word.is('past participle') ||
-      word.is('ordinal number')||
+      word.is('ordinal number') ||
       word.is('numeral')
-    ) &&
-    ['singular', 'plural'].includes(row.tag)
-) {
-  table = GenerateTable(row.values, original_word, {
-    column_names: ['masculine', 'feminine', 'neuter'],
-    row_names: ['nominative', 'accusative', 'dative', 'genitive']
-  })
-}
+    ) && ['singular', 'plural'].includes(row.tag)
+  ) {
+    table = GenerateTable(row.values, original_word, {
+      column_names: ['masculine', 'feminine', 'neuter'],
+      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+    })
+  }
   /* Verbs */
   else if (
     word.is('verb') && ['present tense', 'past tense'].includes(row.tag) &&
