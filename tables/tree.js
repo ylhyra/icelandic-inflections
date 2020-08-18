@@ -2,7 +2,8 @@
   Turns rows into nested tree
 */
 import { sort_by_classification } from './classify'
-export default (rows) => {
+
+const tree = (rows) => {
   let output = {
     BIN_id: rows[0] && rows[0].BIN_id,
     base_word: rows[0] && rows[0].base_word,
@@ -61,3 +62,5 @@ const TraverseAndSort = (input) => {
     return input
   }
 }
+
+export default tree

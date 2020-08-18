@@ -1,5 +1,6 @@
 import link from './link'
-import getTable from './table'
+import renderTables from './tables_all'
+import renderSingleTable from './tables_single'
 import tree from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
 import { highlightIrregularities } from './functions/highlightIrregularities'
@@ -7,7 +8,6 @@ import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { BIN_domains } from './classify'
-
 class Word {
   constructor(rows, original) {
     this.form_classification = []
@@ -169,6 +169,7 @@ Word.prototype.getStem = getStem
 Word.prototype.isStrong = isStrong
 Word.prototype.isWeak = isWeak
 Word.prototype.highlightIrregularities = highlightIrregularities
-Word.prototype.getTable = getTable
+Word.prototype.renderTables = renderTables
+Word.prototype.renderSingleTable = renderSingleTable
 
 export default Word

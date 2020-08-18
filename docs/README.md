@@ -8,7 +8,7 @@ The dataset is the *[Database of Modern Icelandic Inflection](https://bin.arnast
 
 **Search**
 
-Exact matches:
+Exact matches (case insensitive):
 * https://ylhyra.is/api/inflection?search=mamma
 
 Fuzzy search:

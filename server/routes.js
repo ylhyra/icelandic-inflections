@@ -59,7 +59,6 @@ export default (Search, Get_by_id) => {
     const id = req.query.id || req.params.id
     const word = req.query.q || req.params.word
     const give_me = req.query.give_me
-    // /^\d+$/.test(word)
     if (id) {
       Get_by_id(id, (rows) => {
         if (!rows || rows.length === 0) {

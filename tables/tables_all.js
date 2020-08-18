@@ -3,41 +3,45 @@ import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 
 /**
+ *
+ *
  * @memberof Word
- * @param {array} give_me
  * @return {string} HTML as string
  */
-export default function getTable() {
+export default function renderTables() {
   return TraverseTree(this.getTree(), this, this)
 }
 
-const TraverseTree = (row, word, original_word) => {
+/**
+ * @return {string} HTML as string
+ */
+const TraverseTree = (leaf, word, original_word) => {
   let table = null
-  word = (new Word()).importTree(row, original_word)
+  word = (new Word()).importTree(leaf, original_word)
   /* Nouns */
-  if (word.is('noun') && ['singular', 'plural'].includes(row.tag)) {
-    table = GenerateTable(row.values, original_word, {
+  if (word.is('noun') && ['singular', 'plural'].includes(leaf.tag)) {
+    table = GenerateTable(leaf.values, original_word, {
       column_names: ['without definite article', 'with definite article'],
       row_names: ['nominative', 'accusative', 'dative', 'genitive']
     })
   }
   /* Pronouns */
-  else if (word.is('pronoun') && ['singular', 'plural'].includes(row.tag)) {
-    table = GenerateTable(row.values, original_word, {
+  else if (word.is('pronoun') && ['singular', 'plural'].includes(leaf.tag)) {
+    table = GenerateTable(leaf.values, original_word, {
       column_names: ['masculine', 'feminine', 'neuter'],
       row_names: ['nominative', 'accusative', 'dative', 'genitive']
     })
   }
   /* Personal pronouns */
   else if (word.is('personal pronoun')) {
-    table = GenerateTable(row.values, original_word, {
+    table = GenerateTable(leaf.values, original_word, {
       column_names: ['singular', 'plural'],
       row_names: ['nominative', 'accusative', 'dative', 'genitive']
     })
   }
   /* Reflexive pronouns */
   else if (word.is('reflexive pronoun')) {
-    table = GenerateTable(row.values, original_word, {
+    table = GenerateTable(leaf.values, original_word, {
       column_names: [null],
       row_names: ['nominative', 'accusative', 'dative', 'genitive']
     })
@@ -48,28 +52,28 @@ const TraverseTree = (row, word, original_word) => {
       word.is('past participle') ||
       word.is('ordinal number') ||
       word.is('numeral')
-    ) && ['singular', 'plural'].includes(row.tag)
+    ) && ['singular', 'plural'].includes(leaf.tag)
   ) {
-    table = GenerateTable(row.values, original_word, {
+    table = GenerateTable(leaf.values, original_word, {
       column_names: ['masculine', 'feminine', 'neuter'],
       row_names: ['nominative', 'accusative', 'dative', 'genitive']
     })
   }
   /* Verbs */
   else if (
-    word.is('verb') && ['present tense', 'past tense'].includes(row.tag) &&
+    word.is('verb') && ['present tense', 'past tense'].includes(leaf.tag) &&
     !word.is('question form')
   ) {
     /* Dummy subjects */
     if (word.is('impersonal with dummy subject')) {
-      table = GenerateTable(row.values, original_word, {
+      table = GenerateTable(leaf.values, original_word, {
         column_names: ['singular'],
         row_names: ['3rd person']
       })
     }
     /* Regular table */
     else {
-      table = GenerateTable(row.values, original_word, {
+      table = GenerateTable(leaf.values, original_word, {
         column_names: ['singular', 'plural'],
         row_names: ['1st person', '2nd person', '3rd person']
       })
@@ -77,9 +81,9 @@ const TraverseTree = (row, word, original_word) => {
   }
   /* Imperative */
   else if (
-    row.tag === 'imperative'
+    leaf.tag === 'imperative'
   ) {
-    table = GenerateTable(row.values, original_word, {
+    table = GenerateTable(leaf.values, original_word, {
       column_names: [null],
       row_names: ['singular', 'plural', 'clipped imperative']
     })
@@ -94,14 +98,14 @@ const TraverseTree = (row, word, original_word) => {
   // }
 
   const output = table ? table :
-    (row.values ?
-      row.values.map(i => TraverseTree(i, word, original_word)).join('') :
-      `<table class="table not-center"><tbody><tr>${renderCell(new Word([row], original_word))}</tr></tbody></table>`
+    (leaf.values ?
+      leaf.values.map(i => TraverseTree(i, word, original_word)).join('') :
+      `<table class="table not-center"><tbody><tr>${renderCell(new Word([leaf], original_word))}</tr></tbody></table>`
     )
 
-  if (row.tag) {
+  if (leaf.tag) {
     return `<dl class="indent">
-      <dt>${link(row.tag)}</dt>
+      <dt>${link(leaf.tag)}</dt>
       <dd>${output}</dd>
     </dl>`
   } else {
@@ -139,7 +143,6 @@ const GenerateTable = (input, original_word, structure) => {
   })
   return TableHTML(table)
 }
-
 
 const TableHTML = (rows, highlight = []) => {
   return `

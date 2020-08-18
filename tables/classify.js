@@ -1,21 +1,44 @@
-/*
-  Turns BÍN classification into English
-  Descriptions from:
-  - https://bin.arnastofnun.is/gogn/k-snid and
-  - https://bin.arnastofnun.is/gogn/greiningarstrengir/
-  © Árni Magnússon Institute for Icelandic Studies, CC BY-SA 4.0
+/**
+ *  Turns BÍN's classification abbreviations into English
+ *
+ *  Descriptions from:
+ *  - https://bin.arnastofnun.is/gogn/k-snid and
+ *  - https://bin.arnastofnun.is/gogn/greiningarstrengir/
+ *  © Árni Magnússon Institute for Icelandic Studies, CC BY-SA 4.0
+ *
+ * @param {object} input
+ * Input is a raw row from the database with original values from the KRISTINsnid.csv file.
+ * The parameter mapping from the original file is shown in "server/server-with-database/database/ImportToDatabase.js".
+ * The following attributes of the input object are taken into consideration:
+ * - word_class
+ * - grammatical_tag
+ * - BIN_domain
+ *
+ * @param {array} i_am_only_interested_in
+ * Can be one of:
+ * - word_class
+ * - form_classification
+ * If selected, an array is returned
+ *
+ * @returns {object|array}
+ * Returns the inputted object with the following keys removed:
+ * - word_class
+ * - grammatical_tag
+ * - BIN_domain
+ * And the following keys added:
+ * - word_class
+ * - form_classification
+ * Which are
 */
-export default (input, give_me) => {
+const classify = (input, i_am_only_interested_in) => {
   let { word_class, grammatical_tag, BIN_domain, ...rest } = input
   if (!word_class && !grammatical_tag) return input;
-
 
   let word_class_output = (word_classes[word_class]).split(', ')
 
   if (relevant_BIN_domains[BIN_domain]) {
     word_class_output.push(relevant_BIN_domains[BIN_domain])
   }
-
 
   let form_classification = []
   /* Adjectives: Arrange plurality before gender */
@@ -52,10 +75,10 @@ export default (input, give_me) => {
 
   // form_classification = form_classification.join(', ')
 
-  if (give_me === 'form_classification') {
+  if (i_am_only_interested_in === 'form_classification') {
     return form_classification
   }
-  if (give_me === 'word_class') {
+  if (i_am_only_interested_in === 'word_class') {
     return word_class_output
   }
   return {
@@ -66,6 +89,7 @@ export default (input, give_me) => {
     // ...input,
   }
 }
+export default classify
 
 const word_classes = {
   kk: 'noun, masculine',
@@ -137,6 +161,9 @@ const tags = {
   'OBEYGJANLEGT': 'indeclinable',
 }
 
+/*
+  When constructing the tree, we need to sort the tables.
+*/
 export const sorted_tags = [
   '1st person',
   '2nd person',

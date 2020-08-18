@@ -19,6 +19,7 @@ export function isStrong() {
     /* Does not end in "-i" */
     return !/i$/.test(past_tense.getFirstValue())
   } else if (this.is('noun')) {
+    /* TODO! What about where singular doesn't exist? */
     return this.getOriginal().get('singular', 'without definite article').getCases().some(endsInConsonant)
   }
 }
