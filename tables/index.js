@@ -5,10 +5,14 @@ export default (rows, give_me) => {
   let word = (new Word(rows))
   // const word = (new Word()).importTree(rows)
 
+  let table;
   if (give_me) {
     give_me = give_me.replace(/_/g, ' ').split(', ')
-    console.log(give_me)
+    // console.log(give_me)
     word = word.get(...give_me)
+    table = word.renderSingleTable(give_me)
+  } else {
+    table = word.renderTables()
   }
 
   return `
@@ -19,7 +23,7 @@ export default (rows, give_me) => {
 
         <div>${word.getPrincipalParts()}</div>
 
-        ${word.renderTables(give_me)}
+        ${table}
       </div>
       <div class="license">
         <a href="https://bin.arnastofnun.is/beyging/${word.getId()}" target="_blank">View on BÍN</a> •

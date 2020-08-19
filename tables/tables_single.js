@@ -1,6 +1,6 @@
 import link, { ucfirst } from './link'
 import Word from './word'
-import { highlightIrregularities } from './functions/highlightIrregularities'
+import { GenerateTable } from './tables_all'
 
 /**
  *

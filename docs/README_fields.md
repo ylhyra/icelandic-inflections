@@ -1,4 +1,6 @@
 
+(needs expansion)
+
 
 Fields:
 https://bin.arnastofnun.is/DMII/LTdata/k-format/

@@ -114,7 +114,7 @@ const TraverseTree = (leaf, word, original_word) => {
 }
 
 /* Expects nested array of Columns -> Rows -> Values */
-const GenerateTable = (input, original_word, structure) => {
+export const GenerateTable = (input, original_word, structure) => {
   const { column_names, row_names } = structure
   let word = (new Word()).importTree(input, original_word)
   // console.log(word)
