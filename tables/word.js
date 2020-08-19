@@ -8,6 +8,7 @@ import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { BIN_domains } from './classify'
+
 class Word {
   constructor(rows, original) {
     this.form_classification = []
