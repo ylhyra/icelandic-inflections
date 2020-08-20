@@ -76,7 +76,7 @@ const TraverseAndSort = (input) => {
   }
 }
 
-const isNumber = (string) => {
+export const isNumber = (string) => {
   return /^\d+$/.test(string + '')
 }
 

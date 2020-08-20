@@ -1,7 +1,7 @@
 import link from './link'
 import renderTables from './tables_all'
 import renderSingleTable from './tables_single'
-import tree from './tree'
+import tree, { isNumber } from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 import { getPrincipalParts } from './functions/principalParts'
@@ -11,7 +11,7 @@ import { BIN_domains } from './classify'
 
 class Word {
   constructor(rows, original) {
-    this.form_classification = []
+    this.form_classification = [] // TODO? Merge with `word_class`?
     this.word_class = []
     this.rows = []
     this.original = []
@@ -28,10 +28,10 @@ class Word {
     }
   }
   getId() {
-    return this.original[0] && this.original[0].BIN_id
+    return this.original.length > 0 && this.original[0].BIN_id
   }
   getBaseWord() {
-    return this.original[0] && this.original[0].base_word || ''
+    return this.original.length > 0 && this.original[0].base_word || ''
   }
   is(...values) {
     return values.every(value => (
@@ -50,6 +50,9 @@ class Word {
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form
   }
+  getFirstClassification() {
+    return this.rows.length > 0 && this.rows[0].form_classification.filter(i => !isNumber(i))
+  }
   without(...values) {
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value => !row.form_classification.includes(value))
@@ -63,6 +66,10 @@ class Word {
       this.get('genitive'),
     ]
   }
+  /**
+   * @param  {string} type
+   * @return {?string}
+   */
   getType(type) {
     const classification = [...this.word_class, ...this.form_classification]
     switch (type) {
@@ -94,11 +101,17 @@ class Word {
         return classification.find(i => ['with definite article', 'without definite article'].includes(i))
     }
   }
+
+  /**
+   * @param  {...array} values - Three values are inputted, a value is returned based on the gender of the word
+   */
   dependingOnGender(...values) {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
   }
+  /**
+   * @param  {...array} values - Five values are inputted, a value is returned based on the subject type of the verb
+   */
   dependingOnSubject(...values) {
-    /* Input is a list of [nom, acc, dat, get, dummy] */
     if (this.is('impersonal with accusative subject')) {
       return values[1]
     } else if (this.is('impersonal with dative subject')) {

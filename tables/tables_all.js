@@ -119,7 +119,10 @@ const TraverseTree = (leaf, original_word) => {
 /**
  * GenerateTable - Converts description of table structure into a table
  *
- * @param {object} leaf - Leaf from ./tree.js on the form { tag: 'nominative', values: [] }
+ * @param {object|Word} input
+ * Can either be:
+ * - a leaf from ./tree.js on the form { tag: 'nominative', values: [] }
+ * - a Word
  * @param {Word} original_word
  * @param {object} structure
  *   An object with the keys `column_names` and `row_names`,
@@ -130,9 +133,14 @@ const TraverseTree = (leaf, original_word) => {
  *   }
  * @returns {string} HTML string
  */
-export const GenerateTable = (leaf, original_word, structure) => {
+export const GenerateTable = (input, original_word, structure) => {
   const { column_names, row_names } = structure
-  let word = (new Word()).importTree(leaf, original_word)
+  let word
+  if (input instanceof Word) {
+    word = input
+  } else {
+    word = (new Word()).importTree(input, original_word)
+  }
   let table = []
   row_names.forEach((row_name, row_index) => {
     /* Add column names */
@@ -158,6 +166,7 @@ export const GenerateTable = (leaf, original_word, structure) => {
   })
   return TableHTML(table)
 }
+
 
 const TableHTML = (rows, highlight = []) => {
   return `
