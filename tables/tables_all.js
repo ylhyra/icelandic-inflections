@@ -120,10 +120,12 @@ const TraverseTree = (leaf, original_word) => {
  * GenerateTable - Converts description of table structure into a table
  *
  * @param {object|Word} input
- * Can either be:
- * - a leaf from ./tree.js on the form { tag: 'nominative', values: [] }
- * - a Word
+ *   Can either be:
+ *   - a leaf from ./tree.js on the form { tag: 'nominative', values: [] }
+ *   - a Word
  * @param {Word} original_word
+ *   If the first parameter is a leaf, we need to pass the original word
+ *   as well so that we have all the information needed
  * @param {object} structure
  *   An object with the keys `column_names` and `row_names`,
  *   which are arrays describing what  they should contain:
