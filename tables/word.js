@@ -1,6 +1,6 @@
 import link from './link'
-import renderTables from './tables_all'
-import renderSingleTable from './tables_single'
+import getTables from './tables_all'
+import getSingleTable from './tables_single'
 import tree, { isNumber } from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
 import { highlightIrregularities } from './functions/highlightIrregularities'
@@ -8,6 +8,7 @@ import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { BIN_domains, tags } from './classify'
+import { uniq } from 'lodash'
 
 class Word {
   constructor(rows, original) {
@@ -33,6 +34,17 @@ class Word {
   getBaseWord() {
     return this.original.length > 0 && this.original[0].base_word || ''
   }
+  isWordIrregular() {
+    let hasUmlaut, isIrregular
+    const word = this
+    const all_forms = uniq(this.getOriginal().get('1').rows.map(row => row.inflectional_form))
+    all_forms.forEach(form => {
+      const results = highlightIrregularities(form, word, true)
+      hasUmlaut = results.hasUmlaut || hasUmlaut
+      isIrregular = results.isIrregular || isIrregular
+    })
+    return { hasUmlaut, isIrregular }
+  }
   is(...values) {
     return values.every(value => (
       this.form_classification.includes(value) ||
@@ -49,6 +61,9 @@ class Word {
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form
+  }
+  getForms() {
+    return this.rows.map(row => row.inflectional_form)
   }
   getFirstClassification() {
     return this.rows.length > 0 && this.rows[0].form_classification.filter(i => !isNumber(i))
@@ -132,7 +147,6 @@ class Word {
     return tree(this.rows)
   }
   getWordDescription() {
-    // console.log(this.word_class)
     let output = ''
 
     if (this.is('noun')) {
@@ -145,6 +159,17 @@ class Word {
       output += ', ' + link('strongly conjugated')
     } else if (isStrong === false) {
       output += ', ' + link('weakly conjugated')
+    }
+
+    const { hasUmlaut, isIrregular } = this.isWordIrregular()
+    if (isIrregular) {
+      output += ', ' + link('irregular inflection')
+    }
+    if (hasUmlaut) {
+      output += ', ' + link('includes a sound change')
+    }
+    if (!isIrregular && !hasUmlaut) {
+      output += ', ' + link('regular inflection')
     }
 
     return output
@@ -184,7 +209,7 @@ Word.prototype.getStem = getStem
 Word.prototype.isStrong = isStrong
 Word.prototype.isWeak = isWeak
 Word.prototype.highlightIrregularities = highlightIrregularities
-Word.prototype.renderTables = renderTables
-Word.prototype.renderSingleTable = renderSingleTable
+Word.prototype.getTables = getTables
+Word.prototype.getSingleTable = getSingleTable
 
 export default Word

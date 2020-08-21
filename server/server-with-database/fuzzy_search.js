@@ -11,6 +11,7 @@ require('array-sugar')
 import { colognePhonetic } from 'cologne-phonetic'
 import { remove as remove_diacritics } from 'diacritics'
 import Word from './../../tables/word'
+import phoneticHash from './phoneticHash'
 import { removeLinks } from './../../tables/link'
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
@@ -113,25 +114,11 @@ export const without_special_characters = (string) => {
 export const with_spelling_errors = (string) => {
   return WITH_SPELLING_ERROR_MARKER + removeTemporaryMarkers(without_special_characters(string))
     .replace(/y/g, 'i')
-    .replace(/au/g, 'o')
-    .replace(/sg/g, 'sk')
-    .replace(/hv/g, 'kv')
-    .replace(/aeg/g, 'ag')
-    .replace(/fnd/g, 'md')
-    .replace(/fnt/g, 'mt')
-    .replace(/rl/g, 'tl')
-    .replace(/rdn/g, 'n')
-    .replace(/rn/g, 'n')
-    .replace(/dn/g, 'n')
-    // .replace(/([aeiou])v/g, '$1f')
-    // .replace(/([a-z])j([aeiou])/g, '$1$2')
     .replace(/([^\w\s])|(.)(?=\2)/g, '') // Remove two in a row
 }
 
 export const phonetic = (string) => {
-  return PHONETIC_MARKER + colognePhonetic(
-    removeTemporaryMarkers(with_spelling_errors(string))
-  )
+  return PHONETIC_MARKER + phoneticHash(removeTemporaryMarkers(without_special_characters(string)))
 }
 
 export const removeTemporaryMarkers = (input) => {

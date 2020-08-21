@@ -10,9 +10,9 @@ export default (rows, give_me) => {
     give_me = give_me.replace(/_/g, ' ').split(', ')
     // console.log(give_me)
     word = word.get(...give_me)
-    table = word.renderSingleTable(give_me)
+    table = word.getSingleTable(give_me)
   } else {
-    table = word.renderTables()
+    table = word.getTables()
   }
 
   return `

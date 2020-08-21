@@ -14,10 +14,12 @@ export const endsInVowel = (input) => {
   } else {
     string = input
   }
+  if(typeof string !== 'string') throw ('Expected string in endsInVowel()');
   return (new RegExp(`[${vowels}]$`, 'i')).test(string)
 }
 
 export const endsInConsonant = (string) => {
+  if(typeof string !== 'string') throw ('Expected string in endsInConsonant()');
   return !endsInVowel(string)
 }
 export const splitOnVowels = (input) => {
@@ -26,6 +28,6 @@ export const splitOnVowels = (input) => {
 export const splitOnAll = (input) => {
   return input && input.split(new RegExp(`(${vowellike_clusters}|[${characters}])`, 'i'))
 }
-export const removeLastVowel = (input) => {
-  return input && input.replace((new RegExp(`([${vowels}]+)$`, 'i')), '')
+export const removeLastVowelCluster = (input) => {
+  return input && input.replace((new RegExp(`(${vowellike_clusters}|[${vowels}]+)$`, 'i')), '')
 }

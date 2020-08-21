@@ -13,7 +13,7 @@ import sql from 'server/database/functions/SQL-template-literal'
 const CSV_FILE_NAME = 'KRISTINsnid.csv'
 const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
 
-query(`TRUNCATE TABLE inflection;`, (err, res) => {
+
   var lr = new LineByLineReader(path.resolve(__dirname, `./${CSV_FILE_NAME}`))
   lr.on('error', (err) => {
     console.error(err)
@@ -123,4 +123,3 @@ query(`TRUNCATE TABLE inflection;`, (err, res) => {
   lr.on('end', () => {
     process.exit()
   });
-})
