@@ -1,4 +1,4 @@
-import { removeLastVowel } from './vowels'
+import { removeLastVowelCluster } from './vowels'
 
 /**
  * Gets the stem of a word. See: https://is.wikipedia.org/wiki/Stofn_(málfræði)
@@ -12,7 +12,7 @@ export function getStem() {
       return this.getOriginal().get('accusative', 'without definite article', 'singular').getFirstValue()
     } else {
       const output = this.getOriginal().get('nominative', 'without definite article', 'singular').getFirstValue()
-      return removeLastVowel(output)
+      return removeLastVowelCluster(output)
     }
   }
   if (this.is('adjective')) {
@@ -25,7 +25,7 @@ export function getStem() {
     const output = this.getOriginal().get('clipped imperative', 'active voice').getFirstValue()
     /* Remove last vowel */
     if (this.isWeak()) {
-      return removeLastVowel(output)
+      return removeLastVowelCluster(output)
     } else {
       return output
     }

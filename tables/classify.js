@@ -1,3 +1,5 @@
+import { isNumber } from './tree'
+
 /**
  *  Turns BÍN's classifications into English
  *
@@ -49,6 +51,8 @@ const classify = (input, i_am_only_interested_in) => {
     if (tag === '-') return;
     if (short_tags[tag]) {
       form_classification.push(short_tags[tag])
+    } else if (isNumber(tag)) {
+      form_classification.push(tag)
     } else {
       if (process.env.NODE_ENV === 'development') {
         console.error('Unknown tag in classify.js: ' + tag)

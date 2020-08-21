@@ -8,6 +8,7 @@ import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { BIN_domains, tags } from './classify'
+import { uniq } from 'lodash'
 
 class Word {
   constructor(rows, original) {
@@ -33,8 +34,16 @@ class Word {
   getBaseWord() {
     return this.original.length > 0 && this.original[0].base_word || ''
   }
-  isRegular() {
-
+  isWordIrregular() {
+    let hasUmlaut, isIrregular
+    const word = this
+    const all_forms = uniq(this.getOriginal().get('1').rows.map(row => row.inflectional_form))
+    all_forms.forEach(form => {
+      const results = highlightIrregularities(form, word, true)
+      hasUmlaut = results.hasUmlaut || hasUmlaut
+      isIrregular = results.isIrregular || isIrregular
+    })
+    return { hasUmlaut, isIrregular }
   }
   is(...values) {
     return values.every(value => (
@@ -148,6 +157,17 @@ class Word {
       output += ', ' + link('strongly conjugated')
     } else if (isStrong === false) {
       output += ', ' + link('weakly conjugated')
+    }
+
+    const { hasUmlaut, isIrregular } = this.isWordIrregular()
+    if (isIrregular) {
+      output += ', ' + link('irregular inflection')
+    }
+    if (hasUmlaut) {
+      output += ', ' + link('includes a sound change')
+    }
+    if (!isIrregular && !hasUmlaut) {
+      output += ', ' + link('regular inflection')
     }
 
     return output

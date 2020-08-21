@@ -3,14 +3,17 @@ import { endsInConsonant, splitOnVowels, splitOnAll } from './vowels'
 /**
  * highlightIrregularities - Highlights umlauts in red and other irregularities by wrapping in italics
  *
- * @param  {string} form
- * @param  {Word} word
- * @return {string} either formatted HTML string or just a plain string of the word if no irregularities are found
+ * @param {string} form
+ * @param {Word} word
+ * @param {boolen} returnDescription
+ * @return {string|object}
+ *   If returnDescription is false, return a formatted HTML string with irregularities highlighted
+ *   If returnDescription is true, return { hasUmlaut, isIrregular }
  */
-export function highlightIrregularities(form, word) {
+export function highlightIrregularities(form, word, returnDescription = false) {
+  let hasUmlaut, isIrregular
   let output = form
   const stem = word.getStem(true)
-  // const isStrong = word.isStrong() || word.is('adjective')
   if (!stem) return form;
 
   /**
@@ -24,6 +27,7 @@ export function highlightIrregularities(form, word) {
   if (form_split[relevant_wovel_index] && stem_split[relevant_wovel_index] !== form_split[relevant_wovel_index]) {
     form_split[relevant_wovel_index] = `<span class="umlaut" style="color:#b00030">${form_split[relevant_wovel_index]}</span>`
     output = form_split.join('')
+    hasUmlaut = true
   }
 
   /*
@@ -34,9 +38,14 @@ export function highlightIrregularities(form, word) {
   const stem_without_umlautable_vowel = removeItem(stem_split, relevant_wovel_index)
   if (!form_without_umlautable_vowel.startsWith(stem_without_umlautable_vowel)) {
     output = `<em class="irregular">${output}</em>`
+    isIrregular = true
   }
 
-  return output
+  if (returnDescription) {
+    return { hasUmlaut, isIrregular }
+  } else {
+    return output
+  }
 }
 
 const removeItem = (input, index) => {
