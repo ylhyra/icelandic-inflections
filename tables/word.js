@@ -33,6 +33,9 @@ class Word {
   getBaseWord() {
     return this.original.length > 0 && this.original[0].base_word || ''
   }
+  isRegular() {
+
+  }
   is(...values) {
     return values.every(value => (
       this.form_classification.includes(value) ||

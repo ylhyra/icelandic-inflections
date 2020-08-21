@@ -21,7 +21,7 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
  *   }
  * @returns {string} HTML string
  */
-export const RenderTable = (input, original_word, structure) => {
+export const RenderTable = (input, original_word, structure, highlight) => {
   const { column_names, row_names } = structure
   let word
   if (input instanceof Word) {
@@ -52,7 +52,7 @@ export const RenderTable = (input, original_word, structure) => {
     })
     table.push(column)
   })
-  return TableHTML(table)
+  return TableHTML(table, highlight)
 }
 
 
@@ -64,7 +64,7 @@ const TableHTML = (rows, highlight = []) => {
           <tr>
             ${row.map((cell, column_index) => {
               if(cell instanceof Word) {
-                const shouldHighlight = true //highlight.length > 0 && cell.is(...highlight)
+                const shouldHighlight = (highlight && highlight.length > 0) ? cell.is(...highlight) : true
                 return renderCell(cell, shouldHighlight)
               } else {
                 let isCellToTheLeftEmpty =

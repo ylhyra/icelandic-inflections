@@ -7,27 +7,27 @@
  *  © Árni Magnússon Institute for Icelandic Studies, CC BY-SA 4.0
  *
  * @param {object} input
- * Input is a raw row from the database with original values from the KRISTINsnid.csv file.
- * The parameter mapping from the original file is shown in "server/server-with-database/database/ImportToDatabase.js".
- * The following attributes of the input object are taken into consideration:
- * - word_class
- * - grammatical_tag
- * - BIN_domain
+ *   Input is a raw row from the database with original values from the KRISTINsnid.csv file.
+ *   The parameter mapping from the original file is shown in "server/server-with-database/database/ImportToDatabase.js".
+ *   The following attributes of the input object are taken into consideration:
+ *   - word_class
+ *   - grammatical_tag
+ *   - BIN_domain
  *
  * @param {array} i_am_only_interested_in
- * Can be one of:
- * - word_class
- * - form_classification
- * If selected, an array is returned
+ *   Can be one of:
+ *   - word_class
+ *   - form_classification
+ *   If selected, an array is returned
  *
  * @returns {object|array}
- * Returns the inputted object with the following keys removed:
- * - word_class
- * - grammatical_tag
- * - BIN_domain
- * And the following keys added:
- * - word_class - An array of values that apply to all the forms of the word (a noun, adjective...)
- * - form_classification - An array of values that only apply to certain forms of the word (plurality, case...)
+ *   Returns the inputted object with the following keys removed:
+ *   - word_class
+ *   - grammatical_tag
+ *   - BIN_domain
+ *   And the following keys added:
+ *   - word_class - An array of values that apply to all the forms of the word (a noun, adjective...)
+ *   - form_classification - An array of values that only apply to certain forms of the word (plurality, case...)
  */
 const classify = (input, i_am_only_interested_in) => {
   let { word_class, grammatical_tag, BIN_domain, ...rest } = input

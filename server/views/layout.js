@@ -42,7 +42,7 @@ if (/[?&](q|id)=/.test(location.search)) {
 </main>
 <footer>
 
-${id ? `<a href="https://bin.arnastofnun.is/beyging/${id}" target="_blank">View this word on BÍN</a>` : ''}
+${id ? `<a href="https://bin.arnastofnun.is/beyging/${id}" target="_blank"><b>View this word on BÍN</b></a>` : ''}
 
 <div class="license">
 

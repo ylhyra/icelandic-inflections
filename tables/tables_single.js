@@ -20,7 +20,7 @@ export default function getSingleTable() {
     table = RenderTable(siblings, null, {
       column_names: [word.getType('article')],
       row_names: tags['cases'],
-    })
+    }, word.getFirstClassification())
     description = without(sibling_classification, ...tags['articles']).join(', ')
   }
 
