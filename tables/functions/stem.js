@@ -1,12 +1,14 @@
-import { removeLastVowelCluster } from './vowels'
+import { removeLastVowelCluster, splitOnVowels } from './vowels'
 
 /**
  * Gets the stem of a word. See: https://is.wikipedia.org/wiki/Stofn_(málfræði)
  *
  * @memberof Word
+ * @param {object} options
+ *   - masculinizeAdjectiveStem {boolean}
  * @return {?string}
  */
-export function getStem() {
+export function getStem(options) {
   if (this.is('noun')) {
     if (this.isStrong()) {
       return this.getOriginal().get('accusative', 'without definite article', 'singular').getFirstValue()
@@ -16,7 +18,19 @@ export function getStem() {
     }
   }
   if (this.is('adjective')) {
-    return this.getOriginal().get('feminine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
+    let stem = this.getOriginal().get('feminine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
+    /*
+      For the purpose of highlighting umlauts,
+      we want to get the stem with the vowel that's
+      used in the masculine gender
+    */
+    if (options.masculinizeAdjectiveStem) {
+      const stemLength = splitOnVowels(stem).filter(Boolean).length
+      let masculine = this.getOriginal().get('masculine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
+      return splitOnVowels(masculine).filter(Boolean).slice(0, stemLength).join('')
+    } else {
+      return stem
+    }
   }
   if (this.is('numeral')) {
     return this.getOriginal().get('feminine', 'nominative', 'singular').getFirstValue()

@@ -13,7 +13,7 @@ import { endsInConsonant, splitOnVowels, splitOnAll } from './vowels'
 export function highlightIrregularities(form, word, returnDescription = false) {
   let hasUmlaut, isIrregular
   let output = form
-  const stem = word.getStem(true)
+  let stem = word.getStem({ masculinizeAdjectiveStem: true })
   if (!stem) return form;
 
   /**
