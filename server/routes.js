@@ -65,7 +65,7 @@ export default (Search, Get_by_id) => {
           return res.send(layout({
             title: word,
             string: word,
-            results: 'No matches'
+            results: rows === null ? 'Error. Try reloading.' : 'No matches'
           }))
         }
 

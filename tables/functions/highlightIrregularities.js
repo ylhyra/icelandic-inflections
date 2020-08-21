@@ -18,24 +18,36 @@ export function highlightIrregularities(form, word, returnDescription = false) {
 
   /**
    * Highlight sound shifts.
-   * Looks at the last vowel of the stem and sees if it's different from the relevant vowel in the form
+   * Looks at the last and second-last vowel of the stem and
+   * sees if it's different from the relevant vowel in the form
    */
+  let umlauted_vowel_index;
   const stem_split = splitOnVowels(stem)
   let form_split = splitOnVowels(form)
-  /* Gets the position of the last vowel of the stem */
-  const relevant_wovel_index = stem_split.length - 2
-  if (form_split[relevant_wovel_index] && stem_split[relevant_wovel_index] !== form_split[relevant_wovel_index]) {
-    form_split[relevant_wovel_index] = `<span class="umlaut" style="color:#b00030">${form_split[relevant_wovel_index]}</span>`
+  const last_stem_vowel_index = stem_split.length - 2
+  const second_last_stem_vowel_index = stem_split.length - 4
+  if (last_stem_vowel_index >= 0 &&
+    form_split[last_stem_vowel_index] &&
+    stem_split[last_stem_vowel_index] !== form_split[last_stem_vowel_index]) {
+    umlauted_vowel_index = last_stem_vowel_index
+  } else if (second_last_stem_vowel_index >= 0 &&
+    form_split[second_last_stem_vowel_index] &&
+    stem_split[second_last_stem_vowel_index] !== form_split[second_last_stem_vowel_index]) {
+    umlauted_vowel_index = second_last_stem_vowel_index
+  }
+  if (umlauted_vowel_index) {
+    form_split[umlauted_vowel_index] = `<span class="umlaut" style="color:#b00030">${form_split[umlauted_vowel_index]}</span>`
     output = form_split.join('')
     hasUmlaut = true
   }
 
+
   /*
    * Highlight in entirety if word is considerably different from the stem
-   * Skip over first vowel since it was already checked above
+   * Skip over umlauted or last vowel since it was already checked above
    */
-  const form_without_umlautable_vowel = removeItem(form_split, relevant_wovel_index)
-  const stem_without_umlautable_vowel = removeItem(stem_split, relevant_wovel_index)
+  const form_without_umlautable_vowel = removeItem(form_split, umlauted_vowel_index).join('')
+  const stem_without_umlautable_vowel = removeItem(stem_split, umlauted_vowel_index).join('')
   if (!form_without_umlautable_vowel.startsWith(stem_without_umlautable_vowel)) {
     output = `<em class="irregular">${output}</em>`
     isIrregular = true
@@ -48,8 +60,11 @@ export function highlightIrregularities(form, word, returnDescription = false) {
   }
 }
 
-const removeItem = (input, index) => {
-  let output = input
-  output.splice(index, 1)
-  return output.join('')
+const removeItem = (array, index_to_remove) => {
+  if (index_to_remove === undefined) {
+    return array
+  }
+  let output = array
+  output.splice(index_to_remove, 1)
+  return output
 }
