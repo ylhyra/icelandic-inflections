@@ -62,6 +62,9 @@ class Word {
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form
   }
+  getForms() {
+    return this.rows.map(row => row.inflectional_form)
+  }
   getFirstClassification() {
     return this.rows.length > 0 && this.rows[0].form_classification.filter(i => !isNumber(i))
   }
@@ -144,7 +147,6 @@ class Word {
     return tree(this.rows)
   }
   getWordDescription() {
-    // console.log(this.word_class)
     let output = ''
 
     if (this.is('noun')) {

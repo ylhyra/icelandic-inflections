@@ -8,7 +8,15 @@ import { endsInConsonant } from './vowels'
  * @return {?boolean}
  */
 export function isStrong() {
-  if (this.is('verb')) {
+  /* Noun */
+  if (this.is('noun')) {
+    /* TODO! What about where singular doesn't exist? */
+    const table_to_check = this.getOriginal().get('singular', 'without definite article', '1').getForms()
+    if (table_to_check.length === 0) return;
+    return table_to_check.some(endsInConsonant)
+  }
+  /* Verb */
+  else if (this.is('verb')) {
     const word = this.getOriginal().without(
       'impersonal with accusative subject',
       'impersonal with dative subject',
@@ -19,9 +27,6 @@ export function isStrong() {
     const past_tense = word.get('indicative', 'past tense', '1st person', 'singular')
     /* Does not end in "-i" */
     return !/i$/.test(past_tense.getFirstValue())
-  } else if (this.is('noun')) {
-    /* TODO! What about where singular doesn't exist? */
-    return this.getOriginal().get('singular', 'without definite article').getCases().some(endsInConsonant)
   }
 }
 
@@ -33,7 +38,7 @@ export function isStrong() {
  */
 export function isWeak() {
   const strong = this.isStrong()
-  if(strong !== undefined) {
+  if (strong !== undefined) {
     return !strong
   }
 }
