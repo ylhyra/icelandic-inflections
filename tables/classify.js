@@ -199,7 +199,7 @@ export const sorted_tags = [
 
   /* Adjectives */
   'positive degree', // frumstig
-  'positive degree-strong declension',
+  'positive degree-strong declension', // TODO? Is this working?
   'positive degree-weak declension',
   'comparative degree', // miðstig
   'superlative degree', // efsta stig
@@ -212,6 +212,7 @@ export const sorted_tags = [
   'optative',
   'not used in a noun phrase',
   'indefinite',
+  'without definite article',
   'with definite article',
 
   'personal',

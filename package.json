@@ -28,6 +28,7 @@
     "cors": "^2.8.5",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "lodash": "^4.17.20",
     "stylus": "^0.54.8"
   },
   "devDependencies": {
