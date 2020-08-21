@@ -2,12 +2,8 @@ import link, { ucfirst } from './link'
 import Word from './word'
 import { GenerateTable } from './tables_all'
 import { without } from 'lodash'
+import { tags } from './classify'
 
-//temp, going to move to classify.js
-const tags = {
-  cases: ['nominative', 'accusative', 'dative', 'genitive'],
-  articles: ['without definite article', 'with definite article'],
-}
 
 /**
  * Finds a single relevant table

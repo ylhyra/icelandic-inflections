@@ -26,11 +26,6 @@ export const splitOnVowels = (input) => {
 export const splitOnAll = (input) => {
   return input && input.split(new RegExp(`(${vowellike_clusters}|[${characters}])`, 'i'))
 }
-export const removeFirstVowel = (input) => {
-  let output = splitOnVowels(input)
-  output.splice(1, 1)
-  return output.join('')
-}
 export const removeLastVowel = (input) => {
   return input && input.replace((new RegExp(`([${vowels}]+)$`, 'i')), '')
 }

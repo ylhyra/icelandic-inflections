@@ -7,7 +7,7 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
 import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
-import { BIN_domains } from './classify'
+import { BIN_domains, tags } from './classify'
 
 class Word {
   constructor(rows, original) {
@@ -67,39 +67,40 @@ class Word {
     ]
   }
   /**
+   * Used to ask "which case does this word have?"
+   *
    * @param  {string} type
    * @return {?string}
    */
   getType(type) {
     const classification = [...this.word_class, ...this.form_classification]
-    switch (type) {
-      case 'gender':
-        return classification.find(i => ['masculine', 'feminine', 'neuter'].includes(i))
-      case 'class':
-        return [
-          ...BIN_domains,
-          'noun',
-          'verb',
-          'adjective',
-          'preposition',
-          'adverb',
-          'article',
-          'adjective',
-          'infinitive particle',
-          'verb',
-          'conjunction',
-          'interjection',
-          'numeral',
-          'ordinal number',
-          'pronoun',
-          'reflexive pronoun',
-          'personal pronoun',
-        ].find(i => classification.includes(i))
-      case 'plurality':
-        return classification.find(i => ['singular', 'plural'].includes(i))
-      case 'article':
-        return classification.find(i => ['with definite article', 'without definite article'].includes(i))
+    if (type === 'class') {
+      return [
+        ...BIN_domains,
+        'noun',
+        'verb',
+        'adjective',
+        'preposition',
+        'adverb',
+        'article',
+        'adjective',
+        'infinitive particle',
+        'verb',
+        'conjunction',
+        'interjection',
+        'numeral',
+        'ordinal number',
+        'pronoun',
+        'reflexive pronoun',
+        'personal pronoun',
+      ].find(i => classification.includes(i))
     }
+    /*
+      Here we for example say tags['gender'] and get back ['masculine', 'feminine', 'neuter']
+    */
+    let values = tags[type]
+    if (!values) return;
+    return classification.find(i => values.includes(i))
   }
 
   /**

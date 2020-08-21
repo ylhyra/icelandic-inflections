@@ -1,6 +1,7 @@
 import link, { ucfirst } from './link'
 import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
+import { tags } from './classify'
 
 /**
  * renderTables - Prints all tables for a given word
@@ -23,31 +24,31 @@ const TraverseTree = (leaf, original_word) => {
   let table = null
   const word = (new Word()).importTree(leaf, original_word)
   /* Nouns */
-  if (word.is('noun') && ['singular', 'plural'].includes(leaf.tag)) {
+  if (word.is('noun') && tags['plurality'].includes(leaf.tag)) {
     table = GenerateTable(leaf.values, original_word, {
-      column_names: ['without definite article', 'with definite article'],
-      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+      column_names: tags['article'],
+      row_names: tags['cases'],
     })
   }
   /* Pronouns */
-  else if (word.is('pronoun') && ['singular', 'plural'].includes(leaf.tag)) {
+  else if (word.is('pronoun') && tags['plurality'].includes(leaf.tag)) {
     table = GenerateTable(leaf.values, original_word, {
-      column_names: ['masculine', 'feminine', 'neuter'],
-      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+      column_names: tags['gender'],
+      row_names: tags['cases']
     })
   }
   /* Personal pronouns */
   else if (word.is('personal pronoun')) {
     table = GenerateTable(leaf.values, original_word, {
-      column_names: ['singular', 'plural'],
-      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+      column_names: tags['plurality'],
+      row_names: tags['cases']
     })
   }
   /* Reflexive pronouns */
   else if (word.is('reflexive pronoun')) {
     table = GenerateTable(leaf.values, original_word, {
       column_names: [null],
-      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+      row_names: tags['cases']
     })
   }
   /* Adjectives */
@@ -56,16 +57,16 @@ const TraverseTree = (leaf, original_word) => {
       word.is('past participle') ||
       word.is('ordinal number') ||
       word.is('numeral')
-    ) && ['singular', 'plural'].includes(leaf.tag)
+    ) && tags['plurality'].includes(leaf.tag)
   ) {
     table = GenerateTable(leaf.values, original_word, {
-      column_names: ['masculine', 'feminine', 'neuter'],
-      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+      column_names: tags['gender'],
+      row_names: tags['cases']
     })
   }
   /* Verbs */
   else if (
-    word.is('verb') && ['present tense', 'past tense'].includes(leaf.tag) &&
+    word.is('verb') && tags['tense'].includes(leaf.tag) &&
     !word.is('question form')
   ) {
     /* Dummy subjects */
@@ -78,8 +79,8 @@ const TraverseTree = (leaf, original_word) => {
     /* Regular table */
     else {
       table = GenerateTable(leaf.values, original_word, {
-        column_names: ['singular', 'plural'],
-        row_names: ['1st person', '2nd person', '3rd person']
+        column_names: tags['plurality'],
+        row_names: tags['person']
       })
     }
   }
@@ -130,8 +131,8 @@ const TraverseTree = (leaf, original_word) => {
  *   An object with the keys `column_names` and `row_names`,
  *   which are arrays describing what  they should contain:
  *   {
- *     column_names: ['singular', 'plural'],
- *     row_names: ['1st person', '2nd person', '3rd person']
+ *     column_names: tags['plurality'],
+ *     row_names: tags['person']
  *   }
  * @returns {string} HTML string
  */

@@ -72,7 +72,8 @@ export default (Search, Get_by_id) => {
         res.send(layout({
           title: rows[0].base_word || '',
           string: word,
-          results: render(rows, give_me)
+          results: render(rows, give_me),
+          id,
         }))
 
       })

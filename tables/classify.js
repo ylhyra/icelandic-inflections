@@ -28,7 +28,7 @@
  * And the following keys added:
  * - word_class - An array of values that apply to all the forms of the word (a noun, adjective...)
  * - form_classification - An array of values that only apply to certain forms of the word (plurality, case...)
-*/
+ */
 const classify = (input, i_am_only_interested_in) => {
   let { word_class, grammatical_tag, BIN_domain, ...rest } = input
   if (!word_class && !grammatical_tag) return input;
@@ -44,11 +44,11 @@ const classify = (input, i_am_only_interested_in) => {
   grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/, '$3-$1-$2')
   /* Nouns: Arrange plurality before case */
   grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/, '$2-$1')
-  const regex = Object.keys(tags).sort((a, b) => (b.length - a.length)).join('|')
+  const regex = Object.keys(short_tags).sort((a, b) => (b.length - a.length)).join('|')
   grammatical_tag.split((new RegExp(`(${regex})`, 'g'))).filter(Boolean).forEach(tag => {
     if (tag === '-') return;
-    if (tags[tag]) {
-      form_classification.push(tags[tag])
+    if (short_tags[tag]) {
+      form_classification.push(short_tags[tag])
     } else {
       if (process.env.NODE_ENV === 'development') {
         console.error('Unknown tag in classify.js: ' + tag)
@@ -111,7 +111,7 @@ const word_classes = {
   pfn: 'personal pronoun',
 }
 
-const tags = {
+const short_tags = {
   '1P': '1st person',
   '2P': '2nd person',
   '3P': '3rd person',
@@ -160,28 +160,92 @@ const tags = {
   'OBEYGJANLEGT': 'indeclinable',
 }
 
+
+const categories = [{
+  category_names: ['person'],
+  values: [
+    '1st person',
+    '2nd person',
+    '3rd person',
+  ]
+}, {
+  category_names: ['gender'],
+  values: [
+    'masculine',
+    'feminine',
+    'neuter',
+  ]
+}, {
+  category_names: ['case', 'cases'],
+  values: [
+    'nominative',
+    'accusative',
+    'dative',
+    'genitive',
+  ]
+}, {
+  category_names: ['tense'],
+  values: [
+    'present tense',
+    'past tense',
+  ]
+}, {
+  category_names: ['plurality', 'number'],
+  values: [
+    'singular',
+    'plural',
+  ]
+}, {
+  category_names: ['article', 'articles'],
+  values: [
+    'without definite article',
+    'with definite article',
+  ]
+}, {
+  category_names: ['degree'],
+  values: [
+    'positive degree', // frumstig
+    'comparative degree', // miðstig
+    'superlative degree', // efsta stig
+  ]
+}, {
+  category_names: ['strong or weak'],
+  values: [
+    'strong declension',
+    'weak declension',
+  ]
+}, ]
+
+/**
+ * Object containing "name => array of tags", used for getting arrays later on
+ */
+let tags = {}
+
+/**
+ * Sorted single-level array of tags, used for sorting rows when constructing the tree
+ */
+let sorted_tags = []
+
+categories.forEach(({ category_names, values }) => {
+  sorted_tags = sorted_tags.concat(values)
+  category_names.forEach(category_name => {
+    tags[category_name] = values
+  })
+})
+
+export { tags }
+
+
 /*
-  When constructing the tree, we need to sort the tables.
+  Other tags that we haven't yet added to `categories` above
 */
-export const sorted_tags = [
-  '1st person',
-  '2nd person',
-  '3rd person',
-
-  'masculine',
-  'neuter',
-  'feminine',
-
-  'nominative',
-  'accusative',
-  'dative',
-  'genitive',
-
+sorted_tags = sorted_tags.concat([
   /* Verbs */
   'infinitive',
   'indicative', // Framsöguháttur
   'subjunctive', // Viðtengingarháttur
 
+  // 'voice'
   'active voice', // Germynd
   'mediopassive', // Miðmynd
   'imperative', // Boðháttur
@@ -191,39 +255,20 @@ export const sorted_tags = [
   'past participle',
   'question form',
 
-  'present tense',
-  'past tense',
-
-  'singular',
-  'plural',
-
-  /* Adjectives */
-  'positive degree', // frumstig
-  'positive degree-strong declension', // TODO? Is this working?
-  'positive degree-weak declension',
-  'comparative degree', // miðstig
-  'superlative degree', // efsta stig
-  'superlative degree-weak declension',
-  'superlative degree-strong declension',
-
-  'strong declension',
-  'weak declension',
-
-  'optative',
+  'optative', // "Von"?
   'not used in a noun phrase',
-  'indefinite',
-  'without definite article',
-  'with definite article',
-
+  'indefinite', // Is this used?
   'personal',
   'impersonal',
   'impersonal with accusative subject',
   'impersonal with dative subject',
   'impersonal with genitive subject',
   'impersonal with dummy subject',
-
   'indeclinable',
-]
+])
+
+
+
 
 export const sort_by_classification = (a, b) => {
   /* Sort by single tag */

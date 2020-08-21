@@ -2,6 +2,7 @@ import { endsInConsonant } from './vowels'
 
 /**
  * Strong or weak inflection
+ * TODO: Pronouns
  *
  * @memberof Word
  * @return {?boolean}
