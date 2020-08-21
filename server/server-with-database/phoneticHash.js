@@ -25,5 +25,4 @@ export default (string) => {
     .replace(/[mn]/g,'n')
     .replace(/[rs]/g,'s')
     .replace(/([^\w\s])|(.)(?=\2)/g, '') // Remove two in a row
-    // .replace(/\Ba/g,'')
 }

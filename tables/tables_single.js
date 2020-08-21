@@ -1,9 +1,7 @@
 import link, { ucfirst } from './link'
-import Word from './word'
-import { GenerateTable } from './tables_all'
+import { RenderTable } from './render_table'
 import { without } from 'lodash'
 import { tags } from './classify'
-
 
 /**
  * Finds a single relevant table
@@ -11,7 +9,7 @@ import { tags } from './classify'
  * @memberof Word
  * @return {string} HTML as string
  */
-export default function renderSingleTable() {
+export default function getSingleTable() {
   const word = this
   let description = ''
   let table = ''
@@ -19,7 +17,7 @@ export default function renderSingleTable() {
   if (word.is('noun')) {
     const sibling_classification = without(word.getFirstClassification(), ...tags['cases'])
     const siblings = word.getOriginal().get(...sibling_classification)
-    table = GenerateTable(siblings, null, {
+    table = RenderTable(siblings, null, {
       column_names: [word.getType('article')],
       row_names: tags['cases'],
     })

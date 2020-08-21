@@ -1,6 +1,6 @@
 import link from './link'
-import renderTables from './tables_all'
-import renderSingleTable from './tables_single'
+import getTables from './tables_all'
+import getSingleTable from './tables_single'
 import tree, { isNumber } from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
 import { highlightIrregularities } from './functions/highlightIrregularities'
@@ -184,7 +184,7 @@ Word.prototype.getStem = getStem
 Word.prototype.isStrong = isStrong
 Word.prototype.isWeak = isWeak
 Word.prototype.highlightIrregularities = highlightIrregularities
-Word.prototype.renderTables = renderTables
-Word.prototype.renderSingleTable = renderSingleTable
+Word.prototype.getTables = getTables
+Word.prototype.getSingleTable = getSingleTable
 
 export default Word

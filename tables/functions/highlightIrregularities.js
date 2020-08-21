@@ -15,11 +15,12 @@ export function highlightIrregularities(form, word) {
 
   /**
    * Highlight sound shifts.
-   * Looks at the last vowel of the stem and sees if it's different from the vowel in the form
-  */
+   * Looks at the last vowel of the stem and sees if it's different from the relevant vowel in the form
+   */
   const stem_split = splitOnVowels(stem)
   let form_split = splitOnVowels(form)
-  const relevant_wovel_index = stem_split.length - 2 // Gets the position of the last vowel of the stem
+  /* Gets the position of the last vowel of the stem */
+  const relevant_wovel_index = stem_split.length - 2
   if (form_split[relevant_wovel_index] && stem_split[relevant_wovel_index] !== form_split[relevant_wovel_index]) {
     form_split[relevant_wovel_index] = `<span class="umlaut" style="color:#b00030">${form_split[relevant_wovel_index]}</span>`
     output = form_split.join('')

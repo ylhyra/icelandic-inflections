@@ -22,6 +22,8 @@
 */
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
+import { escape } from 'sqlstring'
+
 import {
   cleanInput,
   phonetic,
@@ -42,48 +44,48 @@ const CSV_FILE_LINES = 3071707 // Number of lines, calculated with "wc -l"
 let count = 0
 // import { compareTwoStrings } from 'string-similarity'
 
-query(`TRUNCATE TABLE autocomplete;`, (err, res) => {
-  var lr = new LineByLineReader(path.resolve(__dirname, `./${CSV_FILE_NAME}`))
-  lr.on('error', (err) => {
-    console.error(err)
-  });
+var lr = new LineByLineReader(path.resolve(__dirname, `./${CSV_FILE_NAME}`))
+lr.on('error', (err) => {
+  console.error(err)
+});
 
-  lr.on('line', (line) => {
-    lr.pause()
-    if (line.trim() == '') {
-      lr.resume()
-    } else {
-      const word = line
-      let inputs
-      inputs = [{
-        text: cleanInput(word),
-        score: word === cleanInput(word) ? 5 : 4,
-      }]
-      inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
-      // inputs = inputs.filter(input => input.score >= 3)
+lr.on('line', (line) => {
+  lr.pause()
+  if (line.trim() == '') {
+    lr.resume()
+  } else {
+    const word = line
+    let inputs
+    inputs = [{
+      text: cleanInput(word),
+      score: word === cleanInput(word) ? 5 : 4,
+    }]
+    inputs = UniqueByMaxScore(addPhoneticAndSpellingErrors(inputs))
+    // inputs = inputs.filter(input => input.score >= 3)
 
-      const values = flattenArray(inputs.map(input => ([input.text, word, input.score])))
-      query(`INSERT INTO autocomplete SET input = ?, output = ?, score = ?;`.repeat(inputs.length), values, (err, results) => {
-        if (err) {
-          console.error(err)
-          throw (err)
-        } else {
+    const values = flattenArray(inputs.map(input => ([input.text, word, input.score])))
+    query(`
+      DELETE FROM autocomplete WHERE output = ${escape(word)};
+      INSERT INTO autocomplete SET input = ?, output = ?, score = ?;`.repeat(inputs.length), values, (err, results) => {
+      if (err) {
+        console.error(err)
+        throw (err)
+      } else {
 
-          count++
-          if (count % 100 === 1) {
-            process.stdout.write(`\x1Bc\r${(count / CSV_FILE_LINES * 100).toFixed(1)}% ${word}`)
-          }
-
-          lr.resume()
+        count++
+        if (count % 100 === 1) {
+          process.stdout.write(`\x1Bc\r${(count / CSV_FILE_LINES * 100).toFixed(1)}% ${word}`)
         }
-      })
-    }
-  });
 
-  lr.on('end', () => {
-    process.exit()
-  });
-})
+        lr.resume()
+      }
+    })
+  }
+});
+
+lr.on('end', () => {
+  process.exit()
+});
 
 const clean = (words) => words.map(word => ({
   text: cleanInput(word.text),
