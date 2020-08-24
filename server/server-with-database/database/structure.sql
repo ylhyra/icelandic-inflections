@@ -40,3 +40,32 @@ CREATE TABLE autocomplete (
 CREATE INDEX _input ON autocomplete (input);
 CREATE INDEX _output ON autocomplete (output);
 CREATE INDEX _score ON autocomplete (score);
+
+
+
+
+
+
+DROP TABLE IF EXISTS vocabulary_input;
+CREATE TABLE vocabulary_input (
+  id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  base VARCHAR(120),
+  word VARCHAR(120) COLLATE utf8_bin,
+  grammatical_category VARCHAR(2),
+  level INT,
+  translation VARCHAR(120),
+  word_package VARCHAR(120),
+  #beyging_id VARCHAR(20),
+  beyging_hash VARCHAR(20)
+);
+CREATE INDEX _id ON vocabulary_input (id);
+CREATE INDEX _grammatical_category ON vocabulary_input (grammatical_category);
+
+
+DROP TABLE IF EXISTS vocabulary_fields;
+CREATE TABLE vocabulary_fields (
+  id INT(6) UNSIGNED,
+  name VARCHAR(120),
+  value VARCHAR(120)
+);
+CREATE INDEX _id ON vocabulary_fields (id);

@@ -39,10 +39,8 @@ module.exports = {
   },
   globals: {
     process: true,
-    cordova: true,
     __dirname: true,
-    Buffer: true,
-    $: true,
-    mw: true, // MediaWiki
+    expect: true,
+    test: true,
   }
 }
