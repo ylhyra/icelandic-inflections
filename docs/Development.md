@@ -15,9 +15,9 @@ This repository can be run without setting up a database, with data being fetche
 
 This starts a local server with the same URL structure as the normal API.
 
-http://localhost:4545/api/inflections?search=fara
+http://localhost:4545/api/inflection?search=fara
 
-http://localhost:4545/api/inflections?search=fara&type=html
+http://localhost:4545/api/inflection?search=fara&type=html
 
 
 

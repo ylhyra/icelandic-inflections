@@ -21,7 +21,7 @@ export default (Search, Get_by_id) => {
   /*
     API
   */
-  router.get('/api/inflection', cors(), (req, res) => {
+  router.get('/api/inflections?', cors(), (req, res) => {
     res.setHeader('X-Robots-Tag', 'noindex')
     let { id, type, search, fuzzy } = req.query
     if (search) {
