@@ -64,9 +64,9 @@ lr.on('line', (line) => {
     // inputs = inputs.filter(input => input.score >= 3)
 
     const values = flattenArray(inputs.map(input => ([input.text, word, input.score])))
-    query(`
-      DELETE FROM autocomplete WHERE output = ${escape(word)};
-      INSERT INTO autocomplete SET input = ?, output = ?, score = ?;`.repeat(inputs.length), values, (err, results) => {
+    query(
+      `DELETE FROM autocomplete WHERE output = ${escape(word)};` +
+      `INSERT INTO autocomplete SET input = ?, output = ?, score = ?;`.repeat(inputs.length), values, (err, results) => {
       if (err) {
         console.error(err)
         throw (err)
