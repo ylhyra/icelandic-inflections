@@ -8,7 +8,8 @@
   "scripts": {
     "start": "nodemon --exec 'npm run styles && npm run server' -e js,styl --ignore styles/build.css",
     "server": "node -r esm ./server/server-standalone/index.js",
-    "styles": "stylus --include styles/ < styles/index.styl > styles/build.css"
+    "styles": "stylus --include styles/ < styles/index.styl > styles/build.css",
+    "test": "jest --no-cache --config tests/jest.config.js"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,8 @@
     "stylus": "^0.54.8"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "eslint": "^7.6.0",
-    "babel-eslint": "^10.1.0"
+    "jest": "^26.4.2"
   }
 }
