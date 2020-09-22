@@ -1,7 +1,6 @@
-<h2 align=center>🇮🇸</h2>
-<h2 align=center>Icelandic inflections</h2>
+# Icelandic inflections 🇮🇸
 
-![Status](https://img.shields.io/badge/Version-alpha-1abc9c.svg)
+![Status](https://img.shields.io/badge/Version-alpha-red.svg)
 
 This is an interface for receiving the inflections (conjugations and declensions) of Icelandic words, both as a list and as HTML tables.
 
@@ -32,12 +31,12 @@ Get a flat array of all rows:
 
 * [Fields](Fields.md)
 
-##Development
+## Development
 
 * [Development](Development.md)
 * [Open tasks](https://github.com/ylhyra/icelandic-inflections/projects/1)
 
-##Known issues
+## Known issues
 
 * Certain word classes (ordinals, pronouns) are not yet well supported.
 
