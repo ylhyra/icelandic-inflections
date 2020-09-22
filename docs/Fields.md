@@ -32,7 +32,7 @@ These are the fields that may be returned by the API. They are adapted from [the
   - If true, this variant is [prescriptive](https://en.wikipedia.org/wiki/Linguistic_prescription) and should be shown to a language learner.
   - This field represents the variant being a part of the [DMII Core](https://bin.arnastofnun.is/DMII/dmii-core/) (*BÍN kjarninn*).
 - `correctness_grade_of_word` (type: integer)
-  -  See the 5th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/). As explained there:
+  - See the 5th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/). As explained there:
     - 1 – **Default** – The word can be used in any context and any style or register.
     - 2 – **Used** – The word is not universally accepted, at least not in the most formal of registers.
     - 3 – **A bit bad** – Not accepted.
