@@ -28,11 +28,26 @@ These are the fields that may be returned by the API. They are adapted from [the
 
   -  See the 5th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/). As explained there:
 
-    - 1 – 
-- `register_of_base_word`
+    - 1 – **Default** – The word can be used in any context and any style or register.
+    - 2 – **Used** – The word is not universally accepted, at least not in the most formal of registers.
+    - 3 – **A bit bad** – The word is not universally accepted, at least not in the most formal of registers.
+    - 4 – **Very bad** – Not accepted.
+    - 0 – **No grade** – The word is not used in ordinary context in Modern Icelandic.
+- `register_of_base_word` (type: string)
+
+  - Register or genre. Used to mark word as being formal, poetic, obsolete etc. See the 6th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/).
+  - (Not currently used in the rendering of tables)
 - `grammar_group`
+
+  - See the 7th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/): "The classification is used for the demarcation of features of grammar or usage, mainly to explain lacunae in the paradigms or restrictions on usage."
+  - (Not currently used in the rendering of tables)
 - `cross_reference`
+
+  - See the 8th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/).
+  - (Not currently used in the rendering of tables)
 - `descriptive`
+
+  - 
 - `correctness_grade_of_word_form`
 - `register_of_word_form`
 - `only_found_in_idioms`
