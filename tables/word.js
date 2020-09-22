@@ -12,14 +12,14 @@ import { uniq } from 'lodash'
 
 class Word {
   constructor(rows, original) {
-    this.form_classification = [] // TODO? Merge with `word_class`?
-    this.word_class = []
+    this.inflectional_form_categories = [] // TODO? Merge with `word_categories`?
+    this.word_categories = []
     this.rows = []
     this.original = []
 
-    Array.isArray(rows) && rows.forEach(({ word_class, form_classification }) => {
-      this.form_classification = form_classification || []
-      this.word_class = word_class || []
+    Array.isArray(rows) && rows.forEach(({ word_categories, inflectional_form_categories }) => {
+      this.inflectional_form_categories = inflectional_form_categories || []
+      this.word_categories = word_categories || []
     })
     this.rows = rows
     if (original instanceof Word) {
@@ -47,13 +47,13 @@ class Word {
   }
   is(...values) {
     return values.every(value => (
-      this.form_classification.includes(value) ||
-      this.word_class.includes(value)
+      this.inflectional_form_categories.includes(value) ||
+      this.word_categories.includes(value)
     ))
   }
   get(...values) {
     return new Word(this.rows.filter(row => (
-      values.filter(Boolean).every(value => row.form_classification.includes(value))
+      values.filter(Boolean).every(value => row.inflectional_form_categories.includes(value))
     )), this.original)
   }
   getOriginal() {
@@ -66,11 +66,11 @@ class Word {
     return this.rows.map(row => row.inflectional_form)
   }
   getFirstClassification() {
-    return this.rows.length > 0 && this.rows[0].form_classification.filter(i => !isNumber(i))
+    return this.rows.length > 0 && this.rows[0].inflectional_form_categories.filter(i => !isNumber(i))
   }
   without(...values) {
     return new Word(this.rows.filter(row => (
-      values.filter(Boolean).every(value => !row.form_classification.includes(value))
+      values.filter(Boolean).every(value => !row.inflectional_form_categories.includes(value))
     )), this.original)
   }
   getCases() {
@@ -88,7 +88,7 @@ class Word {
    * @return {?string}
    */
   getType(type) {
-    const classification = [...this.word_class, ...this.form_classification]
+    const classification = [...this.word_categories, ...this.inflectional_form_categories]
     if (type === 'class') {
       return [
         ...BIN_domains,
@@ -196,8 +196,8 @@ class Word {
     this.rows = rows
     this.original = (original_word && original_word.original) || rows
     // TODO: Does not make sense, needs restructuring
-    this.form_classification = rows[0] && rows[0].form_classification || []
-    this.word_class = rows[0] && rows[0].word_class || []
+    this.inflectional_form_categories = rows[0] && rows[0].inflectional_form_categories || []
+    this.word_categories = rows[0] && rows[0].word_categories || []
     return this
   }
 }

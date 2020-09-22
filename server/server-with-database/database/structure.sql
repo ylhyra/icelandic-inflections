@@ -8,13 +8,13 @@ CREATE TABLE inflection (
   base_word_lowercase VARCHAR(120) COLLATE utf8mb4_bin,
   inflectional_form VARCHAR(120) COLLATE utf8mb4_bin,
   inflectional_form_lowercase VARCHAR(120) COLLATE utf8mb4_bin,
-  word_class VARCHAR(5),
-  correctness_grade_of_base_word VARCHAR(1),
+  word_categories VARCHAR(5),
+  correctness_grade_of_word VARCHAR(1),
   BIN_domain VARCHAR(8),
-  register_of_base_word VARCHAR(8),
+  word_register VARCHAR(8),
   grammar_group VARCHAR(20),
   cross_reference VARCHAR(16),
-  prescriptive BOOLEAN,
+  should_be_taught BOOLEAN,
   grammatical_tag VARCHAR(40),
   correctness_grade_of_inflectional_form VARCHAR(1),
   register_of_inflectional_form VARCHAR(5),
@@ -25,7 +25,7 @@ CREATE TABLE inflection (
 CREATE INDEX _BIN_id ON inflection (BIN_id);
 CREATE INDEX _base_word_lowercase ON inflection (base_word_lowercase);
 CREATE INDEX _inflectional_form_lowercase ON inflection (inflectional_form_lowercase);
-CREATE INDEX _prescriptive ON inflection (prescriptive);
+CREATE INDEX _should_be_taught ON inflection (should_be_taught);
 
 
 

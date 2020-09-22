@@ -30,13 +30,13 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
       let [
         base_word, // 1
         BIN_id, // 2
-        word_class, // 3
+        word_categories, // 3
         BIN_domain, // 4  https://bin.arnastofnun.is/ordafordi/hlutiBIN/
-        correctness_grade_of_base_word, // 5
-        register_of_base_word, // 6
+        correctness_grade_of_word, // 5
+        word_register, // 6
         grammar_group, // 7
         cross_reference, // 8
-        prescriptive, // 9 - K = Core, V = other
+        should_be_taught, // 9 - K = Core, V = other
         inflectional_form, // 10
         grammatical_tag, // 11
         correctness_grade_of_inflectional_form, // 12
@@ -50,7 +50,7 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
       // }
 
       /* Only the words marked with "K" (meaning "Core") are prescriptive and should be taught */
-      prescriptive = (prescriptive === 'K') ? true : false
+      should_be_taught = (should_be_taught === 'K') ? true : false
 
       query(sql `
         SET sql_mode="TRADITIONAL";
@@ -58,13 +58,13 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
           base_word = ${base_word},
           base_word_lowercase = ${base_word.toLowerCase()},
           BIN_id = ${BIN_id},
-          word_class = ${word_class},
-          correctness_grade_of_base_word = ${correctness_grade_of_base_word || null},
+          word_categories = ${word_categories},
+          correctness_grade_of_word = ${correctness_grade_of_word || null},
           BIN_domain = ${BIN_domain},
-          register_of_base_word = ${register_of_base_word},
+          word_register = ${word_register},
           grammar_group = ${grammar_group},
           cross_reference = ${cross_reference || null},
-          prescriptive = ${prescriptive},
+          should_be_taught = ${should_be_taught},
           inflectional_form = ${inflectional_form},
           inflectional_form_lowercase = ${inflectional_form.toLowerCase()},
           grammatical_tag = ${grammatical_tag},

@@ -27,10 +27,10 @@ export default (word, fuzzy, callback) => {
     return FuzzySearch(word, callback)
   } else {
     query(sql `
-      SELECT BIN_id, base_word, inflectional_form, word_class, grammatical_tag, prescriptive FROM inflection
+      SELECT BIN_id, base_word, inflectional_form, word_categories, grammatical_tag, should_be_taught FROM inflection
       WHERE inflectional_form_lowercase = ${word}
       ORDER BY
-      prescriptive DESC,
+      should_be_taught DESC,
       correctness_grade_of_inflectional_form DESC
       LIMIT 100
     `, (err, results) => {
@@ -49,15 +49,15 @@ export default (word, fuzzy, callback) => {
                 html: `https://ylhyra.is/api/inflection?id=${row.BIN_id}&type=html`,
               },
               base_word: row.base_word,
-              word_class: classify(row, 'word_class'),
+              word_categories: classify(row, 'word_categories'),
               matches: [],
             })
             index = grouped.length - 1
           }
           grouped[index].matches.push({
             inflectional_form: row.inflectional_form,
-            form_classification: classify(row, 'form_classification'),
-            prescriptive: row.prescriptive,
+            inflectional_form_categories: classify(row, 'inflectional_form_categories'),
+            should_be_taught: row.should_be_taught,
           })
         })
         callback(grouped)

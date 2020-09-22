@@ -21,15 +21,15 @@ const tree = (rows) => {
   let output = {
     BIN_id: rows[0] && rows[0].BIN_id,
     base_word: rows[0] && rows[0].base_word,
-    correctness_grade_of_base_word: rows[0] && rows[0].correctness_grade_of_base_word,
-    register_of_base_word: rows[0] && rows[0].register_of_base_word,
-    word_class: rows[0] && rows[0].word_class,
+    correctness_grade_of_word: rows[0] && rows[0].correctness_grade_of_word,
+    word_register: rows[0] && rows[0].word_register,
+    word_categories: rows[0] && rows[0].word_categories,
     values: [],
   }
 
   rows.forEach(row => {
     let currentArray = output.values
-    row.form_classification.forEach(tag => {
+    row.inflectional_form_categories.forEach(tag => {
       const alreadyExists = currentArray.find(i => i.tag === tag)
       if (alreadyExists) {
         currentArray = alreadyExists.values
@@ -42,11 +42,11 @@ const tree = (rows) => {
       } else {
         /* Tag is number, indicating variant */
         currentArray.push({
-          form_classification: row.form_classification,
-          word_class: row.word_class,
+          inflectional_form_categories: row.inflectional_form_categories,
+          word_categories: row.word_categories,
           variant_number: parseInt(tag),
           inflectional_form: row.inflectional_form,
-          prescriptive: row.prescriptive,
+          should_be_taught: row.should_be_taught,
           correctness_grade_of_inflectional_form: row.correctness_grade_of_inflectional_form,
           register_of_inflectional_form: row.register_of_inflectional_form,
           // various_feature_markers: row.various_feature_markers,

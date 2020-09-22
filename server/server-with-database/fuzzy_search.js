@@ -21,7 +21,7 @@ import classify from 'server/inflection/tables/classify'
 export default (word, callback) => {
   query(sql `
     SELECT
-        score, i2.BIN_id, i2.BIN_domain, i2.grammatical_tag, i2.inflectional_form, i2.word_class, i2.base_word,
+        score, i2.BIN_id, i2.BIN_domain, i2.grammatical_tag, i2.inflectional_form, i2.word_categories, i2.base_word,
         inner_table.inflectional_form as matched_term,
         (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
       FROM
@@ -41,7 +41,7 @@ export default (word, callback) => {
          GROUP BY BIN_id
        ORDER BY
          a.score DESC,
-         i1.prescriptive DESC,
+         i1.should_be_taught DESC,
          i1.correctness_grade_of_inflectional_form DESC,
          i1.inflectional_form ASC
 
