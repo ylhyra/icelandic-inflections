@@ -17,21 +17,19 @@ These are the fields that may be returned by the API. They are adapted from [the
 
     - ['singular', 'nominative', '1']
     - ['active voice', 'past tense', '1']
-  - The last item is always a digit (represented as a string). The main/preferred version of a word form is '1', while alternative versions are '2', '3' and so on. 
+  - The last item is always a digit (represented as a string). The main/preferred version of a word form is '1', while alternative versions are '2', '3' and so on.
 - `base_word` (type: string)
 
   - Dictionary headword
 - `inflectional_form` (type: string)
-
-  - Word form, this value is the one that will be printed. See the 10th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/).
+- Word form, this value is the one that will be printed. See the 10th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/).
 - `correctness_grade_of_base_word ` (type: integer)
-
-  -  See the 5th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/). As explained there:
-
-    - 1 – **Default** – The word can be used in any context and any style or register.
+-  See the 5th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/). As explained there:
+  
+  - 1 – **Default** – The word can be used in any context and any style or register.
     - 2 – **Used** – The word is not universally accepted, at least not in the most formal of registers.
-    - 3 – **A bit bad** – The word is not universally accepted, at least not in the most formal of registers.
-    - 4 – **Very bad** – Not accepted.
+    - 3 – **A bit bad** – Not accepted.
+    - 4 – **Very bad** – Error, unacceptable.
     - 0 – **No grade** – The word is not used in ordinary context in Modern Icelandic.
 - `register_of_base_word` (type: string)
 
@@ -45,10 +43,15 @@ These are the fields that may be returned by the API. They are adapted from [the
 
   - See the 8th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/).
   - (Not currently used in the rendering of tables)
-- `descriptive`
-
+- `prescriptive` (type: boolean)
+- If true, this variant is [prescriptive](https://en.wikipedia.org/wiki/Linguistic_prescription) and should be shown to a language learner.
+  - This field represents the variant as being a part of the [DMII Core](https://bin.arnastofnun.is/DMII/dmii-core/) (*BÍN kjarninn*).
+- `correctness_grade_of_inflectional_form` (type: integer)
+- See the 12th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/). As explained there:
   - 
-- `correctness_grade_of_word_form`
+- 
+
+  - inflectional_form
 - `register_of_word_form`
 - `only_found_in_idioms`
 - `alternative_entry`

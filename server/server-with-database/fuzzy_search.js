@@ -41,8 +41,8 @@ export default (word, callback) => {
          GROUP BY BIN_id
        ORDER BY
          a.score DESC,
-         i1.descriptive DESC,
-         i1.correctness_grade_of_word_form DESC,
+         i1.prescriptive DESC,
+         i1.correctness_grade_of_inflectional_form DESC,
          i1.inflectional_form ASC
 
        ) as inner_table

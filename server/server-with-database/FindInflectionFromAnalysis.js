@@ -43,8 +43,8 @@ import express from 'express'
 //     -- AND word_class = ${word_class}
 //     -- AND grammatical_tag = ${grammatical_tag}
 //     ORDER BY
-//     correctness_grade_of_word_form DESC,
-//     descriptive DESC,
+//     correctness_grade_of_inflectional_form DESC,
+//     prescriptive DESC,
 //     base_word_lowercase = ${analysis.analysis.base_word.toLowerCase()} DESC,
 //     word_class = ${word_class} DESC,
 //     grammatical_tag = ${grammatical_tag} DESC

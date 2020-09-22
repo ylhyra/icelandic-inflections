@@ -36,10 +36,10 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
         register_of_base_word, // 6
         grammar_group, // 7
         cross_reference, // 8
-        descriptive, // 9 - K = Core, V = other
+        prescriptive, // 9 - K = Core, V = other
         inflectional_form, // 10
         grammatical_tag, // 11
-        correctness_grade_of_word_form, // 12
+        correctness_grade_of_inflectional_form, // 12
         register_of_word_form, // 13
         only_found_in_idioms, // 14
         alternative_entry, // 15
@@ -49,8 +49,8 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
       //   return  lr.resume()
       // }
 
-      /* Only the words marked with "K" (meaning "Core") are descriptive and should be taught */
-      descriptive = (descriptive === 'K') ? true : false
+      /* Only the words marked with "K" (meaning "Core") are prescriptive and should be taught */
+      prescriptive = (prescriptive === 'K') ? true : false
 
       query(sql `
         SET sql_mode="TRADITIONAL";
@@ -64,11 +64,11 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
           register_of_base_word = ${register_of_base_word},
           grammar_group = ${grammar_group},
           cross_reference = ${cross_reference || null},
-          descriptive = ${descriptive},
+          prescriptive = ${prescriptive},
           inflectional_form = ${inflectional_form},
           inflectional_form_lowercase = ${inflectional_form.toLowerCase()},
           grammatical_tag = ${grammatical_tag},
-          correctness_grade_of_word_form = ${correctness_grade_of_word_form || null},
+          correctness_grade_of_inflectional_form = ${correctness_grade_of_inflectional_form || null},
           register_of_word_form = ${register_of_word_form},
           only_found_in_idioms = ${only_found_in_idioms},
           alternative_entry = ${alternative_entry}

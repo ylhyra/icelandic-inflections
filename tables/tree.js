@@ -46,8 +46,8 @@ const tree = (rows) => {
           word_class: row.word_class,
           variant_number: parseInt(tag),
           inflectional_form: row.inflectional_form,
-          descriptive: row.descriptive,
-          correctness_grade_of_word_form: row.correctness_grade_of_word_form,
+          prescriptive: row.prescriptive,
+          correctness_grade_of_inflectional_form: row.correctness_grade_of_inflectional_form,
           register_of_word_form: row.register_of_word_form,
           only_found_in_idioms: row.only_found_in_idioms,
         })

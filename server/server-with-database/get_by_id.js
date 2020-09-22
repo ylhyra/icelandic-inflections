@@ -20,15 +20,15 @@ export default (id, callback) => {
       register_of_base_word,
       grammar_group,
       cross_reference,
-      descriptive,
+      prescriptive,
       grammatical_tag,
-      correctness_grade_of_word_form,
+      correctness_grade_of_inflectional_form,
       register_of_word_form,
       only_found_in_idioms,
       alternative_entry
     FROM inflection
     WHERE BIN_id = ${id}
-    -- AND descriptive = 1
+    -- AND prescriptive = 1
   `, (err, results) => {
     if (err) {
       callback(null)
