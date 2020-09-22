@@ -19,13 +19,20 @@ CREATE TABLE inflection (
   correctness_grade_of_inflectional_form VARCHAR(1),
   register_of_inflectional_form VARCHAR(5),
   various_feature_markers VARCHAR(5),
-  alternative_entry VARCHAR(60) 
+  alternative_entry VARCHAR(60)
   ROW_FORMAT=COMPRESSED
 );
+
+
+
+
+
+
 CREATE INDEX _BIN_id ON inflection (BIN_id);
 CREATE INDEX _base_word_lowercase ON inflection (base_word_lowercase);
 CREATE INDEX _inflectional_form_lowercase ON inflection (inflectional_form_lowercase);
 CREATE INDEX _should_be_taught ON inflection (should_be_taught);
+
 
 
 

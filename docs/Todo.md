@@ -4,10 +4,11 @@
 
 
 
-ALTER TABLE inflection RENAME COLUMN  word_class TO word_categories;
-ALTER TABLE inflection RENAME COLUMN  correctness_grade_of_base_word TO correctness_grade_of_word;
-ALTER TABLE inflection RENAME COLUMN  register_of_base_word TO word_register;
-ALTER TABLE inflection RENAME COLUMN  descriptive TO should_be_taught;
-ALTER TABLE inflection RENAME COLUMN  correctness_grade_of_word_form TO correctness_grade_of_inflectional_form;
-ALTER TABLE inflection RENAME COLUMN  register_of_word_form TO register_of_inflectional_form;
-ALTER TABLE inflection RENAME COLUMN  only_found_in_idioms TO various_feature_markers;
+
+ALTER TABLE inflection CHANGE `word_class` `word_categories` VARCHAR(5);
+ALTER TABLE inflection CHANGE `correctness_grade_of_base_word` `correctness_grade_of_word` VARCHAR(1);
+ALTER TABLE inflection CHANGE `register_of_base_word` `word_register` VARCHAR(8);
+ALTER TABLE inflection CHANGE `descriptive` `should_be_taught` BOOLEAN;
+ALTER TABLE inflection CHANGE `correctness_grade_of_word_form` `correctness_grade_of_inflectional_form` VARCHAR(1);
+ALTER TABLE inflection CHANGE `register_of_word_form` `register_of_inflectional_form` VARCHAR(5);
+ALTER TABLE inflection CHANGE `only_found_in_idioms` `various_feature_markers` VARCHAR(5);
