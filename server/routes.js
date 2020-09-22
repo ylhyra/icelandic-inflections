@@ -52,7 +52,7 @@ export default (Search, Get_by_id) => {
   /*
     Website
   */
-  router.get(['/robots.txt','/favicon.ico','/sitemap.xml'], (req, res) => {
+  router.get(['/robots.txt', '/favicon.ico', '/sitemap.xml'], (req, res) => {
     res.send('')
   })
   router.get(['/', '/:id(\\d+)/', '/:word?/:id(\\d+)?'], cors(), (req, res) => {
@@ -79,11 +79,11 @@ export default (Search, Get_by_id) => {
       })
     } else if (word) {
       Search(word, true, results => {
-        if (!results) {
+        if (!results || results === 'Error') {
           return res.send(layout({
             title: word,
             string: word,
-            results: results === null ? 'Error, try reloading' : 'No matches'
+            results: results === 'Error' ? 'Error, try reloading' : 'No matches'
           }))
         }
 

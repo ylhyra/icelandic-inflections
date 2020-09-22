@@ -35,7 +35,7 @@ export default (word, fuzzy, callback) => {
       LIMIT 100
     `, (err, results) => {
       if (err) {
-        callback(null)
+        callback('Error')
       } else {
         let grouped = []
         results.forEach(row => {
