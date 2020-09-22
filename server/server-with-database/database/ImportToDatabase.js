@@ -40,8 +40,8 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
         inflectional_form, // 10
         grammatical_tag, // 11
         correctness_grade_of_inflectional_form, // 12
-        register_of_word_form, // 13
-        only_found_in_idioms, // 14
+        register_of_inflectional_form, // 13
+        various_feature_markers, // 14
         alternative_entry, // 15
       ] = line.split(';')
 
@@ -69,8 +69,8 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
           inflectional_form_lowercase = ${inflectional_form.toLowerCase()},
           grammatical_tag = ${grammatical_tag},
           correctness_grade_of_inflectional_form = ${correctness_grade_of_inflectional_form || null},
-          register_of_word_form = ${register_of_word_form},
-          only_found_in_idioms = ${only_found_in_idioms},
+          register_of_inflectional_form = ${register_of_inflectional_form},
+          various_feature_markers = ${various_feature_markers},
           alternative_entry = ${alternative_entry}
       `, (error, results, fields) => {
         if (error) {

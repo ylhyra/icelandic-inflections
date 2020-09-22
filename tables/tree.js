@@ -48,8 +48,8 @@ const tree = (rows) => {
           inflectional_form: row.inflectional_form,
           prescriptive: row.prescriptive,
           correctness_grade_of_inflectional_form: row.correctness_grade_of_inflectional_form,
-          register_of_word_form: row.register_of_word_form,
-          only_found_in_idioms: row.only_found_in_idioms,
+          register_of_inflectional_form: row.register_of_inflectional_form,
+          // various_feature_markers: row.various_feature_markers,
         })
       }
     })

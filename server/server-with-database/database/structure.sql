@@ -17,8 +17,8 @@ CREATE TABLE inflection (
   prescriptive BOOLEAN,
   grammatical_tag VARCHAR(40),
   correctness_grade_of_inflectional_form VARCHAR(1),
-  register_of_word_form VARCHAR(5),
-  only_found_in_idioms VARCHAR(5),
+  register_of_inflectional_form VARCHAR(5),
+  various_feature_markers VARCHAR(5),
   alternative_entry VARCHAR(60)
   ROW_FORMAT=COMPRESSED
 );

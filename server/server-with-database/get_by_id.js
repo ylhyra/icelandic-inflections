@@ -23,8 +23,8 @@ export default (id, callback) => {
       prescriptive,
       grammatical_tag,
       correctness_grade_of_inflectional_form,
-      register_of_word_form,
-      only_found_in_idioms,
+      register_of_inflectional_form,
+      various_feature_markers,
       alternative_entry
     FROM inflection
     WHERE BIN_id = ${id}
