@@ -1,4 +1,7 @@
-# Icelandic inflections 🇮🇸
+<h2 align=center>🇮🇸</h2>
+<h2 align=center>Icelandic inflections</h2>
+
+![Status](https://img.shields.io/badge/Version-alpha-1abc9c.svg)
 
 This is an interface for receiving the inflections (conjugations and declensions) of Icelandic words, both as a list and as HTML tables.
 
@@ -25,14 +28,22 @@ Get a nested JSON object:
 Get a flat array of all rows:
 * https://ylhyra.is/api/inflection?id=433568&type=flat
 
-## Documentation
+**API documentation**
+
+* [Fields](Fields.md)
+
+##Development
 
 * [Development](Development.md)
 * [Open tasks](https://github.com/ylhyra/icelandic-inflections/projects/1)
 
+##Known issues
+
+* Certain word classes (ordinals, pronouns) are not yet well supported.
+
 ## License
 
-* Data: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) – Copyright: Árni Magnússon Institute for Icelandic Studies
+* Data: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) – © Árni Magnússon Institute for Icelandic Studies
 * Software: [MIT](https://opensource.org/licenses/MIT)
 
 ## Further reading
