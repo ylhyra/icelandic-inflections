@@ -19,7 +19,7 @@ CREATE TABLE inflection (
   correctness_grade_of_inflectional_form VARCHAR(1),
   register_of_inflectional_form VARCHAR(5),
   various_feature_markers VARCHAR(5),
-  alternative_entry VARCHAR(60)
+  alternative_entry VARCHAR(60) 
   ROW_FORMAT=COMPRESSED
 );
 CREATE INDEX _BIN_id ON inflection (BIN_id);

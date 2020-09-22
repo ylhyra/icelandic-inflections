@@ -13,7 +13,7 @@ These are the fields that may be returned by the API. They are adapted from [the
 
 **Grammatical categories:**
 
-- `word_categories` (type: array)
+- `word_categories` (type: array of strings)
   - Grammatical categories that apply to the word in general rather than just this inflectional form, such as:
     - ['verb']
     - ['noun', 'masculine']
