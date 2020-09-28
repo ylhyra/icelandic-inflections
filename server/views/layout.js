@@ -26,7 +26,7 @@ if (/[?&](q|id)=/.test(location.search)) {
   if (id) id = id[1];
   if ((word || id) && window.history.replaceState) {
     var unused_parameters = location.search.replace(/[?&](q|id)=([A-zÀ-ÿ%0-9+]+)/,'').replace('?','')
-    var url = '/' + (word ? word + '/' : '') + (id || '') + (unused_parameters ? '?'+unused_parameters:'')
+    var url = '/' + (word ? word + (id ? '/':'') : '') + (id || '') + (unused_parameters ? '?'+unused_parameters:'')
     window.history.replaceState(null, null, url);
   }
 }

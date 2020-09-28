@@ -60,25 +60,12 @@ export default (Search, Get_by_id) => {
     const word = req.query.q || req.params.word
     const give_me = req.query.give_me
     if (id) {
-      Get_by_id(id, (rows) => {
-        if (!rows || rows.length === 0) {
-          return res.send(layout({
-            title: word,
-            string: word,
-            results: rows === null ? 'Error. Try reloading.' : 'No matches'
-          }))
-        }
-
-        res.send(layout({
-          title: rows[0].base_word || '',
-          string: word,
-          results: render(rows, give_me),
-          id,
-        }))
-
-      })
+      GetById_inner(res, Get_by_id, id, word, give_me)
     } else if (word) {
       Search(word, true, results => {
+        /*
+          No results
+        */
         if (!results || results === 'Error') {
           return res.send(layout({
             title: word,
@@ -106,11 +93,24 @@ export default (Search, Get_by_id) => {
           </ul>`
         }
 
-        res.send(layout({
-          title: word,
-          string: word,
-          results: output
-        }))
+        /*
+          One result
+          TODO: Should not be necessary to make two requests for this!
+        */
+        if (perfect_matches.length === 1) {
+          const i = perfect_matches[0];
+          GetById_inner(res, Get_by_id, i.BIN_id, word, give_me)
+        }
+        /*
+          Many results
+        */
+        else {
+          res.send(layout({
+            title: word,
+            string: word,
+            results: output
+          }))
+        }
       })
     } else {
       res.send(layout({}))
@@ -118,6 +118,25 @@ export default (Search, Get_by_id) => {
   })
 
   return router
+}
+
+const GetById_inner = (res, Get_by_id, id, word, give_me) => {
+  Get_by_id(id, (rows) => {
+    if (!rows || rows.length === 0) {
+      return res.send(layout({
+        title: word,
+        string: word,
+        results: rows === null ? 'Error. Try reloading.' : 'No matches'
+      }))
+    }
+
+    res.send(layout({
+      title: rows[0].base_word || '',
+      string: word,
+      results: render(rows, give_me),
+      id,
+    }))
+  })
 }
 
 const renderItem = (i) => `

@@ -188,7 +188,9 @@ export function getHelperWordsAfter() {
     if (this.is('past tense')) {
       text = '(í gær)'
     }
-    if (this.is('imperative')) {
+    if (this.is('clipped imperative')) {
+      text = 'þú!'
+    } else if (this.is('imperative')) {
       text = '!'
       addSpace = false
     }
