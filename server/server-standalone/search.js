@@ -1,7 +1,14 @@
 import axios from 'axios';
 
-export default (word, fuzzy, callback) => {
-  axios.get(`https://ylhyra.is/api/inflection?search=${encodeURIComponent(word)}&fuzzy=${encodeURIComponent(fuzzy)}`)
+export default (options, callback) => {
+  let { word, fuzzy, return_rows_if_only_one_match } = options
+  axios.get('https://ylhyra.is/api/inflection', {
+      params: {
+        search: word,
+        fuzzy,
+        return_rows_if_only_one_match,
+      }
+    })
     .then(function({ data }) {
       callback(data.results)
     })

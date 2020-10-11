@@ -1,6 +1,9 @@
 {
   "name": "icelandic-inflections",
-  "version": "0.1.1",
+  "version": "0.2.0",
+  "author": "Egill",
+  "homepage": "https://github.com/ylhyra/icelandic-inflections#readme",
+  "license": "MIT",
   "description": "",
   "directories": {
     "doc": "docs"
@@ -18,12 +21,9 @@
   "keywords": [
     "icelandic"
   ],
-  "author": "Egill",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ylhyra/icelandic-inflections/issues"
   },
-  "homepage": "https://github.com/ylhyra/icelandic-inflections#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "cors": "^2.8.5",

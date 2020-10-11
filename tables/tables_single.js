@@ -10,17 +10,21 @@ import { tags } from './classify'
  * @return {string} HTML as string
  */
 export default function getSingleTable() {
+
   const word = this
   let description = ''
   let table = ''
   /* Nouns */
   if (word.is('noun')) {
     const sibling_classification = without(word.getFirstClassification(), ...tags['cases'])
+    console.log(sibling_classification)
     const siblings = word.getOriginal().get(...sibling_classification)
-    table = RenderTable(siblings, null, {
+    table = RenderTable(siblings, word.getOriginal(), {
       column_names: [word.getType('article')],
       row_names: tags['cases'],
     }, word.getFirstClassification())
+
+
     description = without(sibling_classification, ...tags['articles']).join(', ')
   }
 

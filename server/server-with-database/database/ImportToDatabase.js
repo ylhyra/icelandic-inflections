@@ -30,18 +30,18 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
       let [
         base_word, // 1
         BIN_id, // 2
-        word_class, // 3
+        word_categories, // 3
         BIN_domain, // 4  https://bin.arnastofnun.is/ordafordi/hlutiBIN/
-        correctness_grade_of_base_word, // 5
-        register_of_base_word, // 6
+        correctness_grade_of_word, // 5
+        word_register, // 6
         grammar_group, // 7
         cross_reference, // 8
-        descriptive, // 9 - K = Core, V = other
+        should_be_taught, // 9 - K = Core, V = other
         inflectional_form, // 10
         grammatical_tag, // 11
-        correctness_grade_of_word_form, // 12
-        register_of_word_form, // 13
-        only_found_in_idioms, // 14
+        correctness_grade_of_inflectional_form, // 12
+        register_of_inflectional_form, // 13
+        various_feature_markers, // 14
         alternative_entry, // 15
       ] = line.split(';')
 
@@ -49,8 +49,8 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
       //   return  lr.resume()
       // }
 
-      /* Only the words marked with "K" (meaning "Core") are descriptive and should be taught */
-      descriptive = (descriptive === 'K') ? true : false
+      /* Only the words marked with "K" (meaning "Core") are prescriptive and should be taught */
+      should_be_taught = (should_be_taught === 'K') ? true : false
 
       query(sql `
         SET sql_mode="TRADITIONAL";
@@ -58,19 +58,19 @@ const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"
           base_word = ${base_word},
           base_word_lowercase = ${base_word.toLowerCase()},
           BIN_id = ${BIN_id},
-          word_class = ${word_class},
-          correctness_grade_of_base_word = ${correctness_grade_of_base_word || null},
+          word_categories = ${word_categories},
+          correctness_grade_of_word = ${correctness_grade_of_word || null},
           BIN_domain = ${BIN_domain},
-          register_of_base_word = ${register_of_base_word},
+          word_register = ${word_register},
           grammar_group = ${grammar_group},
           cross_reference = ${cross_reference || null},
-          descriptive = ${descriptive},
+          should_be_taught = ${should_be_taught},
           inflectional_form = ${inflectional_form},
           inflectional_form_lowercase = ${inflectional_form.toLowerCase()},
           grammatical_tag = ${grammatical_tag},
-          correctness_grade_of_word_form = ${correctness_grade_of_word_form || null},
-          register_of_word_form = ${register_of_word_form},
-          only_found_in_idioms = ${only_found_in_idioms},
+          correctness_grade_of_inflectional_form = ${correctness_grade_of_inflectional_form || null},
+          register_of_inflectional_form = ${register_of_inflectional_form},
+          various_feature_markers = ${various_feature_markers},
           alternative_entry = ${alternative_entry}
       `, (error, results, fields) => {
         if (error) {

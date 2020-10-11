@@ -23,9 +23,9 @@ export default (Search, Get_by_id) => {
   */
   router.get('/api/inflections?', cors(), (req, res) => {
     res.setHeader('X-Robots-Tag', 'noindex')
-    let { id, type, search, fuzzy } = req.query
+    let { id, type, search, fuzzy, return_rows_if_only_one_match } = req.query
     if (search) {
-      return Search(search, fuzzy, results => {
+      return Search({ word: search, fuzzy, return_rows_if_only_one_match }, results => {
         res.json({ results })
       })
     } else if (id) {
@@ -52,7 +52,7 @@ export default (Search, Get_by_id) => {
   /*
     Website
   */
-  router.get(['/robots.txt','/favicon.ico','/sitemap.xml'], (req, res) => {
+  router.get(['/robots.txt', '/favicon.ico', '/sitemap.xml'], (req, res) => {
     res.send('')
   })
   router.get(['/', '/:id(\\d+)/', '/:word?/:id(\\d+)?'], cors(), (req, res) => {
@@ -75,43 +75,67 @@ export default (Search, Get_by_id) => {
           results: render(rows, give_me),
           id,
         }))
-
       })
     } else if (word) {
-      Search(word, true, results => {
-        if (!results) {
-          return res.send(layout({
-            title: word,
-            string: word,
-            results: results === null ? 'Error, try reloading' : 'No matches'
-          }))
-        }
+      Search({
+          word: word,
+          fuzzy: true,
+          return_rows_if_only_one_match: true
+        },
+        results => {
+          /*
+            No results
+          */
+          if (!results || results === 'Error') {
+            return res.send(layout({
+              title: word,
+              string: word,
+              results: results === 'Error' ? 'Error, try reloading' : 'No matches'
+            }))
+          }
 
-        const {
-          perfect_matches,
-          did_you_mean,
-        } = results
+          const {
+            perfect_matches,
+            did_you_mean,
+          } = results
 
-        let output = ''
-        if (perfect_matches.length > 0) {
-          output += `<ul>
-            ${perfect_matches.map(renderItem).join('')}
+          let output = ''
+          if (perfect_matches.length > 0) {
+            output += `<ul class="results">
+            ${perfect_matches.map(renderItemOnSearchPage).join('')}
           </ul>`
-        }
-        if (did_you_mean.length > 0) {
-          output += `
+          }
+          if (did_you_mean.length > 0) {
+            output += `
           <h4 class="did-you-mean">${perfect_matches.length>0 ? 'Or did you mean:' : 'Did you mean:'}</h4>
-          <ul>
-            ${did_you_mean.map(renderItem).join('')}
+          <ul class="results">
+            ${did_you_mean.map(renderItemOnSearchPage).join('')}
           </ul>`
-        }
+          }
 
-        res.send(layout({
-          title: word,
-          string: word,
-          results: output
-        }))
-      })
+          /*
+            One result
+          */
+          if (perfect_matches.length === 1) {
+            const { rows } = results
+            res.send(layout({
+              title: rows[0].base_word || '',
+              string: word,
+              results: render(rows, give_me),
+              id,
+            }))
+          }
+          /*
+            Many results
+          */
+          else {
+            res.send(layout({
+              title: word,
+              string: word,
+              results: output
+            }))
+          }
+        })
     } else {
       res.send(layout({}))
     }
@@ -120,10 +144,13 @@ export default (Search, Get_by_id) => {
   return router
 }
 
-const renderItem = (i) => `
+const renderItemOnSearchPage = (i) => `
   <li>
     <a href="/${i.base_word ? encodeURIComponent(i.base_word) + '/' : ''}${i.BIN_id}">
-      <strong>${i.base_word}</strong>
-      – ${i.description}
+      ${i.snippet ?
+        `<div class="snippet">${i.snippet}</div>` :
+        `<div><strong>${i.base_word}</strong></div>`
+      }
+      <div class="description">${i.description}</div>
     </a>
   </li>`

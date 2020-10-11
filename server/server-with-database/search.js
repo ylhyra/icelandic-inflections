@@ -14,7 +14,8 @@ const IcelandicCharacters = /^[a-záéíóúýðþæö ]+$/i
 /*
   Find possible base words and tags for a given word
 */
-export default (word, fuzzy, callback) => {
+export default (options, callback) => {
+  let { word, fuzzy, return_rows_if_only_one_match } = options
   if (!word ||
     word.length > 100 ||
     !IcelandicCharacters.test(word)
@@ -24,18 +25,18 @@ export default (word, fuzzy, callback) => {
   }
   word = word.trim().toLowerCase().replace(/\s+/g, ' ')
   if (fuzzy) {
-    return FuzzySearch(word, callback)
+    return FuzzySearch({ word, return_rows_if_only_one_match }, callback)
   } else {
     query(sql `
-      SELECT BIN_id, base_word, inflectional_form, word_class, grammatical_tag, descriptive FROM inflection
+      SELECT BIN_id, base_word, inflectional_form, word_categories, grammatical_tag, should_be_taught FROM inflection
       WHERE inflectional_form_lowercase = ${word}
       ORDER BY
-      descriptive DESC,
-      correctness_grade_of_word_form DESC
+      should_be_taught DESC,
+      correctness_grade_of_inflectional_form DESC
       LIMIT 100
     `, (err, results) => {
       if (err) {
-        callback(null)
+        callback('Error')
       } else {
         let grouped = []
         results.forEach(row => {
@@ -49,15 +50,15 @@ export default (word, fuzzy, callback) => {
                 html: `https://ylhyra.is/api/inflection?id=${row.BIN_id}&type=html`,
               },
               base_word: row.base_word,
-              word_class: classify(row, 'word_class'),
+              word_categories: classify(row, 'word_categories'),
               matches: [],
             })
             index = grouped.length - 1
           }
           grouped[index].matches.push({
             inflectional_form: row.inflectional_form,
-            form_classification: classify(row, 'form_classification'),
-            descriptive: row.descriptive,
+            inflectional_form_categories: classify(row, 'inflectional_form_categories'),
+            should_be_taught: row.should_be_taught,
           })
         })
         callback(grouped)

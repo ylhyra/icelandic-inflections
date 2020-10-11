@@ -9,7 +9,7 @@ export default ({
 <title>${title && title + ' – ' || ''} Icelandic inflections</title>
 <meta charset="utf-8"/>
 <!-- <base href="/"/> -->
-<link href="/inflection_styles/build.css" rel="stylesheet" type="text/css"/>
+<link href="/inflection_styles/build.css?build=000000" rel="stylesheet" type="text/css"/>
 <!-- <meta name="description" content=""/> -->
 <meta name="google" content="notranslate" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +26,7 @@ if (/[?&](q|id)=/.test(location.search)) {
   if (id) id = id[1];
   if ((word || id) && window.history.replaceState) {
     var unused_parameters = location.search.replace(/[?&](q|id)=([A-zÀ-ÿ%0-9+]+)/,'').replace('?','')
-    var url = '/' + (word ? word + '/' : '') + (id || '') + (unused_parameters ? '?'+unused_parameters:'')
+    var url = '/' + (word ? word + (id ? '/':'') : '') + (id || '') + (unused_parameters ? '?'+unused_parameters:'')
     window.history.replaceState(null, null, url);
   }
 }
@@ -74,3 +74,6 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
 </body>
 </html>
 `
+
+
+/* <link rel="canonical" href="https://example.com/dresses/green-dresses" /> */

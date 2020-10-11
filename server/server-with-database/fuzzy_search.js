@@ -18,10 +18,10 @@ export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
 import classify from 'server/inflection/tables/classify'
 
-export default (word, callback) => {
+export default ({ word, return_rows_if_only_one_match }, callback) => {
   query(sql `
     SELECT
-        score, i2.BIN_id, i2.BIN_domain, i2.grammatical_tag, i2.inflectional_form, i2.word_class, i2.base_word,
+        score, i2.BIN_id, i2.BIN_domain, i2.grammatical_tag, i2.inflectional_form, i2.word_categories, i2.base_word,
         inner_table.inflectional_form as matched_term,
         (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
       FROM
@@ -41,8 +41,8 @@ export default (word, callback) => {
          GROUP BY BIN_id
        ORDER BY
          a.score DESC,
-         i1.descriptive DESC,
-         i1.correctness_grade_of_word_form DESC,
+         i1.should_be_taught DESC,
+         i1.correctness_grade_of_inflectional_form DESC,
          i1.inflectional_form ASC
 
        ) as inner_table
@@ -75,7 +75,7 @@ export default (word, callback) => {
             BIN_id: word.getId(),
             base_word: word.getBaseWord(),
             description: removeLinks(word.getWordDescription()),
-            principal_parts: removeLinks(word.getPrincipalParts()),
+            snippet: removeLinks(word.getSnippet()),
           })
         }
       })
@@ -91,10 +91,19 @@ export default (word, callback) => {
         }
       })
 
-      callback({
+      let returns = {
         perfect_matches,
         did_you_mean,
-      })
+      }
+
+      /*
+        Only one match, return rows so that a table may be printed immediately
+      */
+      if(perfect_matches.length === 1 && return_rows_if_only_one_match) {
+        returns.rows = words[0]
+      }
+
+      callback(returns)
     }
   })
 }

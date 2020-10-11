@@ -27,7 +27,7 @@ import express from 'express'
 //
 // router.post('/inflection/find_inflection_id', (req, res) => {
 //   const { analysis } = req.body
-//   const word_class = analysis.analysis.word_class
+//   const word_categories = analysis.analysis.word_categories
 //   const grammatical_tag = analysis.analysis.grammatical_tag
 //   if(!analysis.analysis.base_word) {
 //     console.log(analysis)
@@ -40,13 +40,13 @@ import express from 'express'
 //     SELECT * FROM inflection
 //     WHERE inflectional_form_lowercase = ${analysis.text.toLowerCase()}
 //     -- AND base_word_lowercase = ${analysis.analysis.base_word.toLowerCase()}
-//     -- AND word_class = ${word_class}
+//     -- AND word_categories = ${word_categories}
 //     -- AND grammatical_tag = ${grammatical_tag}
 //     ORDER BY
-//     correctness_grade_of_word_form DESC,
-//     descriptive DESC,
+//     correctness_grade_of_inflectional_form DESC,
+//     should_be_taught DESC,
 //     base_word_lowercase = ${analysis.analysis.base_word.toLowerCase()} DESC,
-//     word_class = ${word_class} DESC,
+//     word_categories = ${word_categories} DESC,
 //     grammatical_tag = ${grammatical_tag} DESC
 //   `, (err, results) => {
 //     if (err) {

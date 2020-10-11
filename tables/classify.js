@@ -12,36 +12,36 @@ import { isNumber } from './tree'
  *   Input is a raw row from the database with original values from the KRISTINsnid.csv file.
  *   The parameter mapping from the original file is shown in "server/server-with-database/database/ImportToDatabase.js".
  *   The following attributes of the input object are taken into consideration:
- *   - word_class
+ *   - word_categories
  *   - grammatical_tag
  *   - BIN_domain
  *
  * @param {array} i_am_only_interested_in
  *   Can be one of:
- *   - word_class
- *   - form_classification
+ *   - word_categories
+ *   - inflectional_form_categories
  *   If selected, an array is returned
  *
  * @returns {object|array}
  *   Returns the inputted object with the following keys removed:
- *   - word_class
+ *   - word_categories
  *   - grammatical_tag
  *   - BIN_domain
  *   And the following keys added:
- *   - word_class - An array of values that apply to all the forms of the word (a noun, adjective...)
- *   - form_classification - An array of values that only apply to certain forms of the word (plurality, case...)
+ *   - word_categories - An array of values that apply to all the forms of the word (a noun, adjective...)
+ *   - inflectional_form_categories - An array of values that only apply to certain forms of the word (plurality, case...)
  */
 const classify = (input, i_am_only_interested_in) => {
-  let { word_class, grammatical_tag, BIN_domain, ...rest } = input
-  if (!word_class && !grammatical_tag) return input;
+  let { word_categories, grammatical_tag, BIN_domain, ...rest } = input
+  if (!word_categories && !grammatical_tag) return input;
 
-  let word_class_output = (word_classes[word_class]).split(', ')
+  let word_categories_output = (word_categorieses[word_categories]).split(', ')
 
   if (relevant_BIN_domains[BIN_domain]) {
-    word_class_output.push(relevant_BIN_domains[BIN_domain])
+    word_categories_output.push(relevant_BIN_domains[BIN_domain])
   }
 
-  let form_classification = []
+  let inflectional_form_categories = []
   /* Adjectives: Arrange plurality before gender */
   grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/, '$3-$1-$2')
   /* Nouns: Arrange plurality before case */
@@ -50,9 +50,9 @@ const classify = (input, i_am_only_interested_in) => {
   grammatical_tag.split((new RegExp(`(${regex})`, 'g'))).filter(Boolean).forEach(tag => {
     if (tag === '-') return;
     if (short_tags[tag]) {
-      form_classification.push(short_tags[tag])
+      inflectional_form_categories.push(short_tags[tag])
     } else if (isNumber(tag)) {
-      form_classification.push(tag)
+      inflectional_form_categories.push(tag)
     } else {
       if (process.env.NODE_ENV === 'development') {
         console.error('Unknown tag in classify.js: ' + tag)
@@ -60,33 +60,33 @@ const classify = (input, i_am_only_interested_in) => {
     }
   })
 
-  form_classification = form_classification.join(', ').split(', ')
+  inflectional_form_categories = inflectional_form_categories.join(', ').split(', ')
 
   /* Add "without definite article" to nouns */
-  if (word_class_output.includes('noun') && !form_classification.includes('with definite article')) {
-    form_classification.push('without definite article')
+  if (word_categories_output.includes('noun') && !inflectional_form_categories.includes('with definite article')) {
+    inflectional_form_categories.push('without definite article')
   }
 
   // /* Add "personal use" to verbs */
-  // if (word_class_output.includes('verb') !form_classification.find(i => i.startsWith('impersonal')) {
-  //   form_classification.push('without definite article')
+  // if (word_categories_output.includes('verb') !inflectional_form_categories.find(i => i.startsWith('impersonal')) {
+  //   inflectional_form_categories.push('without definite article')
   // }
 
   /* If it ends in a number it is an alternative version */
   const variantNumber = (grammatical_tag.match(/(\d)$/) ? grammatical_tag.match(/(\d)$/)[0] : 1).toString()
-  form_classification.push(variantNumber)
+  inflectional_form_categories.push(variantNumber)
 
-  // form_classification = form_classification.join(', ')
+  // inflectional_form_categories = inflectional_form_categories.join(', ')
 
-  if (i_am_only_interested_in === 'form_classification') {
-    return form_classification
+  if (i_am_only_interested_in === 'inflectional_form_categories') {
+    return inflectional_form_categories
   }
-  if (i_am_only_interested_in === 'word_class') {
-    return word_class_output
+  if (i_am_only_interested_in === 'word_categories') {
+    return word_categories_output
   }
   return {
-    word_class: word_class_output,
-    form_classification,
+    word_categories: word_categories_output,
+    inflectional_form_categories,
     original_grammatical_tag: grammatical_tag,
     ...rest,
     // ...input,
@@ -94,7 +94,7 @@ const classify = (input, i_am_only_interested_in) => {
 }
 export default classify
 
-const word_classes = {
+const word_categorieses = {
   kk: 'noun, masculine',
   kvk: 'noun, feminine',
   hk: 'noun, neuter',
@@ -281,12 +281,12 @@ export const sort_by_classification = (a, b) => {
   }
 
   /* Sort by full array of classification */
-  for (let i = 0; i < a.form_classification.length; i++) {
-    if (!b.form_classification[i])
+  for (let i = 0; i < a.inflectional_form_categories.length; i++) {
+    if (!b.inflectional_form_categories[i])
       break;
-    if (a.form_classification[i] === b.form_classification[i])
+    if (a.inflectional_form_categories[i] === b.inflectional_form_categories[i])
       continue;
-    return sorted_tags.indexOf(a.form_classification[i]) - sorted_tags.indexOf(b.form_classification[i])
+    return sorted_tags.indexOf(a.inflectional_form_categories[i]) - sorted_tags.indexOf(b.inflectional_form_categories[i])
   }
 
   /* Sort by variant number */

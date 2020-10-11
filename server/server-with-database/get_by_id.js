@@ -14,21 +14,21 @@ export default (id, callback) => {
       BIN_id,
       base_word,
       inflectional_form,
-      word_class,
+      word_categories,
       BIN_domain,
-      correctness_grade_of_base_word,
-      register_of_base_word,
+      correctness_grade_of_word,
+      word_register,
       grammar_group,
       cross_reference,
-      descriptive,
+      should_be_taught,
       grammatical_tag,
-      correctness_grade_of_word_form,
-      register_of_word_form,
-      only_found_in_idioms,
+      correctness_grade_of_inflectional_form,
+      register_of_inflectional_form,
+      various_feature_markers,
       alternative_entry
     FROM inflection
     WHERE BIN_id = ${id}
-    -- AND descriptive = 1
+    -- AND should_be_taught = 1
   `, (err, results) => {
     if (err) {
       callback(null)
