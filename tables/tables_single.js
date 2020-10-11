@@ -1,7 +1,6 @@
 import link, { ucfirst } from './link'
 import { RenderTable } from './render_table'
 import { without } from 'lodash'
-import { tags } from './classification/BIN_classification'
 import { types } from './classification/classification'
 
 /**

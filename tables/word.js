@@ -7,22 +7,18 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
 import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
-import { BIN_domains, tags } from './classification/BIN_classification'
+import { BIN_domains } from './classification/BIN_classification'
 import { types } from './classification/classification'
 import { uniq } from 'lodash'
 
 class Word {
   constructor(rows, original) {
-    this.inflectional_form_categories = [] // TODO? Merge with `word_categories`?
-    this.word_categories = []
-    this.rows = []
-    this.original = []
-
-    Array.isArray(rows) && rows.forEach(({ word_categories, inflectional_form_categories }) => {
-      this.inflectional_form_categories = inflectional_form_categories || []
-      this.word_categories = word_categories || []
-    })
+    if (!Array.isArray(rows)) {
+      throw `Class "Word" expected parameter "rows" to be an array, got ${typeof rows}`
+    }
     this.rows = rows
+    this.inflectional_form_categories = rows[0] && rows[0].inflectional_form_categories || []
+    this.word_categories = rows[0] && rows[0].word_categories || []
     if (original instanceof Word) {
       this.original = original.original
     } else {
@@ -68,6 +64,9 @@ class Word {
   }
   getOriginal() {
     return new Word(this.original)
+  }
+  getFirst() {
+    return new Word(this.rows.slice(0,1))
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form
