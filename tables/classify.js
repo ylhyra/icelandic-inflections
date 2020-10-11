@@ -3,11 +3,6 @@ import { isNumber } from './tree'
 /**
  *  Turns BÍN's classifications into English
  *
- *  Descriptions from:
- *  - https://bin.arnastofnun.is/gogn/k-snid and
- *  - https://bin.arnastofnun.is/gogn/greiningarstrengir/
- *  © Árni Magnússon Institute for Icelandic Studies, CC BY-SA 4.0
- *
  * @param {object} input
  *   Input is a raw row from the database with original values from the KRISTINsnid.csv file.
  *   The parameter mapping from the original file is shown in "server/server-with-database/database/ImportToDatabase.js".
@@ -94,131 +89,6 @@ const classify = (input, i_am_only_interested_in) => {
 }
 export default classify
 
-const word_categorieses = {
-  kk: 'noun, masculine',
-  kvk: 'noun, feminine',
-  hk: 'noun, neuter',
-  fs: 'preposition',
-  ao: 'adverb',
-  gr: 'article',
-  lo: 'adjective',
-  nhm: 'infinitive particle',
-  so: 'verb',
-  st: 'conjunction',
-  uh: 'interjection',
-  to: 'numeral',
-  rt: 'ordinal number',
-
-  /* Pronouns */
-  fn: 'pronoun',
-  afn: 'reflexive pronoun',
-  pfn: 'personal pronoun',
-}
-
-const short_tags = {
-  '1P': '1st person',
-  '2P': '2nd person',
-  '3P': '3rd person',
-
-  'BH': 'imperative',
-  'EF': 'genitive',
-  'ET': 'singular',
-  'FH': 'indicative',
-
-  'FST': 'positive degree', // frumstig
-  'FSB': 'positive degree, strong declension',
-  'FVB': 'positive degree, weak declension',
-  'MST': 'comparative degree', // miðstig
-  'EST': 'superlative degree', // efsta stig
-  'EVB': 'superlative degree, weak declension',
-  'ESB': 'superlative degree, strong declension',
-
-  'FT': 'plural',
-  'GM': 'active voice',
-  'gr': 'with definite article',
-  'KK': 'masculine',
-  'KVK': 'feminine',
-  'HK': 'neuter',
-  'LHNT': 'present participle',
-  'LHÞT': 'past participle',
-  'MM': 'mediopassive',
-  'NF': 'nominative',
-  'NH': 'infinitive',
-  'NT': 'present tense',
-  'OSKH': 'optative',
-  'SAGNB': 'supine',
-  'SB': 'strong declension',
-  'SERST': 'not used in a noun phrase',
-  'SP': 'question form',
-  'ST': 'clipped imperative', // Stýfður boðháttur
-  'VB': 'weak declension',
-  'VH': 'subjunctive',
-  'ÞF': 'accusative',
-  'ÞGF': 'dative',
-  'ÞT': 'past tense',
-  'OP-ÞF': 'impersonal with accusative subject',
-  'OP-ÞGF': 'impersonal with dative subject',
-  'OP-EF': 'impersonal with genitive subject',
-  'OP-það': 'impersonal with dummy subject',
-  'OP': 'impersonal',
-  'OBEYGJANLEGT': 'indeclinable',
-}
-
-
-const categories = [{
-  category_names: ['person'],
-  values: [
-    '1st person',
-    '2nd person',
-    '3rd person',
-  ]
-}, {
-  category_names: ['gender'],
-  values: [
-    'masculine',
-    'feminine',
-    'neuter',
-  ]
-}, {
-  category_names: ['case', 'cases'],
-  values: [
-    'nominative',
-    'accusative',
-    'dative',
-    'genitive',
-  ]
-}, {
-  category_names: ['tense'],
-  values: [
-    'present tense',
-    'past tense',
-  ]
-}, {
-  category_names: ['plurality', 'number'],
-  values: [
-    'singular',
-    'plural',
-  ]
-}, {
-  category_names: ['article', 'articles'],
-  values: [
-    'without definite article',
-    'with definite article',
-  ]
-}, {
-  category_names: ['degree'],
-  values: [
-    'positive degree', // frumstig
-    'comparative degree', // miðstig
-    'superlative degree', // efsta stig
-  ]
-}, {
-  category_names: ['strong or weak'],
-  values: [
-    'strong declension',
-    'weak declension',
-  ]
-}, ]
 
 /**
  * Object containing "name => array of tags", used for getting arrays later on
@@ -239,37 +109,6 @@ categories.forEach(({ category_names, values }) => {
 
 export { tags }
 
-
-/*
-  Other tags that we haven't yet added to `categories` above
-*/
-sorted_tags = sorted_tags.concat([
-  /* Verbs */
-  'infinitive',
-  'indicative', // Framsöguháttur
-  'subjunctive', // Viðtengingarháttur
-
-  // 'voice'
-  'active voice', // Germynd
-  'mediopassive', // Miðmynd
-  'imperative', // Boðháttur
-  'clipped imperative', // Stýfður boðháttur
-  'present participle',
-  'supine',
-  'past participle',
-  'question form',
-
-  'optative', // "Von"?
-  'not used in a noun phrase',
-  'indefinite', // Is this used?
-  'personal',
-  'impersonal',
-  'impersonal with accusative subject',
-  'impersonal with dative subject',
-  'impersonal with genitive subject',
-  'impersonal with dummy subject',
-  'indeclinable',
-])
 
 
 
