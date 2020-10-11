@@ -74,3 +74,6 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
 </body>
 </html>
 `
+
+
+/* <link rel="canonical" href="https://example.com/dresses/green-dresses" /> */

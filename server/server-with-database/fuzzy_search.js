@@ -18,7 +18,7 @@ export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
 import classify from 'server/inflection/tables/classify'
 
-export default (word, callback) => {
+export default ({ word, return_rows_if_only_one_match }, callback) => {
   query(sql `
     SELECT
         score, i2.BIN_id, i2.BIN_domain, i2.grammatical_tag, i2.inflectional_form, i2.word_categories, i2.base_word,
@@ -91,10 +91,19 @@ export default (word, callback) => {
         }
       })
 
-      callback({
+      let returns = {
         perfect_matches,
         did_you_mean,
-      })
+      }
+
+      /*
+        Only one match, return rows so that a table may be printed immediately
+      */
+      if(perfect_matches.length === 1 && return_rows_if_only_one_match) {
+        returns.rows = words[0]
+      }
+
+      callback(returns)
     }
   })
 }

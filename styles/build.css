@@ -396,6 +396,15 @@ i {
   max-width: 700px;
   min-width: 400px;
 }
+ul.results li a {
+  display: block;
+  border: 1px solid #808080;
+  padding: 3px 0;
+}
+ul.results li a .description {
+  color: #5c5c5c;
+  font-size: 13px;
+}
 footer {
   max-width: 500px;
   margin: auto;

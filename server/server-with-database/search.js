@@ -14,7 +14,8 @@ const IcelandicCharacters = /^[a-záéíóúýðþæö ]+$/i
 /*
   Find possible base words and tags for a given word
 */
-export default (word, fuzzy, callback) => {
+export default (options, callback) => {
+  let { word, fuzzy, return_rows_if_only_one_match } = options
   if (!word ||
     word.length > 100 ||
     !IcelandicCharacters.test(word)
@@ -24,7 +25,7 @@ export default (word, fuzzy, callback) => {
   }
   word = word.trim().toLowerCase().replace(/\s+/g, ' ')
   if (fuzzy) {
-    return FuzzySearch(word, callback)
+    return FuzzySearch({ word, return_rows_if_only_one_match }, callback)
   } else {
     query(sql `
       SELECT BIN_id, base_word, inflectional_form, word_categories, grammatical_tag, should_be_taught FROM inflection
