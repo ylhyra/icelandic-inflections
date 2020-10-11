@@ -16,8 +16,8 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
  *   An object with the keys `column_names` and `row_names`,
  *   which are arrays describing what  they should contain:
  *   {
- *     column_names: tags['plurality'],
- *     row_names: tags['person']
+ *     column_names: types['plurality'],
+ *     row_names: types['person']
  *   }
  * @returns {string} HTML string
  */

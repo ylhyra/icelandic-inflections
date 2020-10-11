@@ -4,7 +4,7 @@
  *  - https://bin.arnastofnun.is/gogn/greiningarstrengir/
  * By Árni Magnússon Institute for Icelandic Studies
  */
-const labels = [
+const labels_array = [
   /* Person */
   {
     title: '1st person',
@@ -272,7 +272,7 @@ const labels = [
     title: 'personal',
     icelandic_title: 'persónuleg beyging',
     type: '',
-    shortcuts: ['persónuleg beyging'],
+    shortcuts: [],
     has_article_on_ylhyra: false,
   },
   {
@@ -412,22 +412,17 @@ const labels = [
   },
 ]
 
-export const type_aliases = {
-  article: ['articles'],
-  plurality: ['number'],
-  case: ['cases'],
-}
 
 /*
   Overrides the above tags during the BIN initialization step
 */
 const BIN_overrides = {
-  word: {
+  word_overrides: {
     kk: 'noun, masculine',
     kvk: 'noun, feminine',
     hk: 'noun, neuter',
   },
-  form: {
+  inflection_form_overrides: {
     fsb: 'positive degree, strong declension',
     fvb: 'positive degree, weak declension',
     evb: 'superlative degree, weak declension',
@@ -438,9 +433,9 @@ const BIN_overrides = {
 }
 
 /**
- * Object containing "name => array of tags", used for getting arrays later on, such as tags['gender']
+ * Object containing "name => array of tags", used for getting arrays later on, such as types['gender']
  */
-let tags = {}
+let types = {}
 
 /**
  *
@@ -455,36 +450,47 @@ let sorted_tags = []
 /**
  * Reverses `label` to turn it into a searchable object
  */
-let reverse_lookup = {}
+let title_to_label = {}
 
 
 labels_array.forEach(label => {
-  /* Tags */
-  if (!tags[label.type]) {
-    tags[label.type] = []
+  /* Types */
+  if (!types[label.type]) {
+    types[label.type] = []
   }
-  tags[label.type].push(label.name)
+  types[label.type].push(label.title)
 
   /* Shortcuts */
-  [
-    label.name,
-    label.is,
-    ...label.shortcuts,
-  ].forEach(shortcut => {
+  let x = label.shortcuts
+  x.push(label.title)
+  x.push(label.icelandic_title)
+  x.forEach(shortcut => {
     if (shortcuts[shortcut]) {
       throw `SHORTCUT ALREADY EXISTS ${shortcut}`
     }
-    shortcuts[shortcut] = label.name
+    shortcuts[shortcut] = label.title
   })
 
   /* Sorted tags */
-  sorted_tags.push(label.name)
+  sorted_tags.push(label.title)
 
   /* Reverse lookup */
-  reverse_lookup[label.name] = label
+  title_to_label[label.title] = label
 })
 
 
-// Object.keys(class_aliases).forEach(key => {
-//   class_aliases[key].forEach
-// })
+const type_aliases = {
+  article: ['articles'],
+  plurality: ['number'],
+  case: ['cases'],
+}
+Object.keys(type_aliases).forEach(key => {
+  type_aliases[key].forEach(type => {
+    types[type] = types[key]
+  })
+})
+
+exports.labels = title_to_label
+exports.shortcuts = shortcuts
+exports.sorted_tags = sorted_tags
+exports.types = types

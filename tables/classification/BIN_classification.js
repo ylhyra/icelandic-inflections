@@ -1,4 +1,4 @@
-import { isNumber } from './tree'
+import { isNumber } from './../tree'
 
 /**
  *  Turns BÍN's classifications into English
@@ -48,8 +48,8 @@ const classify = (input, i_am_only_interested_in) => {
   const regex = Object.keys(short_tags).sort((a, b) => (b.length - a.length)).join('|')
   grammatical_tag.split((new RegExp(`(${regex})`, 'g'))).filter(Boolean).forEach(tag => {
     if (tag === '-') return;
-    if (short_tags[tag]) {
-      inflectional_form_categories.push(short_tags[tag])
+    if (short_types[tag]) {
+      inflectional_form_categories.push(short_types[tag])
     } else if (isNumber(tag)) {
       inflectional_form_categories.push(tag)
     } else {

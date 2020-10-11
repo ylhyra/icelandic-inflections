@@ -7,7 +7,7 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
 import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
-import { BIN_domains, tags } from './classify'
+import { BIN_domains, tags } from './classification/BIN_classification'
 import { uniq } from 'lodash'
 
 class Word {
@@ -120,9 +120,9 @@ class Word {
       ].find(i => classification.includes(i))
     }
     /*
-      Here we for example say tags['gender'] and get back ['masculine', 'feminine', 'neuter']
+      Here we for example say types['gender'] and get back ['masculine', 'feminine', 'neuter']
     */
-    let values = tags[type]
+    let values = types[type]
     if (!values) return;
     return classification.find(i => values.includes(i))
   }

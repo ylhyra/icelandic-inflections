@@ -1,3 +1,5 @@
+import { sorted_tags } from './classification'
+
 export const sort_by_classification = (a, b) => {
   /* Sort by single tag */
   if (a.tag) {

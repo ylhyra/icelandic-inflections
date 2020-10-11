@@ -6,7 +6,7 @@
 */
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-import classify from 'server/inflection/tables/classify'
+import classify from 'server/inflection/tables/classification/BIN_classification'
 import FuzzySearch from './fuzzy_search'
 // import { IcelandicCharacters } from 'server/inflection/tables/functions'
 const IcelandicCharacters = /^[a-záéíóúýðþæö ]+$/i
