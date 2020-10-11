@@ -25,14 +25,16 @@ import { isNumber } from './tree'
  *   - grammatical_tag
  *   - BIN_domain
  *   And the following keys added:
- *   - word_categories - An array of values that apply to all the forms of the word (a noun, adjective...)
- *   - inflectional_form_categories - An array of values that only apply to certain forms of the word (plurality, case...)
+ *   - word_categories - An array of values that
+ *     apply to all the forms of the word (a noun, adjective...)
+ *   - inflectional_form_categories - An array of
+ *     values that only apply to certain forms of the word (plurality, case...)
  */
 const classify = (input, i_am_only_interested_in) => {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input
   if (!word_categories && !grammatical_tag) return input;
 
-  let word_categories_output = (word_categorieses[word_categories]).split(', ')
+  let word_categories_output = (word_categories[word_categories]).split(', ')
 
   if (relevant_BIN_domains[BIN_domain]) {
     word_categories_output.push(relevant_BIN_domains[BIN_domain])
@@ -92,6 +94,9 @@ const classify = (input, i_am_only_interested_in) => {
 export default classify
 
 
+
+
+
 /**
  * Object containing "name => array of tags", used for getting arrays later on
  */
@@ -128,24 +133,3 @@ const relevant_BIN_domains = {
   erl: 'place name',
 }
 export const BIN_domains = Object.keys(relevant_BIN_domains).map(key => relevant_BIN_domains[key])
-
-
-
-/*
-  Overrides the tags only during the BIN initialization step
-*/
-const BIN_overrides = {
-  word: {
-    kk: 'noun, masculine',
-    kvk: 'noun, feminine',
-    hk: 'noun, neuter',
-  },
-  form: {
-    fsb: 'positive degree, strong declension',
-    fvb: 'positive degree, weak declension',
-    evb: 'superlative degree, weak declension',
-    esb: 'superlative degree, strong declension',
-    gr: 'with definite article',
-    st: 'clipped imperative',
-  }
-}

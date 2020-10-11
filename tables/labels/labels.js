@@ -1,7 +1,4 @@
 /**
- * List of labels.
- * Is an array so that we can sort with them later
- *
  * Descriptions derived from:
  *  - https://bin.arnastofnun.is/gogn/k-snid and
  *  - https://bin.arnastofnun.is/gogn/greiningarstrengir/
@@ -421,7 +418,24 @@ export const type_aliases = {
   case: ['cases'],
 }
 
-
+/*
+  Overrides the above tags during the BIN initialization step
+*/
+const BIN_overrides = {
+  word: {
+    kk: 'noun, masculine',
+    kvk: 'noun, feminine',
+    hk: 'noun, neuter',
+  },
+  form: {
+    fsb: 'positive degree, strong declension',
+    fvb: 'positive degree, weak declension',
+    evb: 'superlative degree, weak declension',
+    esb: 'superlative degree, strong declension',
+    gr: 'with definite article',
+    st: 'clipped imperative',
+  }
+}
 
 /**
  * Object containing "name => array of tags", used for getting arrays later on, such as tags['gender']
