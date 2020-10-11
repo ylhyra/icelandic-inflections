@@ -75,7 +75,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
             BIN_id: word.getId(),
             base_word: word.getBaseWord(),
             description: removeLinks(word.getWordDescription()),
-            principal_parts: removeLinks(word.getPrincipalParts()),
+            snippet: removeLinks(word.getSnippet()),
           })
         }
       })

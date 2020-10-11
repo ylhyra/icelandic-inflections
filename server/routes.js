@@ -147,8 +147,10 @@ export default (Search, Get_by_id) => {
 const renderItemOnSearchPage = (i) => `
   <li>
     <a href="/${i.base_word ? encodeURIComponent(i.base_word) + '/' : ''}${i.BIN_id}">
-      <div><strong>${i.base_word}</strong></div>
-      <div class="principal_parts">${i.principal_parts}</div>
+      ${i.snippet ?
+        `<div class="snippet">${i.snippet}</div>` :
+        `<div><strong>${i.base_word}</strong></div>`
+      }
       <div class="description">${i.description}</div>
     </a>
   </li>`

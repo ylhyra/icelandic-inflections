@@ -20,7 +20,7 @@ export default (link, label) => {
 }
 
 export const removeLinks = (string) => {
-  return string
+  return string && string
     .replace(/<\/a>/g, '')
     .replace(/<a .+?>/g, '')
 }

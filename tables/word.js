@@ -34,6 +34,15 @@ class Word {
   getBaseWord() {
     return this.original.length > 0 && this.original[0].base_word || ''
   }
+  /**
+    A snippet is a short example of a conjugation to display in search results
+  */
+  getSnippet() {
+    if(this.is('verb')){
+      return this.getPrincipalParts()
+    }
+    return this.getSingleTable()
+  }
   isWordIrregular() {
     let hasUmlaut, isIrregular
     const word = this
@@ -88,7 +97,7 @@ class Word {
    * @return {?string}
    */
   getType(type) {
-    const classification = [...this.word_categories, ...this.inflectional_form_categories]
+    const classification = [...this.word_categories, ...this.getFirstClassification()]
     if (type === 'class') {
       return [
         ...BIN_domains,
