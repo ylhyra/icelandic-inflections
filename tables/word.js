@@ -8,6 +8,7 @@ import { getPrincipalParts } from './functions/principalParts'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { BIN_domains, tags } from './classification/BIN_classification'
+import { types } from './classification/classification'
 import { uniq } from 'lodash'
 
 class Word {
@@ -98,27 +99,6 @@ class Word {
    */
   getType(type) {
     const classification = [...this.word_categories, ...this.getFirstClassification()]
-    if (type === 'class') {
-      return [
-        ...BIN_domains,
-        'noun',
-        'verb',
-        'adjective',
-        'preposition',
-        'adverb',
-        'article',
-        'adjective',
-        'infinitive particle',
-        'verb',
-        'conjunction',
-        'interjection',
-        'numeral',
-        'ordinal number',
-        'pronoun',
-        'reflexive pronoun',
-        'personal pronoun',
-      ].find(i => classification.includes(i))
-    }
     /*
       Here we for example say types['gender'] and get back ['masculine', 'feminine', 'neuter']
     */

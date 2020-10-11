@@ -322,115 +322,98 @@ const labels_array = [
   {
     title: 'preposition',
     icelandic_title: 'forsetning',
-    type: '',
+    type: 'class',
     shortcuts: ['fs', 'prep'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'adverb',
     icelandic_title: 'atviksorð',
-    type: '',
+    type: 'class',
     shortcuts: ['ao', 'adv'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'article',
     icelandic_title: 'greinir',
-    type: '',
+    type: 'class',
     shortcuts: ['gr'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'adjective',
     icelandic_title: 'lýsingarorð',
-    type: '',
+    type: 'class',
     shortcuts: ['lo', 'adj', 'a'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'infinitive particle',
     icelandic_title: 'nafnháttarmerki',
-    type: '',
+    type: 'class',
     shortcuts: ['nhm'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'verb',
     icelandic_title: 'sagnorð',
-    type: '',
+    type: 'class',
     shortcuts: ['so', 'v'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'conjunction',
     icelandic_title: 'samtenging',
-    type: '',
+    type: 'class',
     shortcuts: ['st', 'conj'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'interjection',
     icelandic_title: 'upphrópun',
-    type: '',
+    type: 'class',
     shortcuts: ['uh', 'int'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'numeral',
     icelandic_title: 'töluorð',
-    type: '',
+    type: 'class',
     shortcuts: ['to'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'ordinal number',
     icelandic_title: 'raðtala',
-    type: '',
+    type: 'class',
     shortcuts: ['rt', 'ordinal'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'pronoun',
     icelandic_title: 'fornafn',
-    type: '',
+    type: 'class',
     shortcuts: ['fn'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'reflexive pronoun',
     icelandic_title: 'afturbeygt fornafn',
-    type: '',
+    type: 'class',
     shortcuts: ['afn'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'personal pronoun',
     icelandic_title: 'persónufornafn',
-    type: '',
+    type: 'class',
     shortcuts: ['pfn'],
     has_article_on_ylhyra: false,
   },
 ]
 
 
-/*
-  Overrides the above tags during the BIN initialization step
-*/
-const BIN_overrides = {
-  word_overrides: {
-    kk: 'noun, masculine',
-    kvk: 'noun, feminine',
-    hk: 'noun, neuter',
-  },
-  inflection_form_overrides: {
-    fsb: 'positive degree, strong declension',
-    fvb: 'positive degree, weak declension',
-    evb: 'superlative degree, weak declension',
-    esb: 'superlative degree, strong declension',
-    gr: 'with definite article',
-    st: 'clipped imperative',
-  }
-}
+
 
 /**
  * Object containing "name => array of tags", used for getting arrays later on, such as types['gender']
@@ -438,9 +421,12 @@ const BIN_overrides = {
 let types = {}
 
 /**
- *
+ * Abbreviations
+ * Object on form {'nf': 'nominative'}
  */
 let shortcuts = {}
+/* Only for BÍN */
+let shortcuts_used_in_BIN = {}
 
 /**
  * Sorted single-level array of tags, used for sorting rows when constructing the tree
@@ -464,11 +450,14 @@ labels_array.forEach(label => {
   let x = label.shortcuts
   x.push(label.title)
   x.push(label.icelandic_title)
-  x.forEach(shortcut => {
+  x.forEach((shortcut, index) => {
     if (shortcuts[shortcut]) {
       throw `SHORTCUT ALREADY EXISTS ${shortcut}`
     }
     shortcuts[shortcut] = label.title
+    if (index === 0) {
+      shortcuts_used_in_BIN[shortcut] = label.title
+    }
   })
 
   /* Sorted tags */
@@ -490,7 +479,12 @@ Object.keys(type_aliases).forEach(key => {
   })
 })
 
-exports.labels = title_to_label
-exports.shortcuts = shortcuts
-exports.sorted_tags = sorted_tags
-exports.types = types
+export const getLabel = (tag) => {
+  tag = tag.toLowerCase().trim()
+  return shortcuts[tag]
+}
+
+export { shortcuts }
+export { sorted_tags }
+export { types }
+export { shortcuts_used_in_BIN }

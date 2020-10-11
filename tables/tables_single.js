@@ -2,6 +2,7 @@ import link, { ucfirst } from './link'
 import { RenderTable } from './render_table'
 import { without } from 'lodash'
 import { tags } from './classification/BIN_classification'
+import { types } from './classification/classification'
 
 /**
  * Finds a single relevant table
@@ -17,7 +18,7 @@ export default function getSingleTable() {
   /* Nouns */
   if (word.is('noun')) {
     const sibling_classification = without(word.getFirstClassification(), ...types['cases'])
-    console.log(sibling_classification)
+    // console.log(sibling_classification)
     const siblings = word.getOriginal().get(...sibling_classification)
     table = RenderTable(siblings, word.getOriginal(), {
       column_names: [word.getType('article')],

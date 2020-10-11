@@ -1,4 +1,5 @@
 import { isNumber } from './../tree'
+import { shortcuts, getLabel, shortcuts_used_in_BIN } from './classification'
 
 /**
  *  Turns BÍN's classifications into English
@@ -13,7 +14,7 @@ import { isNumber } from './../tree'
  *   - grammatical_tag
  *   - BIN_domain
  *
- * @param {array} i_am_only_interested_in
+ * @param {array} returns
  *   Can be one of:
  *   - word_categories
  *   - inflectional_form_categories
@@ -30,31 +31,33 @@ import { isNumber } from './../tree'
  *   - inflectional_form_categories - An array of
  *     values that only apply to certain forms of the word (plurality, case...)
  */
-const classify = (input, i_am_only_interested_in) => {
+const classify = (input, returns) => {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input
   if (!word_categories && !grammatical_tag) return input;
 
-  let word_categories_output = (word_categories[word_categories]).split(', ')
+  /* Word categories */
+  word_categories = word_categories.toLowerCase()
+  let word_categories_output = get_label_for_BIN_word(word_categories).split(', ')
 
   if (relevant_BIN_domains[BIN_domain]) {
     word_categories_output.push(relevant_BIN_domains[BIN_domain])
   }
 
   let inflectional_form_categories = []
+  grammatical_tag = grammatical_tag.toLowerCase()
   /* Adjectives: Arrange plurality before gender */
   grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/, '$3-$1-$2')
   /* Nouns: Arrange plurality before case */
   grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/, '$2-$1')
-  const regex = Object.keys(short_tags).sort((a, b) => (b.length - a.length)).join('|')
-  grammatical_tag.split((new RegExp(`(${regex})`, 'g'))).filter(Boolean).forEach(tag => {
+  grammatical_tag.split((new RegExp(`(${tagRegex})`, 'g'))).filter(Boolean).forEach(tag => {
     if (tag === '-') return;
-    if (short_types[tag]) {
-      inflectional_form_categories.push(short_types[tag])
+    if (get_label_for_BIN_inflection_form(tag)) {
+      inflectional_form_categories.push(get_label_for_BIN_inflection_form(tag))
     } else if (isNumber(tag)) {
       inflectional_form_categories.push(tag)
     } else {
       if (process.env.NODE_ENV === 'development') {
-        console.error('Unknown tag in classify.js: ' + tag)
+        console.error(`Unknown tag in BIN_classification.js: ${tag}. Full tag is ${grammatical_tag}`)
       }
     }
   })
@@ -77,10 +80,10 @@ const classify = (input, i_am_only_interested_in) => {
 
   // inflectional_form_categories = inflectional_form_categories.join(', ')
 
-  if (i_am_only_interested_in === 'inflectional_form_categories') {
+  if (returns === 'inflectional_form_categories') {
     return inflectional_form_categories
   }
-  if (i_am_only_interested_in === 'word_categories') {
+  if (returns === 'word_categories') {
     return word_categories_output
   }
   return {
@@ -96,20 +99,38 @@ export default classify
 
 
 
-
-/**
- * Object containing "name => array of tags", used for getting arrays later on
- */
-let tags = {}
-
-/**
- * Sorted single-level array of tags, used for sorting rows when constructing the tree
- */
-let sorted_tags = []
-
-export { tags }
-
-
+/*
+  Overrides the tags in "classification.js" during the BIN initialization step
+*/
+const BIN_overrides = {
+  word_overrides: {
+    kk: 'noun, masculine',
+    kvk: 'noun, feminine',
+    hk: 'noun, neuter',
+  },
+  inflection_form_overrides: {
+    fsb: 'positive degree, strong declension',
+    fvb: 'positive degree, weak declension',
+    evb: 'superlative degree, weak declension',
+    esb: 'superlative degree, strong declension',
+    gr: 'with definite article',
+    st: 'clipped imperative',
+  }
+}
+export const get_label_for_BIN_word = (tag) => {
+  return BIN_overrides.word_overrides[tag] || getLabel(tag)
+}
+export const get_label_for_BIN_inflection_form = (tag) => {
+  return BIN_overrides.inflection_form_overrides[tag] || getLabel(tag)
+}
+const tagRegex = (() => {
+  let tags = [
+    ...Object.keys(shortcuts_used_in_BIN),
+    ...Object.keys(BIN_overrides.word_overrides),
+    ...Object.keys(BIN_overrides.inflection_form_overrides),
+  ]
+  return tags.filter(Boolean).sort((a, b) => (b.length - a.length)).join('|')
+})()
 
 
 /*
