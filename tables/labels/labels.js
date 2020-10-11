@@ -1,28 +1,31 @@
 /**
- *  Descriptions derived from:
+ * List of labels.
+ * Is an array so that we can sort with them later
+ *
+ * Descriptions derived from:
  *  - https://bin.arnastofnun.is/gogn/k-snid and
  *  - https://bin.arnastofnun.is/gogn/greiningarstrengir/
- *  By Árni Magnússon Institute for Icelandic Studies
+ * By Árni Magnússon Institute for Icelandic Studies
  */
 const labels = [
   /* Person */
   {
-    name: '1st person',
-    is: '1. persóna',
+    title: '1st person',
+    icelandic_title: '1. persóna',
     type: 'person',
     shortcuts: ['1p'],
     has_article_on_ylhyra: true,
   },
   {
-    name: '2nd person',
-    is: '2. persóna',
+    title: '2nd person',
+    icelandic_title: '2. persóna',
     type: 'person',
     shortcuts: ['2p'],
     has_article_on_ylhyra: true,
   },
   {
-    name: '3rd person',
-    is: '3. persóna',
+    title: '3rd person',
+    icelandic_title: '3. persóna',
     type: 'person',
     shortcuts: ['3p'],
     has_article_on_ylhyra: true,
@@ -30,29 +33,29 @@ const labels = [
 
   /* Case */
   {
-    name: 'nominative',
-    is: 'nefnifall',
+    title: 'nominative',
+    icelandic_title: 'nefnifall',
     type: 'case',
     shortcuts: ['nf', 'nom'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'accusative',
-    is: 'þolfall',
+    title: 'accusative',
+    icelandic_title: 'þolfall',
     type: 'case',
     shortcuts: ['þf', 'acc'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'dative',
-    is: 'þágufall',
+    title: 'dative',
+    icelandic_title: 'þágufall',
     type: 'case',
     shortcuts: ['þgf', 'dat'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'genitive',
-    is: 'eignarfall',
+    title: 'genitive',
+    icelandic_title: 'eignarfall',
     type: 'case',
     shortcuts: ['ef', 'gen'],
     has_article_on_ylhyra: true,
@@ -60,15 +63,15 @@ const labels = [
 
   /* Plurality */
   {
-    name: 'singular',
-    is: 'eintala',
+    title: 'singular',
+    icelandic_title: 'eintala',
     type: 'plurality',
     shortcuts: ['et', 'sing'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'plural',
-    is: 'fleirtala',
+    title: 'plural',
+    icelandic_title: 'fleirtala',
     type: 'plurality',
     shortcuts: ['ft', 'plur'],
     has_article_on_ylhyra: true,
@@ -76,22 +79,22 @@ const labels = [
 
   /* Gender */
   {
-    name: 'masculine',
-    is: 'karlkyn',
+    title: 'masculine',
+    icelandic_title: 'karlkyn',
     type: 'gender',
     shortcuts: ['kk', 'masc'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'feminine',
-    is: 'kvenkyn',
+    title: 'feminine',
+    icelandic_title: 'kvenkyn',
     type: 'gender',
     shortcuts: ['kvk', 'fem'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'neuter',
-    is: 'hvorugkyn',
+    title: 'neuter',
+    icelandic_title: 'hvorugkyn',
     type: 'gender',
     shortcuts: ['hk', 'hvk', 'neut'],
     has_article_on_ylhyra: true,
@@ -99,15 +102,15 @@ const labels = [
 
   /* Article */
   {
-    name: 'without definite article',
-    is: 'án greinis',
+    title: 'without definite article',
+    icelandic_title: 'án greinis',
     type: 'article',
     shortcuts: ['ángr', 'no article'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'with definite article',
-    is: 'með greini',
+    title: 'with definite article',
+    icelandic_title: 'með greini',
     type: 'article',
     shortcuts: ['meðgr', 'with article'],
     has_article_on_ylhyra: true,
@@ -115,15 +118,15 @@ const labels = [
 
   /* Tense */
   {
-    name: 'present tense',
-    is: 'nútíð',
+    title: 'present tense',
+    icelandic_title: 'nútíð',
     type: 'tense',
     shortcuts: ['nt', 'present', 'pres', 'prs'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'past tense',
-    is: 'þátíð',
+    title: 'past tense',
+    icelandic_title: 'þátíð',
     type: 'tense',
     shortcuts: ['þt', 'past', 'pst'],
     has_article_on_ylhyra: true,
@@ -131,22 +134,22 @@ const labels = [
 
   /* Degree */
   {
-    name: 'positive degree',
-    is: 'frumstig',
+    title: 'positive degree',
+    icelandic_title: 'frumstig',
     type: 'degree',
     shortcuts: ['fst', 'positive'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'comparative degree',
-    is: 'miðstig',
+    title: 'comparative degree',
+    icelandic_title: 'miðstig',
     type: 'degree',
     shortcuts: ['mst', 'comparative'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'superlative degree',
-    is: 'efsta stig',
+    title: 'superlative degree',
+    icelandic_title: 'efsta stig',
     type: 'degree',
     shortcuts: ['est', 'superlative'],
     has_article_on_ylhyra: true,
@@ -154,15 +157,15 @@ const labels = [
 
   /* Strong or weak */
   {
-    name: 'strong declension',
-    is: 'sterk beyging',
+    title: 'strong declension',
+    icelandic_title: 'sterk beyging',
     type: 'strong or weak',
     shortcuts: ['sb', 'sterk', 'strong'],
     has_article_on_ylhyra: true,
   },
   {
-    name: 'weak declension',
-    is: 'veik beyging',
+    title: 'weak declension',
+    icelandic_title: 'veik beyging',
     type: 'strong or weak',
     shortcuts: ['vb', 'veik', 'weak'],
     has_article_on_ylhyra: true,
@@ -171,80 +174,80 @@ const labels = [
 
 
   {
-    name: 'infinitive',
-    is: 'nafnháttur',
+    title: 'infinitive',
+    icelandic_title: 'nafnháttur',
     type: '',
     shortcuts: ['nh', 'inf'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'indicative',
-    is: 'framsöguháttur',
+    title: 'indicative',
+    icelandic_title: 'framsöguháttur',
     type: '',
     shortcuts: ['fh', 'ind'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'subjunctive',
-    is: 'viðtengingarháttur',
+    title: 'subjunctive',
+    icelandic_title: 'viðtengingarháttur',
     type: '',
     shortcuts: ['vh', 'subj'],
     has_article_on_ylhyra: true,
   },
 
   {
-    name: 'active voice',
-    is: 'germynd',
+    title: 'active voice',
+    icelandic_title: 'germynd',
     type: '',
     shortcuts: ['gm', 'active'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'mediopassive',
-    is: 'miðmynd',
+    title: 'mediopassive',
+    icelandic_title: 'miðmynd',
     type: '',
     shortcuts: ['mm', 'med'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'imperative',
-    is: 'boðháttur',
+    title: 'imperative',
+    icelandic_title: 'boðháttur',
     type: '',
     shortcuts: ['bh', 'imp'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'clipped imperative',
-    is: 'stýfður boðháttur',
+    title: 'clipped imperative',
+    icelandic_title: 'stýfður boðháttur',
     type: '',
     shortcuts: ['stýfður', 'styfdur', 'clipped'],
     has_article_on_ylhyra: false,
   },
 
   {
-    name: 'present participle',
-    is: 'lýsingarháttur nútíðar',
+    title: 'present participle',
+    icelandic_title: 'lýsingarháttur nútíðar',
     type: '',
     shortcuts: ['lhnt'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'supine',
-    is: 'sagnbót',
+    title: 'supine',
+    icelandic_title: 'sagnbót',
     type: '',
     shortcuts: ['sagnb', 'sup'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'past participle',
-    is: 'lýsingarháttur þátíðar',
+    title: 'past participle',
+    icelandic_title: 'lýsingarháttur þátíðar',
     type: '',
     shortcuts: ['lhþt'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'question form',
-    is: 'spurnarmynd',
+    title: 'question form',
+    icelandic_title: 'spurnarmynd',
     type: '',
     shortcuts: ['sp'],
     has_article_on_ylhyra: false,
@@ -255,64 +258,64 @@ const labels = [
 
 
   {
-    name: 'optative',
-    is: 'óskháttur',
+    title: 'optative',
+    icelandic_title: 'óskháttur',
     type: '',
     shortcuts: ['oskh'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'not used in a noun phrase',
-    is: 'sérstætt',
+    title: 'not used in a noun phrase',
+    icelandic_title: 'sérstætt',
     type: '',
     shortcuts: ['serst'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'personal',
-    is: 'persónuleg beyging',
+    title: 'personal',
+    icelandic_title: 'persónuleg beyging',
     type: '',
     shortcuts: ['persónuleg beyging'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'impersonal',
-    is: 'ópersónuleg beyging',
+    title: 'impersonal',
+    icelandic_title: 'ópersónuleg beyging',
     type: '',
     shortcuts: ['op'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'impersonal with accusative subject',
-    is: 'ópersónuleg beyging með frumlag í þolfalli',
+    title: 'impersonal with accusative subject',
+    icelandic_title: 'ópersónuleg beyging með frumlag í þolfalli',
     type: '',
     shortcuts: ['op-þf'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'impersonal with dative subject',
-    is: 'ópersónuleg beyging með frumlag í þágufalli',
+    title: 'impersonal with dative subject',
+    icelandic_title: 'ópersónuleg beyging með frumlag í þágufalli',
     type: '',
     shortcuts: ['op-þgf'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'impersonal with genitive subject',
-    is: 'ópersónuleg beyging með frumlag í eignarfalli',
+    title: 'impersonal with genitive subject',
+    icelandic_title: 'ópersónuleg beyging með frumlag í eignarfalli',
     type: '',
     shortcuts: ['op-ef'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'impersonal with dummy subject',
-    is: 'ópersónuleg beyging með gervifrumlag',
+    title: 'impersonal with dummy subject',
+    icelandic_title: 'ópersónuleg beyging með gervifrumlag',
     type: '',
     shortcuts: ['op-það'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'indeclinable',
-    is: 'óbeygjanlegt',
+    title: 'indeclinable',
+    icelandic_title: 'óbeygjanlegt',
     type: '',
     shortcuts: ['obeygjanlegt'],
     has_article_on_ylhyra: false,
@@ -320,127 +323,103 @@ const labels = [
 
   /* Word classes */
   {
-    name: 'preposition',
-    is: 'forsetning',
+    title: 'preposition',
+    icelandic_title: 'forsetning',
     type: '',
     shortcuts: ['fs', 'prep'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'adverb',
-    is: 'atviksorð',
+    title: 'adverb',
+    icelandic_title: 'atviksorð',
     type: '',
     shortcuts: ['ao', 'adv'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'article',
-    is: 'greinir',
+    title: 'article',
+    icelandic_title: 'greinir',
     type: '',
     shortcuts: ['gr'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'adjective',
-    is: 'lýsingarorð',
+    title: 'adjective',
+    icelandic_title: 'lýsingarorð',
     type: '',
     shortcuts: ['lo', 'adj', 'a'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'infinitive particle',
-    is: 'nafnháttarmerki',
+    title: 'infinitive particle',
+    icelandic_title: 'nafnháttarmerki',
     type: '',
     shortcuts: ['nhm'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'verb',
-    is: 'sagnorð',
+    title: 'verb',
+    icelandic_title: 'sagnorð',
     type: '',
     shortcuts: ['so', 'v'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'conjunction',
-    is: 'samtenging',
+    title: 'conjunction',
+    icelandic_title: 'samtenging',
     type: '',
     shortcuts: ['st', 'conj'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'interjection',
-    is: 'upphrópun',
+    title: 'interjection',
+    icelandic_title: 'upphrópun',
     type: '',
     shortcuts: ['uh', 'int'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'numeral',
-    is: 'töluorð',
+    title: 'numeral',
+    icelandic_title: 'töluorð',
     type: '',
     shortcuts: ['to'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'ordinal number',
-    is: 'raðtala',
+    title: 'ordinal number',
+    icelandic_title: 'raðtala',
     type: '',
     shortcuts: ['rt', 'ordinal'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'pronoun',
-    is: 'fornafn',
+    title: 'pronoun',
+    icelandic_title: 'fornafn',
     type: '',
     shortcuts: ['fn'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'reflexive pronoun',
-    is: 'afturbeygt fornafn',
+    title: 'reflexive pronoun',
+    icelandic_title: 'afturbeygt fornafn',
     type: '',
     shortcuts: ['afn'],
     has_article_on_ylhyra: false,
   },
   {
-    name: 'personal pronoun',
-    is: 'persónufornafn',
+    title: 'personal pronoun',
+    icelandic_title: 'persónufornafn',
     type: '',
     shortcuts: ['pfn'],
     has_article_on_ylhyra: false,
   },
 ]
 
-
-
-
-const class_aliases = {
+export const type_aliases = {
   article: ['articles'],
   plurality: ['number'],
   case: ['cases'],
 }
-
-/*
-  Overrides the tags above only during the
-  BIN initialization step and not during later passes
-*/
-const BIN_overrides = {
-  word: {
-    kk: 'noun, masculine',
-    kvk: 'noun, feminine',
-    hk: 'noun, neuter',
-  },
-  form: {
-    fsb: 'positive degree, strong declension',
-    fvb: 'positive degree, weak declension',
-    evb: 'superlative degree, weak declension',
-    esb: 'superlative degree, strong declension',
-    gr: 'with definite article',
-    st: 'clipped imperative',
-  }
-}
-
 
 
 
@@ -465,7 +444,7 @@ let sorted_tags = []
 let reverse_lookup = {}
 
 
-labels.forEach(label => {
+labels_array.forEach(label => {
   /* Tags */
   if (!tags[label.type]) {
     tags[label.type] = []
@@ -473,7 +452,11 @@ labels.forEach(label => {
   tags[label.type].push(label.name)
 
   /* Shortcuts */
-  label.shortcuts.forEach(shortcut => {
+  [
+    label.name,
+    label.is,
+    ...label.shortcuts,
+  ].forEach(shortcut => {
     if (shortcuts[shortcut]) {
       throw `SHORTCUT ALREADY EXISTS ${shortcut}`
     }
@@ -485,5 +468,9 @@ labels.forEach(label => {
 
   /* Reverse lookup */
   reverse_lookup[label.name] = label
-
 })
+
+
+// Object.keys(class_aliases).forEach(key => {
+//   class_aliases[key].forEach
+// })

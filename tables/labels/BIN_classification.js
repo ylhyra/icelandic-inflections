@@ -4,8 +4,10 @@ import { isNumber } from './tree'
  *  Turns BÍN's classifications into English
  *
  * @param {object} input
- *   Input is a raw row from the database with original values from the KRISTINsnid.csv file.
- *   The parameter mapping from the original file is shown in "server/server-with-database/database/ImportToDatabase.js".
+ *   Input is a raw row from the database with
+ *   original values from the KRISTINsnid.csv file.
+ *   The parameter mapping from the original file is
+ *   shown in "server/server-with-database/database/ImportToDatabase.js".
  *   The following attributes of the input object are taken into consideration:
  *   - word_categories
  *   - grammatical_tag
@@ -100,37 +102,10 @@ let tags = {}
  */
 let sorted_tags = []
 
-categories.forEach(({ category_names, values }) => {
-  sorted_tags = sorted_tags.concat(values)
-  category_names.forEach(category_name => {
-    tags[category_name] = values
-  })
-})
-
 export { tags }
 
 
 
-
-
-export const sort_by_classification = (a, b) => {
-  /* Sort by single tag */
-  if (a.tag) {
-    return sorted_tags.indexOf(a.tag) - sorted_tags.indexOf(b.tag)
-  }
-
-  /* Sort by full array of classification */
-  for (let i = 0; i < a.inflectional_form_categories.length; i++) {
-    if (!b.inflectional_form_categories[i])
-      break;
-    if (a.inflectional_form_categories[i] === b.inflectional_form_categories[i])
-      continue;
-    return sorted_tags.indexOf(a.inflectional_form_categories[i]) - sorted_tags.indexOf(b.inflectional_form_categories[i])
-  }
-
-  /* Sort by variant number */
-  return a.variant_number - b.variant_number
-}
 
 /*
   We are only interested in knowing wether a word is a name or not
@@ -153,3 +128,24 @@ const relevant_BIN_domains = {
   erl: 'place name',
 }
 export const BIN_domains = Object.keys(relevant_BIN_domains).map(key => relevant_BIN_domains[key])
+
+
+
+/*
+  Overrides the tags only during the BIN initialization step
+*/
+const BIN_overrides = {
+  word: {
+    kk: 'noun, masculine',
+    kvk: 'noun, feminine',
+    hk: 'noun, neuter',
+  },
+  form: {
+    fsb: 'positive degree, strong declension',
+    fvb: 'positive degree, weak declension',
+    evb: 'superlative degree, weak declension',
+    esb: 'superlative degree, strong declension',
+    gr: 'with definite article',
+    st: 'clipped imperative',
+  }
+}
