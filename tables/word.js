@@ -39,10 +39,10 @@ class Word {
     A snippet is a short example of a conjugation to display in search results
   */
   getSnippet() {
-    if(this.is('verb')){
+    if (this.is('verb')) {
       return this.getPrincipalParts()
     }
-    return this.getSingleTable()
+    return this.getSingleTable({ returnAsString: true })
   }
   isWordIrregular() {
     let hasUmlaut, isIrregular

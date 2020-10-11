@@ -46,9 +46,9 @@ const classify = (input, returns) => {
   let inflectional_form_categories = []
   grammatical_tag = grammatical_tag.toLowerCase()
   /* Adjectives: Arrange plurality before gender */
-  grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/, '$3-$1-$2')
+  grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/i, '$3-$1-$2')
   /* Nouns: Arrange plurality before case */
-  grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/, '$2-$1')
+  grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/i, '$2-$1')
   grammatical_tag.split((new RegExp(`(${tagRegex})`, 'g'))).filter(Boolean).forEach(tag => {
     if (tag === '-') return;
     if (get_label_for_BIN_inflection_form(tag)) {

@@ -2,6 +2,7 @@ import link from './link'
 import Word from './word'
 import { tags } from './classification/BIN_classification'
 import { RenderTable, renderCell } from './render_table'
+import { types } from './classification/classification'
 
 /**
  * getTables - Prints all tables for a given word

@@ -10,23 +10,29 @@ import { types } from './classification/classification'
  * @memberof Word
  * @return {string} HTML as string
  */
-export default function getSingleTable() {
+export default function getSingleTable(options) {
+  const returnAsString = options && options.returnAsString
 
   const word = this
   let description = ''
   let table = ''
   /* Nouns */
-  if (word.is('noun')) {
+  if (word.is('noun') || word.is('adjective')) {
     const sibling_classification = without(word.getFirstClassification(), ...types['cases'])
-    // console.log(sibling_classification)
     const siblings = word.getOriginal().get(...sibling_classification)
-    table = RenderTable(siblings, word.getOriginal(), {
-      column_names: [word.getType('article')],
-      row_names: types['cases'],
-    }, word.getFirstClassification())
 
-
-    description = without(sibling_classification, ...types['articles']).join(', ')
+    /* As string */
+    if (returnAsString) {
+      return (types['cases']).map(c => siblings.get(c)).map(i => i.render()).join(', ')
+    }
+    /* As table */
+    else {
+      table = RenderTable(siblings, word.getOriginal(), {
+        column_names: [word.getType('article')],
+        row_names: types['cases'],
+      }, word.getFirstClassification())
+      description = without(sibling_classification, ...types['articles']).join(', ')
+    }
   }
 
 
