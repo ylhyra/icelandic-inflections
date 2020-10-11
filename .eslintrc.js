@@ -41,7 +41,8 @@ module.exports = {
   globals: {
     process: true,
     __dirname: true,
-    expect: true,
-    test: true,
+    // Mocha tests
+    describe: true,
+    it: true,
   }
 }
