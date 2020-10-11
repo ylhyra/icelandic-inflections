@@ -109,7 +109,7 @@ const labels = [
     en: 'with definite article',
     is: 'með greini',
     type: 'article',
-    shortcuts: ['gr', 'meðgr'],
+    shortcuts: ['meðgr'],
     has_article_on_ylhyra: true,
   },
 
@@ -167,6 +167,250 @@ const labels = [
     shortcuts: ['vb', 'veik', 'weak'],
     has_article_on_ylhyra: true,
   },
+
+
+
+  {
+    en: 'infinitive',
+    is: 'nafnháttur',
+    type: '',
+    shortcuts: ['nh'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'indicative',
+    is: 'framsöguháttur',
+    type: '',
+    shortcuts: ['fh'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'subjunctive',
+    is: 'viðtengingarháttur',
+    type: '',
+    shortcuts: ['vh'],
+    has_article_on_ylhyra: true,
+  },
+
+  {
+    en: 'active voice',
+    is: 'germynd',
+    type: '',
+    shortcuts: ['gm'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'mediopassive',
+    is: 'miðmynd',
+    type: '',
+    shortcuts: ['mm'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'imperative',
+    is: 'boðháttur',
+    type: '',
+    shortcuts: ['bh'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'clipped imperative',
+    is: 'stýfður boðháttur',
+    type: '',
+    shortcuts: ['st'],
+    has_article_on_ylhyra: false,
+  },
+
+  {
+    en: 'present participle',
+    is: 'lýsingarháttur nútíðar',
+    type: '',
+    shortcuts: ['lhnt'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'supine',
+    is: 'sagnbót',
+    type: '',
+    shortcuts: ['sagnb'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'past participle',
+    is: 'lýsingarháttur þátíðar',
+    type: '',
+    shortcuts: ['lhþt'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'question form',
+    is: 'spurnarmynd',
+    type: '',
+    shortcuts: ['sp'],
+    has_article_on_ylhyra: false,
+  },
+
+
+
+
+
+  {
+    en: 'optative',
+    is: 'óskháttur',
+    type: '',
+    shortcuts: ['oskh'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'not used in a noun phrase',
+    is: 'sérstætt',
+    type: '',
+    shortcuts: ['serst'],
+    has_article_on_ylhyra: false,
+  },
+
+  {
+    en: 'personal',
+    is: 'persónuleg beyging',
+    type: '',
+    shortcuts: ['persónuleg beyging'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'impersonal',
+    is: 'ópersónuleg beyging',
+    type: '',
+    shortcuts: ['op'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'impersonal with accusative subject',
+    is: 'ópersónuleg beyging með frumlag í þolfalli',
+    type: '',
+    shortcuts: ['op-þf'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'impersonal with dative subject',
+    is: 'ópersónuleg beyging með frumlag í þágufalli',
+    type: '',
+    shortcuts: ['op-þgf'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'impersonal with genitive subject',
+    is: 'ópersónuleg beyging með frumlag í eignarfalli',
+    type: '',
+    shortcuts: ['op-ef'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'impersonal with dummy subject',
+    is: 'ópersónuleg beyging með gervifrumlag',
+    type: '',
+    shortcuts: ['op-það'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'indeclinable',
+    is: 'óbeygjanlegt',
+    type: '',
+    shortcuts: ['obeygjanlegt'],
+    has_article_on_ylhyra: false,
+  },
+
+  /* Word classes */
+  {
+    en: 'preposition',
+    is: 'forsetning',
+    type: '',
+    shortcuts: ['fs'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'adverb',
+    is: 'atviksorð',
+    type: '',
+    shortcuts: ['ao'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'article',
+    is: 'greinir',
+    type: '',
+    shortcuts: ['gr'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'adjective',
+    is: 'lýsingarorð',
+    type: '',
+    shortcuts: ['lo'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'infinitive particle',
+    is: 'nafnháttarmerki',
+    type: '',
+    shortcuts: ['nhm'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'verb',
+    is: 'sagnorð',
+    type: '',
+    shortcuts: ['so'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'conjunction',
+    is: 'samtenging',
+    type: '',
+    shortcuts: ['st'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'interjection',
+    is: 'upphrópun',
+    type: '',
+    shortcuts: ['uh'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'numeral',
+    is: 'töluorð',
+    type: '',
+    shortcuts: ['to'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'ordinal number',
+    is: 'raðtala',
+    type: '',
+    shortcuts: ['rt'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'pronoun',
+    is: 'fornafn',
+    type: '',
+    shortcuts: ['fn'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'reflexive pronoun',
+    is: 'afturbeygt fornafn',
+    type: '',
+    shortcuts: ['afn'],
+    has_article_on_ylhyra: false,
+  },
+  {
+    en: 'personal pronoun',
+    is: 'persónufornafn',
+    type: '',
+    shortcuts: ['pfn'],
+    has_article_on_ylhyra: false,
+  },
 ]
 
 
@@ -178,59 +422,15 @@ const class_aliases = {
   case: ['cases'],
 }
 
-
-
-const word_categorieses = {
+const overrides_during_BIN_classification_word = {
   kk: 'noun, masculine',
   kvk: 'noun, feminine',
   hk: 'noun, neuter',
-  fs: 'preposition',
-  ao: 'adverb',
-  gr: 'article',
-  lo: 'adjective',
-  nhm: 'infinitive particle',
-  so: 'verb',
-  st: 'conjunction',
-  uh: 'interjection',
-  to: 'numeral',
-  rt: 'ordinal number',
-
-  /* Pronouns */
-  fn: 'pronoun',
-  afn: 'reflexive pronoun',
-  pfn: 'personal pronoun',
 }
-
-const short_tags = {
-
-  'bh': 'imperative',
-  'fh': 'indicative',
-
-  'fsb': 'positive degree, strong declension',
-  'fvb': 'positive degree, weak declension',
-  'evb': 'superlative degree, weak declension',
-  'esb': 'superlative degree, strong declension',
-
-  'gm': 'active voice',
-  'lhnt': 'present participle',
-  'lhþt': 'past participle',
-  'mm': 'mediopassive',
-  'nf': 'nominative',
-  'nh': 'infinitive',
-  'nt': 'present tense',
-  'oskh': 'optative',
-  'sagnb': 'supine',
-  'sb': 'strong declension',
-  'serst': 'not used in a noun phrase',
-  'sp': 'question form',
-  'st': 'clipped imperative', // stýfður boðháttur
-  'vb': 'weak declension',
-  'vh': 'subjunctive',
-  'þt': 'past tense',
-  'op-þf': 'impersonal with accusative subject',
-  'op-þgf': 'impersonal with dative subject',
-  'op-ef': 'impersonal with genitive subject',
-  'op-það': 'impersonal with dummy subject',
-  'op': 'impersonal',
-  'obeygjanlegt': 'indeclinable',
+const overrides_during_BIN_classification = {
+  fsb: 'positive degree, strong declension',
+  fvb: 'positive degree, weak declension',
+  evb: 'superlative degree, weak declension',
+  esb: 'superlative degree, strong declension',
+  gr: 'with definite article',
 }
