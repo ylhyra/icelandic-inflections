@@ -50,8 +50,8 @@ export function highlightIrregularities(form, word, returnDescription = false) {
    * Highlight in entirety if word is considerably different from the stem
    * Skip over umlauted or last vowel since it was already checked above
    */
-  const form_without_umlautable_vowel = removeItem(form_split_stripped, umlauted_vowel_index).join('')
-  const stem_without_umlautable_vowel = removeItem(stem_split, umlauted_vowel_index).join('')
+  const form_without_umlautable_vowel = removeItemAtIndex(form_split_stripped, umlauted_vowel_index).join('')
+  const stem_without_umlautable_vowel = removeItemAtIndex(stem_split, umlauted_vowel_index).join('')
   if (!form_without_umlautable_vowel.startsWith(stem_without_umlautable_vowel)) {
     output = `<em class="irregular">${output}</em>`
     isIrregular = true
@@ -64,7 +64,7 @@ export function highlightIrregularities(form, word, returnDescription = false) {
   }
 }
 
-const removeItem = (array, index_to_remove) => {
+const removeItemAtIndex = (array, index_to_remove) => {
   if (index_to_remove === undefined) {
     return array
   }
