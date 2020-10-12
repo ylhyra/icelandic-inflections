@@ -396,6 +396,12 @@ i {
   max-width: 700px;
   min-width: 400px;
 }
+.note {
+  background: #f0f0f0;
+  border-radius: 3px;
+  padding: 6px 10px;
+  margin: 4px 0;
+}
 footer {
   max-width: 500px;
   margin: auto;

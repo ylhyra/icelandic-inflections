@@ -112,15 +112,15 @@ export default (Search, Get_by_id) => {
             let output = ''
             if (perfect_matches.length > 0) {
               output += `<ul class="results">
-            ${perfect_matches.map(renderItemOnSearchPage).join('')}
-          </ul>`
+                  ${perfect_matches.map(renderItemOnSearchPage).join('')}
+                </ul>`
             }
             if (did_you_mean.length > 0) {
               output += `
-          <h4 class="did-you-mean">${perfect_matches.length>0 ? 'Or did you mean:' : 'Did you mean:'}</h4>
-          <ul class="results">
-            ${did_you_mean.map(renderItemOnSearchPage).join('')}
-          </ul>`
+                <h4 class="did-you-mean">${perfect_matches.length>0 ? 'Or did you mean:' : 'Did you mean:'}</h4>
+                <ul class="results">
+                  ${did_you_mean.map(renderItemOnSearchPage).join('')}
+                </ul>`
             }
 
             /*

@@ -22,6 +22,7 @@ export default (rows, give_me) => {
       <div class="main">
         <h4>${(word.getBaseWord())}</h4>
         <div>${word.getWordDescription()}</div>
+        <div>${word.getWordNotes()}</div>
 
         <div>${word.getPrincipalParts()}</div>
 
