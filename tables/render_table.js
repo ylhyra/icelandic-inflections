@@ -2,6 +2,33 @@ import link, { ucfirst } from './link'
 import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 
+/*
+  Wrapper for "RenderTable", creates two alternative versions of the input,
+  one original and one by splitting each column into its own table
+  to make them fit on small screens
+*/
+const AlsoMakeTablesThatFitOnSmallScreens = (input, original_word, structure, highlight) => {
+  const { column_names, row_names } = structure
+  let output = ''
+  let differentOnSmallerScreens = column_names.length > 1
+  output += `<div class="${differentOnSmallerScreens ? 'for_large_screens' : ''}">` +
+    RenderTable(input, original_word, structure, highlight) +
+    '</div>'
+
+  if (differentOnSmallerScreens) {
+    output += `<div class="for_small_screens" hidden>` +
+      column_names.map(column_name => {
+        return RenderTable(input, original_word, {
+          column_names: [column_name],
+          row_names,
+        }, highlight)
+      }).join('') +
+      '</div>'
+  }
+  return output
+}
+export default AlsoMakeTablesThatFitOnSmallScreens
+
 /**
  * RenderTable - Converts description of table structure into a table
  *
@@ -16,12 +43,12 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
  *   An object with the keys `column_names` and `row_names`,
  *   which are arrays describing what  they should contain:
  *   {
- *     column_names: tags['plurality'],
- *     row_names: tags['person']
+ *     column_names: types['plurality'],
+ *     row_names: types['person']
  *   }
  * @returns {string} HTML string
  */
-export const RenderTable = (input, original_word, structure, highlight) => {
+const RenderTable = (input, original_word, structure, highlight) => {
   const { column_names, row_names } = structure
   let word
   if (input instanceof Word) {

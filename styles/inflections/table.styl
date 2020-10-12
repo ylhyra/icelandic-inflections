@@ -99,3 +99,16 @@ table.table
     min-width 0
     border-left none
     padding-left 3px
+
+
+$screen_break = 700px
+@media (max-width: $screen_break)
+  .for_large_screens
+    display none
+  .for_small_screens
+    display block
+@media (min-width: $screen_break + 1)
+  .for_small_screens
+    display none
+  .for_large_screens
+    display block

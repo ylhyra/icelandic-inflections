@@ -1,9 +1,9 @@
-import { sort_by_classification } from './classify'
+import { sort_by_classification } from './classification/sort_by_classification'
 
 /**
  * Turns rows into nested tree, with each leaf containing a collection of items that have the same classification
  *
- * @param {array} rows - Raw list of rows with classifications from ./classify.js
+ * @param {array} rows - Raw list of rows with classifications from ./classification/BIN_classification.js
  * @returns {object}
  * The tree is on the form:
  *   {
@@ -61,7 +61,7 @@ const tree = (rows) => {
 }
 
 /**
- * Sort tree based on the list `sorted_tags` array in ./classify.js
+ * Sort tree based on the list `sorted_tags` array in ./classification/BIN_classification.js
  */
 const TraverseAndSort = (input) => {
   if (Array.isArray(input)) {

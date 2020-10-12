@@ -1,7 +1,7 @@
 import link from './link'
 import Word from './word'
-import { tags } from './classify'
-import { RenderTable, renderCell } from './render_table'
+import RenderTable, { renderCell } from './render_table'
+import { types } from './classification/classification'
 
 /**
  * getTables - Prints all tables for a given word
@@ -24,31 +24,31 @@ const TraverseTree = (leaf, original_word) => {
   let table = null
   const word = (new Word()).importTree(leaf, original_word)
   /* Nouns */
-  if (word.is('noun') && tags['plurality'].includes(leaf.tag)) {
+  if (word.is('noun') && types['plurality'].includes(leaf.tag)) {
     table = RenderTable(leaf.values, original_word, {
-      column_names: tags['article'],
-      row_names: tags['cases'],
+      column_names: types['article'],
+      row_names: types['cases'],
     })
   }
   /* Pronouns */
-  else if (word.is('pronoun') && tags['plurality'].includes(leaf.tag)) {
+  else if (word.is('pronoun') && types['plurality'].includes(leaf.tag)) {
     table = RenderTable(leaf.values, original_word, {
-      column_names: tags['gender'],
-      row_names: tags['cases']
+      column_names: types['gender'],
+      row_names: types['cases']
     })
   }
   /* Personal pronouns */
   else if (word.is('personal pronoun')) {
     table = RenderTable(leaf.values, original_word, {
-      column_names: tags['plurality'],
-      row_names: tags['cases']
+      column_names: types['plurality'],
+      row_names: types['cases']
     })
   }
   /* Reflexive pronouns */
   else if (word.is('reflexive pronoun')) {
     table = RenderTable(leaf.values, original_word, {
       column_names: [null],
-      row_names: tags['cases']
+      row_names: types['cases']
     })
   }
   /* Adjectives */
@@ -57,16 +57,16 @@ const TraverseTree = (leaf, original_word) => {
       word.is('past participle') ||
       word.is('ordinal number') ||
       word.is('numeral')
-    ) && tags['plurality'].includes(leaf.tag)
+    ) && types['plurality'].includes(leaf.tag)
   ) {
     table = RenderTable(leaf.values, original_word, {
-      column_names: tags['gender'],
-      row_names: tags['cases']
+      column_names: types['gender'],
+      row_names: types['cases']
     })
   }
   /* Verbs */
   else if (
-    word.is('verb') && tags['tense'].includes(leaf.tag) &&
+    word.is('verb') && types['tense'].includes(leaf.tag) &&
     !word.is('question form')
   ) {
     /* Dummy subjects */
@@ -79,8 +79,8 @@ const TraverseTree = (leaf, original_word) => {
     /* Regular table */
     else {
       table = RenderTable(leaf.values, original_word, {
-        column_names: tags['plurality'],
-        row_names: tags['person']
+        column_names: types['plurality'],
+        row_names: types['person']
       })
     }
   }
@@ -94,10 +94,10 @@ const TraverseTree = (leaf, original_word) => {
     })
   } else if (
     word.is('question form') &&
-    tags['tense'].includes(leaf.tag)
+    types['tense'].includes(leaf.tag)
   ) {
     table = RenderTable(leaf.values, original_word, {
-      column_names: tags['plurality'],
+      column_names: types['plurality'],
       row_names: ['2nd person']
     })
   }

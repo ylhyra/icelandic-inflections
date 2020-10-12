@@ -7,7 +7,7 @@ export default (id, callback) => {
       callback(data.results)
     })
     .catch(function (error) {
+      console.log(error)
       callback(null)
-      console.log(error);
     })
 }

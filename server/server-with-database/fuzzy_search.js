@@ -16,7 +16,7 @@ import { removeLinks } from './../../tables/link'
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
-import classify from 'server/inflection/tables/classify'
+import classify from 'server/inflection/tables/classification/BIN_classification'
 
 export default ({ word, return_rows_if_only_one_match }, callback) => {
   query(sql `

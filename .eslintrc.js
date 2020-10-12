@@ -5,12 +5,13 @@ module.exports = {
     es6: true
   },
   extends: "eslint:recommended",
-  // parser: "babel-eslint",
+  parser: "babel-eslint",
   parserOptions: {
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
       jsx: true
     },
+    "ecmaVersion": 2018,
     experimentalDecorators: true,
     sourceType: "module",
   },
@@ -40,7 +41,8 @@ module.exports = {
   globals: {
     process: true,
     __dirname: true,
-    expect: true,
-    test: true,
+    // Mocha tests
+    describe: true,
+    it: true,
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "icelandic-inflections",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Egill",
   "homepage": "https://github.com/ylhyra/icelandic-inflections#readme",
   "license": "MIT",
@@ -9,10 +9,11 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "nodemon --exec 'npm run styles && npm run server' -e js,styl --ignore styles/build.css",
+    "startX": "nodemon --exec 'npm run styles && npm run server' -e js,styl --ignore styles/build.css",
+    "start": "nodemon -r esm ./server/server-standalone/index.js -e js,styl --ignore styles/build.css",
     "server": "node -r esm ./server/server-standalone/index.js",
     "styles": "stylus --include styles/ < styles/index.styl > styles/build.css",
-    "test": "jest --no-cache --config tests/jest.config.js"
+    "test": "mocha -r esm"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.6.0",
-    "jest": "^26.4.2"
+    "eslint": "^7.6.0"
   }
 }
