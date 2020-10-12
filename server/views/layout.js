@@ -57,20 +57,18 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
 
 </footer>
 
-<!--
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "WebSite",
-  "url": "https://rimordabok.is/",
+  "url": "https://inflections.ylhyra.is/",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://rimordabok.is/?q={search_term_string}",
+    "target": "https://inflections.ylhyra.is/?q={search_term_string}",
     "query-input": "required name=search_term_string"
   }
 }
 </script>
--->
 </body>
 </html>
 `

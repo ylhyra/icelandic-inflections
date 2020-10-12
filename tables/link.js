@@ -47,4 +47,5 @@ let missing_links = [
   'regular inflection',
   'strongly conjugated',
   'weakly conjugated',
+  'helper words for the article',
 ]

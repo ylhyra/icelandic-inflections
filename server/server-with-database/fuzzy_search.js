@@ -21,7 +21,23 @@ import classify from 'server/inflection/tables/classification/BIN_classification
 export default ({ word, return_rows_if_only_one_match }, callback) => {
   query(sql `
     SELECT
-        score, i2.BIN_id, i2.BIN_domain, i2.grammatical_tag, i2.inflectional_form, i2.word_categories, i2.base_word,
+        score,
+        i2.BIN_id,
+        i2.BIN_domain,
+        i2.grammatical_tag,
+        i2.inflectional_form,
+        i2.word_categories,
+        i2.base_word,
+        i2.correctness_grade_of_word,
+        i2.word_register,
+        i2.grammar_group,
+        i2.cross_reference,
+        i2.should_be_taught,
+        i2.grammatical_tag,
+        i2.correctness_grade_of_inflectional_form,
+        i2.register_of_inflectional_form,
+        i2.various_feature_markers,
+        i2.alternative_entry
         inner_table.inflectional_form as matched_term,
         (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
       FROM
