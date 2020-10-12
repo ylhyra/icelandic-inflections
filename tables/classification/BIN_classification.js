@@ -36,7 +36,7 @@ const classify = (input, returns) => {
   if (!word_categories && !grammatical_tag) return input;
 
   /* Word categories */
-  word_categories = word_categories.toLowerCase()
+  word_categories = word_categories && word_categories.toLowerCase() || ''
   let word_categories_output = get_label_for_BIN_word(word_categories).split(', ')
 
   if (relevant_BIN_domains[BIN_domain]) {
@@ -44,7 +44,8 @@ const classify = (input, returns) => {
   }
 
   let inflectional_form_categories = []
-  grammatical_tag = grammatical_tag.toLowerCase()
+  let original_grammatical_tag = grammatical_tag
+  grammatical_tag = grammatical_tag && grammatical_tag.toLowerCase() || ''
   /* Adjectives: Arrange plurality before gender */
   grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/i, '$3-$1-$2')
   /* Nouns: Arrange plurality before case */
@@ -54,7 +55,7 @@ const classify = (input, returns) => {
     if (get_label_for_BIN_inflection_form(tag)) {
       inflectional_form_categories.push(get_label_for_BIN_inflection_form(tag))
     } else if (isNumber(tag)) {
-      inflectional_form_categories.push(tag)
+      // inflectional_form_categories.push(tag)
     } else {
       if (process.env.NODE_ENV === 'development') {
         console.error(`Unknown tag in BIN_classification.js: ${tag}. Full tag is ${grammatical_tag}`)
@@ -89,7 +90,7 @@ const classify = (input, returns) => {
   return {
     word_categories: word_categories_output,
     inflectional_form_categories,
-    original_grammatical_tag: grammatical_tag,
+    original_grammatical_tag,
     ...rest,
     // ...input,
   }
@@ -118,10 +119,10 @@ const BIN_overrides = {
   }
 }
 export const get_label_for_BIN_word = (tag) => {
-  return BIN_overrides.word_overrides[tag] || normalizeTag(tag)
+  return BIN_overrides.word_overrides[tag] || normalizeTag(tag) || ''
 }
 export const get_label_for_BIN_inflection_form = (tag) => {
-  return BIN_overrides.inflection_form_overrides[tag] || normalizeTag(tag)
+  return BIN_overrides.inflection_form_overrides[tag] || normalizeTag(tag) || ''
 }
 const tagRegex = (() => {
   let tags = [

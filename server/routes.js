@@ -68,13 +68,22 @@ export default (Search, Get_by_id) => {
             results: rows === null ? 'Error. Try reloading.' : 'No matches'
           }))
         }
-
-        res.send(layout({
-          title: rows[0].base_word || '',
-          string: word,
-          results: render(rows, give_me),
-          id,
-        }))
+        try {
+          console.log(rows)
+          res.send(layout({
+            title: rows[0].base_word || '',
+            string: word,
+            results: render(rows, give_me),
+            id,
+          }))
+        } catch (e) {
+          console.error(e)
+          return res.send(layout({
+            title: word,
+            string: word,
+            results: 'There was an error. Click the link at the bottom to report this error.'
+          }))
+        }
       })
     } else if (word) {
       Search({
@@ -83,56 +92,65 @@ export default (Search, Get_by_id) => {
           return_rows_if_only_one_match: true
         },
         results => {
-          /*
-            No results
-          */
-          if (!results || results === 'Error') {
-            return res.send(layout({
-              title: word,
-              string: word,
-              results: results === 'Error' ? 'Error, try reloading' : 'No matches'
-            }))
-          }
+          try {
+            /*
+              No results
+            */
+            if (!results || results === 'Error') {
+              return res.send(layout({
+                title: word,
+                string: word,
+                results: results === 'Error' ? 'Error, try reloading' : 'No matches'
+              }))
+            }
 
-          const {
-            perfect_matches,
-            did_you_mean,
-          } = results
+            const {
+              perfect_matches,
+              did_you_mean,
+            } = results
 
-          let output = ''
-          if (perfect_matches.length > 0) {
-            output += `<ul class="results">
+            let output = ''
+            if (perfect_matches.length > 0) {
+              output += `<ul class="results">
             ${perfect_matches.map(renderItemOnSearchPage).join('')}
           </ul>`
-          }
-          if (did_you_mean.length > 0) {
-            output += `
+            }
+            if (did_you_mean.length > 0) {
+              output += `
           <h4 class="did-you-mean">${perfect_matches.length>0 ? 'Or did you mean:' : 'Did you mean:'}</h4>
           <ul class="results">
             ${did_you_mean.map(renderItemOnSearchPage).join('')}
           </ul>`
-          }
+            }
 
-          /*
-            One result
-          */
-          if (perfect_matches.length === 1) {
-            const { rows } = results
-            res.send(layout({
-              title: rows[0].base_word || '',
-              string: word,
-              results: render(rows, give_me),
-              id,
-            }))
-          }
-          /*
-            Many results
-          */
-          else {
-            res.send(layout({
+            /*
+              One result
+            */
+            if (perfect_matches.length === 1) {
+              const { rows } = results
+              res.send(layout({
+                title: rows[0].base_word || '',
+                string: word,
+                results: render(rows, give_me),
+                id,
+              }))
+            }
+            /*
+              Many results
+            */
+            else {
+              res.send(layout({
+                title: word,
+                string: word,
+                results: output
+              }))
+            }
+          } catch (e) {
+            console.error(e)
+            return res.send(layout({
               title: word,
               string: word,
-              results: output
+              results: 'There was an error. Click the link at the bottom to report this error.'
             }))
           }
         })

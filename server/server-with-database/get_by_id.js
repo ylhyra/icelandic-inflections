@@ -34,8 +34,13 @@ export default (id, callback) => {
     if (err) {
       callback(null)
     } else {
-      let output = results.map(i => classify(i)).sort(sort_by_classification)
-      callback(output)
+      try {
+        let output = results.map(i => classify(i)).sort(sort_by_classification)
+        callback(output)
+      } catch (e) {
+        console.error(e)
+        callback('Error')
+      }
     }
   })
 }
