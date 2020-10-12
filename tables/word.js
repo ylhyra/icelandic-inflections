@@ -9,14 +9,31 @@ import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { BIN_domains } from './classification/BIN_classification'
 import { types } from './classification/classification'
-import { uniq } from 'lodash'
+import { uniq, last } from 'lodash'
 
 class Word {
-  constructor(rows, original) {
+  constructor(rows, original, options) {
     if (!Array.isArray(rows) && rows !== undefined) {
       throw `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
     }
-    this.rows = rows || []
+    rows = rows || []
+
+    /* Remove incorrect variants */
+    if (true) {
+      rows = rows.filter(row => {
+        /* Leave the first item */
+        if(last(row.inflectional_form_categories) === '1') {
+          return true
+        }
+        /* Leave subsequent items if they are correct */
+        if (row.correctness_grade_of_inflectional_form == '1'){
+          return true
+        }
+        return false
+      })
+    }
+
+    this.rows = rows
     if (original instanceof Word) {
       this.original = original.original
     } else {

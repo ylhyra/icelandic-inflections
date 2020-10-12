@@ -69,7 +69,7 @@ export default (Search, Get_by_id) => {
           }))
         }
         try {
-          console.log(rows)
+          // console.log(rows)
           res.send(layout({
             title: rows[0].base_word || '',
             string: word,

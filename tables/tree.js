@@ -1,7 +1,8 @@
 import { sort_by_classification } from './classification/sort_by_classification'
 
 /**
- * Turns rows into nested tree, with each leaf containing a collection of items that have the same classification
+ * Turns rows into nested tree, with each leaf containing
+ * a collection of items that have the same classification
  *
  * @param {array} rows - Raw list of rows with classifications from ./classification/BIN_classification.js
  * @returns {object}

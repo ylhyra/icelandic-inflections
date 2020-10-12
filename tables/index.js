@@ -3,7 +3,7 @@ import link from './link'
 
 export default (rows, give_me) => {
   // console.log(rows.slice(0,1))
-  rows = rows.filter(row => row.correctness_grade_of_inflectional_form == '1')
+  // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == '1')
   let word = (new Word(rows))
   // const word = (new Word()).importTree(rows)
 
