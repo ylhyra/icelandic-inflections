@@ -1,5 +1,5 @@
 import { isNumber } from './../tree'
-import { shortcuts, getLabel, shortcuts_used_in_BIN } from './classification'
+import { shortcuts, normalizeTag, shortcuts_used_in_BIN } from './classification'
 
 /**
  *  Turns BÍN's classifications into English
@@ -118,10 +118,10 @@ const BIN_overrides = {
   }
 }
 export const get_label_for_BIN_word = (tag) => {
-  return BIN_overrides.word_overrides[tag] || getLabel(tag)
+  return BIN_overrides.word_overrides[tag] || normalizeTag(tag)
 }
 export const get_label_for_BIN_inflection_form = (tag) => {
-  return BIN_overrides.inflection_form_overrides[tag] || getLabel(tag)
+  return BIN_overrides.inflection_form_overrides[tag] || normalizeTag(tag)
 }
 const tagRegex = (() => {
   let tags = [

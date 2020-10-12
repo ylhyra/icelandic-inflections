@@ -11,21 +11,21 @@ const labels_array = [
     icelandic_title: '1. persóna',
     type: 'person',
     shortcuts: ['1p'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
   {
     title: '2nd person',
     icelandic_title: '2. persóna',
     type: 'person',
     shortcuts: ['2p'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
   {
     title: '3rd person',
     icelandic_title: '3. persóna',
     type: 'person',
     shortcuts: ['3p'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
 
   /* Case */
@@ -64,14 +64,14 @@ const labels_array = [
     icelandic_title: 'eintala',
     type: 'plurality',
     shortcuts: ['et', 'sing'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
   {
     title: 'plural',
     icelandic_title: 'fleirtala',
     type: 'plurality',
     shortcuts: ['ft', 'plur'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
 
   /* Gender */
@@ -119,14 +119,14 @@ const labels_array = [
     icelandic_title: 'nútíð',
     type: 'tense',
     shortcuts: ['nt', 'present', 'pres', 'prs'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
   {
     title: 'past tense',
     icelandic_title: 'þátíð',
     type: 'tense',
     shortcuts: ['þt', 'past', 'pst'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
 
   /* Degree */
@@ -135,21 +135,21 @@ const labels_array = [
     icelandic_title: 'frumstig',
     type: 'degree',
     shortcuts: ['fst', 'positive'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
   {
     title: 'comparative degree',
     icelandic_title: 'miðstig',
     type: 'degree',
     shortcuts: ['mst', 'comparative'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
   {
     title: 'superlative degree',
     icelandic_title: 'efsta stig',
     type: 'degree',
     shortcuts: ['est', 'superlative'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
 
   /* Strong or weak */
@@ -158,14 +158,14 @@ const labels_array = [
     icelandic_title: 'sterk beyging',
     type: 'strong or weak',
     shortcuts: ['sb', 'sterk', 'strong'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
   {
     title: 'weak declension',
     icelandic_title: 'veik beyging',
     type: 'strong or weak',
     shortcuts: ['vb', 'veik', 'weak'],
-    has_article_on_ylhyra: true,
+    has_article_on_ylhyra: false,
   },
 
 
@@ -320,10 +320,17 @@ const labels_array = [
 
   /* Word classes */
   {
+    title: 'noun',
+    icelandic_title: 'nafnorð',
+    type: 'class',
+    shortcuts: ['no', 'n'],
+    has_article_on_ylhyra: true,
+  },
+  {
     title: 'preposition',
     icelandic_title: 'forsetning',
     type: 'class',
-    shortcuts: ['fs', 'prep'],
+    shortcuts: ['fs', 'pre', 'prep'],
     has_article_on_ylhyra: false,
   },
   {
@@ -345,7 +352,7 @@ const labels_array = [
     icelandic_title: 'lýsingarorð',
     type: 'class',
     shortcuts: ['lo', 'adj', 'a'],
-    has_article_on_ylhyra: false,
+    has_article_on_ylhyra: true,
   },
   {
     title: 'infinitive particle',
@@ -359,7 +366,7 @@ const labels_array = [
     icelandic_title: 'sagnorð',
     type: 'class',
     shortcuts: ['so', 'v'],
-    has_article_on_ylhyra: false,
+    has_article_on_ylhyra: true,
   },
   {
     title: 'conjunction',
@@ -394,7 +401,7 @@ const labels_array = [
     icelandic_title: 'fornafn',
     type: 'class',
     shortcuts: ['fn'],
-    has_article_on_ylhyra: false,
+    has_article_on_ylhyra: true,
   },
   {
     title: 'reflexive pronoun',
@@ -447,10 +454,10 @@ labels_array.forEach(label => {
   types[label.type].push(label.title)
 
   /* Shortcuts */
-  let x = label.shortcuts
-  x.push(label.title)
-  x.push(label.icelandic_title)
-  x.forEach((shortcut, index) => {
+  let s = label.shortcuts
+  s.push(label.title)
+  s.push(label.icelandic_title)
+  s.forEach((shortcut, index) => {
     if (shortcuts[shortcut]) {
       throw `SHORTCUT ALREADY EXISTS ${shortcut}`
     }
@@ -479,9 +486,14 @@ Object.keys(type_aliases).forEach(key => {
   })
 })
 
-export const getLabel = (tag) => {
+export const normalizeTag = (tag) => {
   tag = tag.toLowerCase().trim()
   return shortcuts[tag]
+}
+
+export const getTagInfo = (tag) => {
+  tag = normalizeTag(tag)
+  return tag && title_to_label[tag]
 }
 
 export { shortcuts }

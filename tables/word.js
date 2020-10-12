@@ -13,12 +13,13 @@ import { uniq } from 'lodash'
 
 class Word {
   constructor(rows, original) {
-    if (!Array.isArray(rows)) {
-      throw `Class "Word" expected parameter "rows" to be an array, got ${typeof rows}`
+    if (!Array.isArray(rows) && rows !== undefined) {
+      throw `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
     }
-    this.rows = rows
-    this.inflectional_form_categories = rows[0] && rows[0].inflectional_form_categories || []
-    this.word_categories = rows[0] && rows[0].word_categories || []
+    this.rows = rows || []
+    this.word_categories = this.rows[0] && this.rows[0].word_categories || []
+    /* Takes the form categories of the first. TODO should remove those that are not the same */
+    this.inflectional_form_categories = this.rows[0] && this.rows[0].inflectional_form_categories || []
     if (original instanceof Word) {
       this.original = original.original
     } else {
@@ -192,7 +193,6 @@ Word.prototype.getPrincipalParts = getPrincipalParts
 Word.prototype.getStem = getStem
 Word.prototype.isStrong = isStrong
 Word.prototype.isWeak = isWeak
-// Word.prototype.highlightIrregularities = highlightIrregularities
 Word.prototype.getTables = getTables
 Word.prototype.getSingleTable = getSingleTable
 
