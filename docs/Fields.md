@@ -62,5 +62,5 @@ The following fields are returned as a part of the API but are not currently bei
   - See the 8th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/).
 - `various_feature_markers` (type: string)
   - See the 14th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/).
-- `alternative_entry ` (type: integer)
+- `alternative_entry` (type: integer)
   - See the 15th field in the [original dataset](https://bin.arnastofnun.is/DMII/LTdata/k-format/).

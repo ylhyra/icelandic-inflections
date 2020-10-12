@@ -1,4 +1,4 @@
-import link from './link'
+import link, { ucfirst } from './link'
 import Word from './word'
 import RenderTable, { renderCell } from './render_table'
 import { types } from './classification/classification'
@@ -109,7 +109,7 @@ const TraverseTree = (leaf, original_word) => {
 
   if (leaf.tag) {
     return `<dl class="indent">
-      <dt>${link(leaf.tag)}</dt>
+      <dt>${link(ucfirst(leaf.tag))}</dt>
       <dd>${output}</dd>
     </dl>`
   } else {

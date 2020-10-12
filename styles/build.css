@@ -499,8 +499,18 @@ ul.results li:not(:last-child) a {
   font-size: 17px;
   color: #000;
 }
-.inflection .indent {
-  margin-left: 20px;
+.inflection .indent:first-child dt {
+  padding-top: 4px;
+}
+.inflection .indent dt {
+  font-size: 15px;
+  font-weight: 500;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+.inflection .indent dd {
+  border-left: 3px solid #ebe9e9;
+  padding-left: 12px;
 }
 .inflection .license {
   display: none;
