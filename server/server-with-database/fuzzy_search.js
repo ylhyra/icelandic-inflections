@@ -55,55 +55,60 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
     } else if (rows.length === 0) {
       callback(null)
     } else {
-      let words = []
-      let lastBINid = null
-      rows.forEach(row => {
-        if (lastBINid !== row.BIN_id) {
-          words.push([])
+      try {
+        let words = []
+        let lastBINid = null
+        rows.forEach(row => {
+          if (lastBINid !== row.BIN_id) {
+            words.push([])
+          }
+          lastBINid = row.BIN_id
+          words.last.push(classify(row))
+        })
+
+        let output = []
+        words.forEach(rows => {
+          const word = new Word(rows)
+          /* Prevent "null" from appearing during index creation, which causes Word() to fail */
+          if (word.getId()) {
+            output.push({
+              perfect_match: rows[0].word_has_perfect_match,
+              BIN_id: word.getId(),
+              base_word: word.getBaseWord(),
+              description: removeLinks(word.getWordDescription()),
+              snippet: removeLinks(word.getSnippet()),
+            })
+          }
+        })
+
+        let perfect_matches = []
+        let did_you_mean = []
+
+        output.forEach(item => {
+          if (item.perfect_match) {
+            perfect_matches.push(item)
+          } else {
+            did_you_mean.push(item)
+          }
+        })
+
+        let returns = {
+          perfect_matches,
+          did_you_mean,
         }
-        lastBINid = row.BIN_id
-        words.last.push(classify(row))
-      })
 
-      let output = []
-      words.forEach(rows => {
-        const word = new Word(rows)
-        /* Prevent "null" from appearing during index creation, which causes Word() to fail */
-        if (word.getId()) {
-          output.push({
-            perfect_match: rows[0].word_has_perfect_match,
-            BIN_id: word.getId(),
-            base_word: word.getBaseWord(),
-            description: removeLinks(word.getWordDescription()),
-            snippet: removeLinks(word.getSnippet()),
-          })
+        /*
+          Only one match, return rows so that a table may be printed immediately
+        */
+        if(perfect_matches.length === 1 && return_rows_if_only_one_match) {
+          returns.rows = words[0]
         }
-      })
 
-      let perfect_matches = []
-      let did_you_mean = []
-
-      output.forEach(item => {
-        if (item.perfect_match) {
-          perfect_matches.push(item)
-        } else {
-          did_you_mean.push(item)
-        }
-      })
-
-      let returns = {
-        perfect_matches,
-        did_you_mean,
+        callback(returns)
+      } catch(e){
+        console.error(e)
+        callback('Error')
       }
-
-      /*
-        Only one match, return rows so that a table may be printed immediately
-      */
-      if(perfect_matches.length === 1 && return_rows_if_only_one_match) {
-        returns.rows = words[0]
-      }
-
-      callback(returns)
     }
   })
 }
