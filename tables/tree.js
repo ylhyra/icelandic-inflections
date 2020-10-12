@@ -27,6 +27,7 @@ const tree = (rows) => {
     values: [],
   }
 
+  // console.log(rows.slice(0,3))
   rows.forEach(row => {
     let currentArray = output.values
     row.inflectional_form_categories.forEach(tag => {
@@ -67,6 +68,7 @@ const TraverseAndSort = (input) => {
   if (Array.isArray(input)) {
     return input.sort(sort_by_classification).map(TraverseAndSort)
   } else if (input.values) {
+    // console.log(input.values.slice(0,3))
     return {
       ...input,
       values: input.values.sort(sort_by_classification).map(TraverseAndSort)

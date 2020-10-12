@@ -50,14 +50,14 @@ export default (options, callback) => {
                 html: `https://ylhyra.is/api/inflection?id=${row.BIN_id}&type=html`,
               },
               base_word: row.base_word,
-              word_categories: classify(row, 'word_categories'),
+              word_categories: classify(row).word_categories,
               matches: [],
             })
             index = grouped.length - 1
           }
           grouped[index].matches.push({
             inflectional_form: row.inflectional_form,
-            inflectional_form_categories: classify(row, 'inflectional_form_categories'),
+            inflectional_form_categories: classify(row).inflectional_form_categories,
             should_be_taught: row.should_be_taught,
           })
         })
