@@ -36,7 +36,7 @@ export function highlightIrregularities(form, word, returnDescription = false) {
     umlauted_vowel_index = second_last_stem_vowel_index
   }
   if (umlauted_vowel_index) {
-    form_split[umlauted_vowel_index] = `<span class="umlaut" style="color:#b00030">${form_split[umlauted_vowel_index]}</span>`
+    form_split[umlauted_vowel_index] = `<span class="umlaut">${form_split[umlauted_vowel_index]}</span>`
     output = form_split.join('')
     hasUmlaut = true
   }

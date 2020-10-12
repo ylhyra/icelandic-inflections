@@ -82,16 +82,9 @@ class Word {
       values.filter(Boolean).every(value => !row.inflectional_form_categories.includes(value))
     )), this.original)
   }
-  getCases() {
-    return [
-      this.get('nominative'),
-      this.get('accusative'),
-      this.get('dative'),
-      this.get('genitive'),
-    ]
-  }
   /**
    * Used to ask "which case does this word have?"
+   * E.g. getType('case') returns 'nominative'
    *
    * @param  {string} type
    * @return {?string}
@@ -99,7 +92,8 @@ class Word {
   getType(type) {
     const classification = [...this.word_categories, ...this.getFirstClassification()]
     /*
-      Here we for example say types['gender'] and get back ['masculine', 'feminine', 'neuter']
+      Here we for example say types['gender'] and
+      get back ['masculine', 'feminine', 'neuter']
     */
     let values = types[type]
     if (!values) return;
@@ -107,13 +101,15 @@ class Word {
   }
 
   /**
-   * @param  {...array} values - Three values are inputted, a value is returned based on the gender of the word
+   * @param  {...array} values - Three values are inputted,
+   * a value is returned based on the gender of the word
    */
   dependingOnGender(...values) {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
   }
   /**
-   * @param  {...array} values - Five values are inputted, a value is returned based on the subject type of the verb
+   * @param  {...array} values - Five values are inputted,
+   * a value is returned based on the subject type of the verb
    */
   dependingOnSubject(...values) {
     if (this.is('impersonal with accusative subject')) {
@@ -196,7 +192,7 @@ Word.prototype.getPrincipalParts = getPrincipalParts
 Word.prototype.getStem = getStem
 Word.prototype.isStrong = isStrong
 Word.prototype.isWeak = isWeak
-Word.prototype.highlightIrregularities = highlightIrregularities
+// Word.prototype.highlightIrregularities = highlightIrregularities
 Word.prototype.getTables = getTables
 Word.prototype.getSingleTable = getSingleTable
 
