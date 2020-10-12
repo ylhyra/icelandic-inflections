@@ -1,4 +1,5 @@
 import { endsInConsonant, splitOnVowels, splitOnAll } from './vowels'
+import { stripBeforeComparingToStem } from './stem'
 
 /**
  * highlightIrregularities - Highlights umlauts in red and other irregularities by wrapping in italics
@@ -23,7 +24,8 @@ export function highlightIrregularities(form, word, returnDescription = false) {
    */
   let umlauted_vowel_index;
   const stem_split = splitOnVowels(stem)
-  let form_split = splitOnVowels(form)
+  let form_split = splitOnVowels(stripBeforeComparingToStem(form))
+console.log(stripBeforeComparingToStem(form))
   const last_stem_vowel_index = stem_split.length - 2
   const second_last_stem_vowel_index = stem_split.length - 4
   if (last_stem_vowel_index >= 0 &&

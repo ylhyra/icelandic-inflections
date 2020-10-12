@@ -45,3 +45,40 @@ export function getStem(options) {
     }
   }
 }
+
+
+
+/*
+  Certain words are too difficult to stem without
+  knowing what word endings are common.
+  Turns "farinn" into "far"
+*/
+export const stripBeforeComparingToStem = (input) => {
+  if (!input) return;
+  const stripped = input.replace(endingsRegex, '')
+  /* Check to see if there is at least one vowel left in stipped output */
+  if (splitOnVowels(stripped).length > 1) {
+    return stripped
+  } else {
+    return input
+  }
+}
+const endings = [
+  'an',
+  'anna',
+  'ið',
+  'in',
+  'inn',
+  'ins',
+  'ins',
+  'inu',
+  'inum',
+  'nir',
+  'nar',
+  'num',
+  'una',
+  'unnar',
+  'unni',
+  'unum',
+]
+const endingsRegex = (new RegExp(`(${endings.sort((a, b) => (b.length - a.length)).join('|')})^`))

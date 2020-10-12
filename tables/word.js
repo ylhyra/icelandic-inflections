@@ -17,9 +17,6 @@ class Word {
       throw `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
     }
     this.rows = rows || []
-    this.word_categories = this.rows[0] && this.rows[0].word_categories || []
-    /* Takes the form categories of the first. TODO should remove those that are not the same */
-    this.inflectional_form_categories = this.rows[0] && this.rows[0].inflectional_form_categories || []
     if (original instanceof Word) {
       this.original = original.original
     } else {
@@ -53,10 +50,16 @@ class Word {
     return { hasUmlaut, isIrregular }
   }
   is(...values) {
-    return values.every(value => (
-      this.inflectional_form_categories.includes(value) ||
-      this.word_categories.includes(value)
-    ))
+    return values.every(value => {
+      /* Test word_categories */
+      if (this.getWordCategories().includes(value)) {
+        return true
+      }
+      /* Test inflectional_form_categories */
+      return this.rows.length > 0 && this.rows.every(row => (
+        row.inflectional_form_categories.includes(value)
+      ))
+    })
   }
   get(...values) {
     return new Word(this.rows.filter(row => (
@@ -67,13 +70,16 @@ class Word {
     return new Word(this.original)
   }
   getFirst() {
-    return new Word(this.rows.slice(0,1))
+    return new Word(this.rows.slice(0, 1))
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form
   }
   getForms() {
     return this.rows.map(row => row.inflectional_form)
+  }
+  getWordCategories() {
+    return this.original[0] && this.original[0].word_categories
   }
   getFirstClassification() {
     return this.rows.length > 0 && this.rows[0].inflectional_form_categories.filter(i => !isNumber(i))
@@ -91,14 +97,14 @@ class Word {
    * @return {?string}
    */
   getType(type) {
-    const classification = [...this.word_categories, ...this.getFirstClassification()]
-    /*
-      Here we for example say types['gender'] and
-      get back ['masculine', 'feminine', 'neuter']
-    */
-    let values = types[type]
-    if (!values) return;
-    return classification.find(i => values.includes(i))
+    const classification = [
+      ...this.getWordCategories(),
+      // TODO: Should we get first class or that which applies to all?
+      ...this.getFirstClassification(),
+    ]
+    let relevantTypes = types[type]
+    if (!relevantTypes) return;
+    return classification.find(i => relevantTypes.includes(i))
   }
 
   /**
@@ -180,9 +186,6 @@ class Word {
     traverse(input)
     this.rows = rows
     this.original = (original_word && original_word.original) || rows
-    // TODO: Does not make sense, needs restructuring
-    this.inflectional_form_categories = rows[0] && rows[0].inflectional_form_categories || []
-    this.word_categories = rows[0] && rows[0].word_categories || []
     return this
   }
 }
