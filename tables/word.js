@@ -79,10 +79,10 @@ class Word {
     return this.rows.map(row => row.inflectional_form)
   }
   getWordCategories() {
-    return this.original[0] && this.original[0].word_categories
+    return this.original[0] && this.original[0].word_categories || []
   }
   getFirstClassification() {
-    return this.rows.length > 0 && this.rows[0].inflectional_form_categories.filter(i => !isNumber(i))
+    return this.rows.length > 0 && this.rows[0].inflectional_form_categories.filter(i => !isNumber(i)) || []
   }
   without(...values) {
     return new Word(this.rows.filter(row => (
