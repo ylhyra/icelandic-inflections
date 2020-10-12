@@ -48,11 +48,13 @@ export function getStem(options) {
 
 
 
-/*
-  Certain words are too difficult to stem without
-  knowing what word endings are common.
-  Turns "farinn" into "far"
-*/
+/**
+ * Certain words are too difficult to stem without
+ * knowing what word endings are common.
+ * Turns "farinn" into "far"
+ * @param {string} input
+ * @return {?string}
+ */
 export const stripBeforeComparingToStem = (input) => {
   if (!input) return;
   const stripped = input.replace(endingsRegex, '')
@@ -63,22 +65,28 @@ export const stripBeforeComparingToStem = (input) => {
     return input
   }
 }
+/* Common endings for definite articles and for adjectives */
 const endings = [
   'an',
   'anna',
   'ið',
   'in',
   'inn',
-  'ins',
+  'inna',
+  'innar',
+  'inni',
   'ins',
   'inu',
   'inum',
-  'nir',
+  'na',
   'nar',
+  'ni',
+  'nir',
+  'nu',
   'num',
   'una',
   'unnar',
   'unni',
   'unum',
 ]
-const endingsRegex = (new RegExp(`(${endings.sort((a, b) => (b.length - a.length)).join('|')})^`))
+const endingsRegex = (new RegExp(`(${endings.sort((a, b) => (b.length - a.length)).join('|')})$`))

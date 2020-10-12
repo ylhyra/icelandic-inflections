@@ -2,6 +2,29 @@ import link, { ucfirst } from './link'
 import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 
+
+
+
+/*
+  testing
+*/
+export const RenderTable = (input, original_word, structure, highlight) => {
+  const { column_names, row_names } = structure
+  let output = ''
+  if (column_names.length > 1) {
+    output += column_names.map(column_name => {
+      return RenderTable_(input, original_word, {
+        column_names: [column_name],
+        row_names,
+      }, highlight)
+    }).join('')
+  }
+  output += RenderTable_(input, original_word, structure, highlight)
+  return output
+}
+
+
+
 /**
  * RenderTable - Converts description of table structure into a table
  *
@@ -21,7 +44,7 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
  *   }
  * @returns {string} HTML string
  */
-export const RenderTable = (input, original_word, structure, highlight) => {
+const RenderTable_ = (input, original_word, structure, highlight) => {
   const { column_names, row_names } = structure
   let word
   if (input instanceof Word) {
