@@ -2,28 +2,32 @@ import link, { ucfirst } from './link'
 import Word from './word'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 
-
-
-
 /*
-  testing
+  Wrapper for "RenderTable", creates two alternative versions of the input,
+  one original and one by splitting each column into its own table
+  to make them fit on small screens
 */
-export const RenderTable = (input, original_word, structure, highlight) => {
+const AlsoMakeTablesThatFitOnSmallScreens = (input, original_word, structure, highlight) => {
   const { column_names, row_names } = structure
   let output = ''
-  if (column_names.length > 1) {
-    output += column_names.map(column_name => {
-      return RenderTable_(input, original_word, {
-        column_names: [column_name],
-        row_names,
-      }, highlight)
-    }).join('')
+  let differentOnSmallerScreens = column_names.length > 1
+  output += `<div class="${differentOnSmallerScreens ? 'for_large_screens' : ''}">` +
+    RenderTable(input, original_word, structure, highlight) +
+    '</div>'
+
+  if (differentOnSmallerScreens) {
+    output += `<div class="for_small_screens" hidden>` +
+      column_names.map(column_name => {
+        return RenderTable(input, original_word, {
+          column_names: [column_name],
+          row_names,
+        }, highlight)
+      }).join('') +
+      '</div>'
   }
-  output += RenderTable_(input, original_word, structure, highlight)
   return output
 }
-
-
+export default AlsoMakeTablesThatFitOnSmallScreens
 
 /**
  * RenderTable - Converts description of table structure into a table
@@ -44,7 +48,7 @@ export const RenderTable = (input, original_word, structure, highlight) => {
  *   }
  * @returns {string} HTML string
  */
-const RenderTable_ = (input, original_word, structure, highlight) => {
+const RenderTable = (input, original_word, structure, highlight) => {
   const { column_names, row_names } = structure
   let word
   if (input instanceof Word) {

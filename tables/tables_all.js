@@ -1,6 +1,6 @@
 import link from './link'
 import Word from './word'
-import { RenderTable, renderCell } from './render_table'
+import RenderTable, { renderCell } from './render_table'
 import { types } from './classification/classification'
 
 /**
