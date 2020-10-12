@@ -8,7 +8,8 @@ export const sort_by_classification = (a, b) => {
 
   // console.log({a,b})
   if(!a.inflectional_form_categories ||!b.inflectional_form_categories){
-    throw `sort_by_classification received an object which does not contain "inflectional_form_categories"`
+    console.error(`sort_by_classification received an object which does not contain "inflectional_form_categories"`)
+    return false
   }
 
   /* Sort by full array of classification */

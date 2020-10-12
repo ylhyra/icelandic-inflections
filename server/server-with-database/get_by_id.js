@@ -29,6 +29,7 @@ export default (id, callback) => {
       alternative_entry
     FROM inflection
     WHERE BIN_id = ${id}
+    -- AND correctness_grade_of_inflectional_form = 1
     -- AND should_be_taught = 1
   `, (err, results) => {
     if (err) {
