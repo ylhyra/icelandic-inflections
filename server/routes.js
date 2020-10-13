@@ -132,7 +132,7 @@ export default (Search, Get_by_id) => {
                 title: rows[0].base_word || '',
                 string: word,
                 results: render(rows, give_me),
-                id,
+                id: rows[0].BIN_id,
               }))
             }
             /*

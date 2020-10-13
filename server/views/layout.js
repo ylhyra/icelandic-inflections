@@ -37,7 +37,7 @@ if (/[?&](q|id)=/.test(location.search)) {
 <form method="get" action="/">
   <input name="q" id="s" placeholder="Search" type="search" value="${string || ''}" spellcheck="false" autocomplete="off"/>
 </form>
-<main>
+<main id="${id ? 'content': ''}">
   ${results || ''}
 </main>
 <footer>
@@ -56,6 +56,16 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
 </div>
 
 </footer>
+
+
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function(){
+  console.log('haha')
+  var el = document.getElementById("content");
+  el & el.scrollIntoView();
+}, false);
+</script>
 
 <script type="application/ld+json">
 {

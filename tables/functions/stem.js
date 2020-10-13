@@ -67,6 +67,9 @@ export const stripBeforeComparingToStem = (input) => {
 }
 /* Common endings for definite articles and for adjectives */
 const endings = [
+  'i', // "asni"
+  'a', // "asna"
+  'ar',
   'an',
   'anna',
   'ið',
