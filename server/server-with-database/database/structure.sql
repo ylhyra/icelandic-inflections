@@ -22,16 +22,15 @@ CREATE TABLE inflection (
   alternative_entry VARCHAR(60)
   ROW_FORMAT=COMPRESSED
 );
-
-
-
-
-
-
 CREATE INDEX _BIN_id ON inflection (BIN_id);
 CREATE INDEX _base_word_lowercase ON inflection (base_word_lowercase);
 CREATE INDEX _inflectional_form_lowercase ON inflection (inflectional_form_lowercase);
 CREATE INDEX _should_be_taught ON inflection (should_be_taught);
+CREATE INDEX _correctness_grade_of_inflectional_form ON inflection (correctness_grade_of_inflectional_form);
+CREATE INDEX _correctness_grade_of_word ON inflection (correctness_grade_of_word);
+CREATE INDEX _inflectional_form ON inflection (inflectional_form);
+
+
 
 
 
