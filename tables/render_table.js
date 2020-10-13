@@ -9,11 +9,12 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
 */
 const AlsoMakeTablesThatFitOnSmallScreens = (input, original_word, structure, highlight) => {
   let { column_names, row_names } = structure
-  // column_names = column_names || [null]
+  column_names = column_names || [null]
+  row_names = row_names || [null]
   let output = ''
   let differentOnSmallerScreens = column_names.length > 1
   output += `<div class="${differentOnSmallerScreens ? 'for_large_screens' : ''}">` +
-    RenderTable(input, original_word, structure, highlight) +
+    RenderTable(input, original_word, { column_names, row_names }, highlight) +
     '</div>'
 
   if (differentOnSmallerScreens) {

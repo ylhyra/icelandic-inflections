@@ -21,20 +21,20 @@ export default function getSingleTable({
 
   /* Nouns */
   if (word.is('noun')) {
-    column_names = [word.getType('article')]
+    // column_names = [word.getType('article')]
     row_names = types['cases']
   } else if (word.is('adjective')) {
     if (word.getFirst().is('nominative')) {
       // column_names = ['nominative']
       row_names = types['genders']
     } else {
-      column_names = [word.getType('gender')]
+      // column_names = [word.getType('gender')]
       row_names = types['cases']
     }
   }
 
 
-  const sibling_classification = without(word.getFirstClassification(), ...row_names, ...column_names)
+  const sibling_classification = without(word.getFirstClassification(), ...(row_names || []), ...(column_names || []))
   const siblings = word.getOriginal().get(...sibling_classification)
 
   if (column_names || row_names) {
