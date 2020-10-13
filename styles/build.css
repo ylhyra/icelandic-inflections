@@ -470,10 +470,10 @@ ul.results li:not(:last-child) a {
   z-index: 100;
   right: 10px;
 }
-.inflection table {
-  margin: 10px auto;
+.inflection table.table {
+  margin: 10px 0;
 }
-.inflection table.not-center {
+.inflection table.table.not-center {
   margin-left: initial;
 }
 .inflection hr {
@@ -499,13 +499,21 @@ ul.results li:not(:last-child) a {
   font-size: 17px;
   color: #000;
 }
+.inflection div + .indent {
+  margin-top: 20px;
+}
+.inflection .indent {
+  margin-top: 5px;
+}
+.inflection .indent:first-child {
+  margin-top: 1px;
+}
 .inflection .indent:first-child dt {
-  padding-top: 4px;
+  padding-top: 2px;
 }
 .inflection .indent dt {
   font-size: 15px;
   font-weight: 500;
-  padding-top: 10px;
   padding-bottom: 5px;
 }
 .inflection .indent dd {

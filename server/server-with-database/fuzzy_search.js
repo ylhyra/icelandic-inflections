@@ -37,7 +37,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
         i2.correctness_grade_of_inflectional_form,
         i2.register_of_inflectional_form,
         i2.various_feature_markers,
-        i2.alternative_entry
+        i2.alternative_entry,
         inner_table.inflectional_form as matched_term,
         (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
       FROM

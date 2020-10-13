@@ -8,7 +8,7 @@ export default (link, label) => {
   if (label === undefined) {
     label = link;
   } else if (!label) {
-    return '';
+    return '';  
   }
 
   /* Retrieve additional info from "classification.js" file */

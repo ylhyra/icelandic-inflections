@@ -13,6 +13,7 @@
     "start": "nodemon -r esm ./server/server-standalone/index.js -e js,styl --ignore styles/build.css",
     "server": "node -r esm ./server/server-standalone/index.js",
     "styles": "stylus --include styles/ < styles/index.styl > styles/build.css",
+    "style_watch": "nodemon --exec 'stylus --include styles/ < styles/index.styl > styles/build.css' -e styl",
     "test": "mocha -r esm"
   },
   "repository": {

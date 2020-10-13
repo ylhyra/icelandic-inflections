@@ -15,7 +15,7 @@ import { sort_by_classification } from './classification/sort_by_classification'
  *         values: []
  *       }]
  *     }]
- *   }
+ *   } 
  *
  */
 const tree = (rows) => {
