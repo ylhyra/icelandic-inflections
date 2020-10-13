@@ -1,5 +1,6 @@
 import Word from './word'
 import link from './link'
+import { normalizeTag } from './classification/classification'
 
 export default (rows, give_me) => {
   // console.log(rows.slice(0,1))
@@ -9,7 +10,7 @@ export default (rows, give_me) => {
 
   let table;
   if (give_me) {
-    give_me = give_me.replace(/_/g, ' ').split(', ')
+    give_me = give_me.replace(/_/g, ' ').split(',').map(normalizeTag).filter(Boolean)
     // console.log(give_me)
     word = word.get(...give_me)
     table = word.getSingleTable(give_me)
@@ -23,7 +24,6 @@ export default (rows, give_me) => {
         <h4>${(word.getBaseWord())}</h4>
         <div>${word.getWordDescription()}</div>
         <div>${word.getWordNotes()}</div>
-
         <div>${word.getPrincipalParts()}</div>
 
         ${table}

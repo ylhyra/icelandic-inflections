@@ -488,7 +488,7 @@ Object.keys(type_aliases).forEach(key => {
 
 export const normalizeTag = (tag) => {
   tag = tag.toLowerCase().trim()
-  return shortcuts[tag]
+  return shortcuts[tag] 
 }
 
 export const getTagInfo = (tag) => {

@@ -52,10 +52,16 @@ export function getStem(options) {
  * Certain words are too difficult to stem without
  * knowing what word endings are common.
  * Turns "farinn" into "far"
+ * Notes:
+ *   - Only runs for adjectives, since this trick does not work for "asni"
  * @param {string} input
+ * @param {word} Word
  * @return {?string}
  */
-export const stripBeforeComparingToStem = (input) => {
+export const stripBeforeComparingToStem = (input, word) => {
+  if (!word.is('adjective')) {
+    return input
+  }
   if (!input) return;
   const stripped = input.replace(endingsRegex, '')
   /* Check to see if there is at least one vowel left in stipped output */
@@ -67,9 +73,9 @@ export const stripBeforeComparingToStem = (input) => {
 }
 /* Common endings for definite articles and for adjectives */
 const endings = [
-  'i', // "asni"
-  'a', // "asna"
-  'ar',
+  // 'i', // "asni"
+  // 'a', // "asna"
+  // 'ar',
   'an',
   'anna',
   'ið',
