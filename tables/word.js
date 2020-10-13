@@ -67,7 +67,10 @@ class Word {
   }
   get(...values) {
     return new Word(this.rows.filter(row => (
-      values.filter(Boolean).every(value => row.inflectional_form_categories.includes(value))
+      values.filter(Boolean).every(value =>
+        row.inflectional_form_categories.includes(value)
+        // || row.word_categories.includes(value) // Should not be needed
+      )
     )), this.original)
   }
   getOriginal() {
@@ -75,6 +78,9 @@ class Word {
   }
   getFirst() {
     return new Word(this.rows.slice(0, 1))
+  }
+  getFirstAndItsVariants(){
+    return this.get(this.getFirstClassification())
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form

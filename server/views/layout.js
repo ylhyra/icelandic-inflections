@@ -57,11 +57,11 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
 
 </footer>
 
+${id ? `
 <script type="text/javascript">
-  console.log('haha')
   var el = document.getElementById("content");
   el & el.scrollIntoView();
-</script>
+</script>`:''}
 
 ${/*Only list on main page */''}
 ${!title ? `

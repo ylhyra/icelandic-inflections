@@ -8,7 +8,8 @@ import { highlightIrregularities } from './functions/highlightIrregularities'
   to make them fit on small screens
 */
 const AlsoMakeTablesThatFitOnSmallScreens = (input, original_word, structure, highlight) => {
-  const { column_names, row_names } = structure
+  let { column_names, row_names } = structure
+  // column_names = column_names || [null]
   let output = ''
   let differentOnSmallerScreens = column_names.length > 1
   output += `<div class="${differentOnSmallerScreens ? 'for_large_screens' : ''}">` +
@@ -82,7 +83,6 @@ const RenderTable = (input, original_word, structure, highlight) => {
   return TableHTML(table, highlight)
 }
 
-
 const TableHTML = (rows, highlight = []) => {
   return `
     <table class="table">
@@ -113,14 +113,20 @@ const TableHTML = (rows, highlight = []) => {
 
 export const renderCell = (word, shouldHighlight) => {
   /* No value */
-  if(word.rows.length ===0 ){
+  if (word.rows.length === 0) {
     return '<td colSpan="2">–</td>'
   }
+  /*
+   * Make sure only variants of the same are passed on, in case multiple were accidentally passed on
+   */
+  if (word.rows.length > 1) {
+    word = word.getFirstAndItsVariants()
+  }
   const value = word.rows.map((row, index) => {
-    return `<span>`+
+    return `<span>` +
       highlightIrregularities(row.inflectional_form, word) +
       (index + 1 < word.rows.length ? `<span class="light-gray"> / </span>` : '') +
-    `</span>`
+      `</span>`
   }).join('')
   return `
     <td class="right ${shouldHighlight ? 'highlight' : ''}"><span class="gray">${word.getHelperWordsBefore()}</span></td>

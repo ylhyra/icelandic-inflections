@@ -13,7 +13,11 @@ export default (rows, give_me) => {
     give_me = give_me.replace(/_/g, ' ').split(',').map(normalizeTag).filter(Boolean)
     // console.log(give_me)
     word = word.get(...give_me)
-    table = word.getSingleTable(give_me)
+    if(word.rows.length > 0){
+      table = word.getSingleTable({ give_me })
+    } else {
+      table = `<b>Error:</b> No rows found with the requested values`
+    }
   } else {
     table = word.getTables()
   }
