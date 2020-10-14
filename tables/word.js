@@ -1,38 +1,32 @@
-import link from './link'
 import getTables from './tables_all'
 import getSingleTable from './tables_single'
 import tree, { isNumber } from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
 import { highlightIrregularities } from './functions/highlightIrregularities'
 import { getPrincipalParts } from './functions/principalParts'
+import { getWordDescription } from './functions/wordDescription'
+import { getWordNotes } from './functions/wordNotes'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
-import { BIN_domains } from './classification/BIN_classification'
+import { removeIncorrectVariants } from './functions/incorrectVariants'
 import { types } from './classification/classification'
-import { uniq, last } from 'lodash'
+import { uniq } from 'lodash'
 
 class Word {
-  constructor(rows, original, options) {
+  constructor(rows, original) {
     if (!Array.isArray(rows) && rows !== undefined) {
-      throw `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
+      throw new Error(`Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`)
     }
     rows = rows || []
 
-    /* Remove incorrect variants */
-    if (true) {
-      rows = rows.filter(row => {
-        /* Leave the first item */
-        if(last(row.inflectional_form_categories) === '1') {
-          return true
-        }
-        /* Leave subsequent items if they are correct */
-        if (row.correctness_grade_of_inflectional_form == '1'){
-          return true
-        }
-        return false
-      })
+    /* Test for broken input */
+    if (!original) {
+      if (!rows.every(row => {
+          return typeof row === 'object' && 'inflectional_form_categories' in row
+        })) throw new Error('Malformed input to Word');
     }
 
+    rows = removeIncorrectVariants(rows)
     this.rows = rows
     if (original instanceof Word) {
       this.original = original.original
@@ -79,8 +73,28 @@ class Word {
     })
   }
   get(...values) {
+    if (!values) return this;
+    if(values.some(value => typeof value !== 'string')) {
+      /* Todo: Would be good to also support array passes */
+      throw new Error('You must pass parameters as spread into get()')
+    }
     return new Word(this.rows.filter(row => (
-      values.filter(Boolean).every(value => row.inflectional_form_categories.includes(value))
+      values.filter(Boolean).every(value =>
+        row.inflectional_form_categories.includes(value)
+        // || row.word_categories.includes(value) // Should not be needed
+      )
+    )), this.original)
+  }
+  /*
+    Returns all that meet *any* of the input values
+  */
+  getMeetingAny(...values) {
+    if (!values) return this;
+    if (values.filter(Boolean).length === 0) return this;
+    return new Word(this.rows.filter(row => (
+      values.filter(Boolean).some(value =>
+        row.inflectional_form_categories.includes(value)
+      )
     )), this.original)
   }
   getOriginal() {
@@ -88,6 +102,9 @@ class Word {
   }
   getFirst() {
     return new Word(this.rows.slice(0, 1))
+  }
+  getFirstAndItsVariants() {
+    return this.get(...this.getFirstClassification())
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form
@@ -125,15 +142,19 @@ class Word {
   }
 
   /**
-   * @param  {...array} values - Three values are inputted,
-   * a value is returned based on the gender of the word
+   * Three values are inputted, a value is returned
+   * based on the gender of the word.
+   * Used when generating helper words
+   * @param  {...array} values
    */
   dependingOnGender(...values) {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
   }
   /**
-   * @param  {...array} values - Five values are inputted,
-   * a value is returned based on the subject type of the verb
+   * Five values are inputted, a value is returned
+   * based on the subject type of the verb
+   * Used when generating helper words
+   * @param  {...array} values
    */
   dependingOnSubject(...values) {
     if (this.is('impersonal with accusative subject')) {
@@ -154,37 +175,9 @@ class Word {
   getTree() {
     return tree(this.rows)
   }
-  getWordDescription() {
-    let output = ''
-
-    if (this.is('noun')) {
-      output += link(this.getType('gender')) + ' '
-    }
-    output += link(this.getType('class'))
-
-    const isStrong = this.isStrong()
-    if (isStrong === true) {
-      output += ', ' + link('strongly conjugated')
-    } else if (isStrong === false) {
-      output += ', ' + link('weakly conjugated')
-    }
-
-    const { hasUmlaut, isIrregular } = this.isWordIrregular()
-    if (isIrregular) {
-      output += ', ' + link('irregular inflection')
-    }
-    if (hasUmlaut) {
-      output += ', ' + link('includes a sound change')
-    }
-    if (!isIrregular && !hasUmlaut) {
-      output += ', ' + link('regular inflection')
-    }
-
-    return output
-  }
   render() {
     let word = this
-    const value = this.rows.map((row, index) => {
+    const value = this.rows.map(row => {
       return `<b>${highlightIrregularities(row.inflectional_form, word)}</b>`
     }).join(' / ')
     return this.getHelperWordsBefore() + ' ' + value + this.getHelperWordsAfter()
@@ -215,5 +208,7 @@ Word.prototype.isStrong = isStrong
 Word.prototype.isWeak = isWeak
 Word.prototype.getTables = getTables
 Word.prototype.getSingleTable = getSingleTable
+Word.prototype.getWordDescription = getWordDescription
+Word.prototype.getWordNotes = getWordNotes
 
 export default Word

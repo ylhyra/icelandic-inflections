@@ -37,7 +37,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
         i2.correctness_grade_of_inflectional_form,
         i2.register_of_inflectional_form,
         i2.various_feature_markers,
-        i2.alternative_entry
+        i2.alternative_entry,
         inner_table.inflectional_form as matched_term,
         (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
       FROM
@@ -58,7 +58,8 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
        ORDER BY
          a.score DESC,
          i1.should_be_taught DESC,
-         i1.correctness_grade_of_inflectional_form DESC,
+         FIND_IN_SET(i1.correctness_grade_of_inflectional_form, '1,2,3,4,0'),
+         FIND_IN_SET(i1.correctness_grade_of_word, '1,2,3,4,0'),
          i1.inflectional_form ASC
 
        ) as inner_table

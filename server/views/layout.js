@@ -37,7 +37,7 @@ if (/[?&](q|id)=/.test(location.search)) {
 <form method="get" action="/">
   <input name="q" id="s" placeholder="Search" type="search" value="${string || ''}" spellcheck="false" autocomplete="off"/>
 </form>
-<main>
+<main id="${id ? 'content': ''}">
   ${results || ''}
 </main>
 <footer>
@@ -57,6 +57,14 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
 
 </footer>
 
+${id ? `
+<script type="text/javascript">
+  var el = document.getElementById("content");
+  el & el.scrollIntoView();
+</script>`:''}
+
+${/*Only list on main page */''}
+${!title ? `
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
@@ -68,7 +76,7 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
     "query-input": "required name=search_term_string"
   }
 }
-</script>
+</script>`:''}
 </body>
 </html>
 `

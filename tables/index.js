@@ -1,18 +1,27 @@
 import Word from './word'
-import link from './link'
+import { normalizeTag, types } from './classification/classification'
 
-export default (rows, give_me) => {
+export default (rows, options) => {
+  let give_me = options.give_me
+  let column_names = options.columns || options.column_names
+  let row_names = options.rows || options.row_names
+
   // console.log(rows.slice(0,1))
   // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == '1')
   let word = (new Word(rows))
   // const word = (new Word()).importTree(rows)
 
   let table;
-  if (give_me) {
-    give_me = give_me.replace(/_/g, ' ').split(', ')
-    // console.log(give_me)
+  if (give_me || column_names || row_names) {
+    give_me = clean__temporary(give_me)
+    column_names = cleanRowOrColum__temporary(column_names)
+    row_names = cleanRowOrColum__temporary(row_names)
     word = word.get(...give_me)
-    table = word.getSingleTable(give_me)
+    if (word.rows.length > 0) {
+      table = word.getSingleTable({ give_me, column_names, row_names })
+    } else {
+      table = `<b>Error:</b> No rows found with the requested values`
+    }
   } else {
     table = word.getTables()
   }
@@ -22,7 +31,7 @@ export default (rows, give_me) => {
       <div class="main">
         <h4>${(word.getBaseWord())}</h4>
         <div>${word.getWordDescription()}</div>
-
+        <div>${word.getWordNotes()}</div>
         <div>${word.getPrincipalParts()}</div>
 
         ${table}
@@ -36,4 +45,21 @@ export default (rows, give_me) => {
       </div>
     </div>
   `
+}
+
+
+/*
+  Temporary helper functions, need to be moved elsewhere
+*/
+const cleanRowOrColum__temporary = (string) => {
+  if (!string) return;
+  /* If someone enters "cases" the rest is filled out */
+  if (string in types) return types[string];
+  // /* Should be made to work in the future */
+  // return string.split(';').map(clean__temporary)
+  return clean__temporary(string)
+}
+const clean__temporary = (string) => {
+  if (!string) return [];
+  return string.replace(/_/g, ' ').split(',').map(normalizeTag).filter(Boolean)
 }

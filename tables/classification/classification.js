@@ -63,14 +63,14 @@ const labels_array = [
     title: 'singular',
     icelandic_title: 'eintala',
     type: 'plurality',
-    shortcuts: ['et', 'sing'],
+    shortcuts: ['et', 'sing', 'sg', 's'],
     has_article_on_ylhyra: false,
   },
   {
     title: 'plural',
     icelandic_title: 'fleirtala',
     type: 'plurality',
-    shortcuts: ['ft', 'plur'],
+    shortcuts: ['ft', 'plur', 'pl', 'p'],
     has_article_on_ylhyra: false,
   },
 
@@ -479,6 +479,7 @@ const type_aliases = {
   article: ['articles'],
   plurality: ['number'],
   case: ['cases'],
+  gender: ['genders'],
 }
 Object.keys(type_aliases).forEach(key => {
   type_aliases[key].forEach(type => {

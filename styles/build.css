@@ -396,6 +396,12 @@ i {
   max-width: 700px;
   min-width: 400px;
 }
+.note {
+  background: #f0f0f0;
+  border-radius: 3px;
+  padding: 6px 10px;
+  margin: 4px 0;
+}
 footer {
   max-width: 500px;
   margin: auto;
@@ -464,10 +470,10 @@ ul.results li:not(:last-child) a {
   z-index: 100;
   right: 10px;
 }
-.inflection table {
-  margin: 10px auto;
+.inflection table.table {
+  margin: 10px 0;
 }
-.inflection table.not-center {
+.inflection table.table.not-center {
   margin-left: initial;
 }
 .inflection hr {
@@ -493,8 +499,26 @@ ul.results li:not(:last-child) a {
   font-size: 17px;
   color: #000;
 }
+.inflection div + .indent {
+  margin-top: 20px;
+}
 .inflection .indent {
-  margin-left: 20px;
+  margin-top: 5px;
+}
+.inflection .indent:first-child {
+  margin-top: 1px;
+}
+.inflection .indent:first-child dt {
+  padding-top: 2px;
+}
+.inflection .indent dt {
+  font-size: 15px;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+.inflection .indent dd {
+  border-left: 3px solid #ebe9e9;
+  padding-left: 12px;
 }
 .inflection .license {
   display: none;
@@ -523,6 +547,7 @@ table.table {
 table.table th {
   text-align: center;
   padding: 3px 10px;
+  vertical-align: middle;
 }
 table.table th label {
   font-size: 12px;
@@ -670,7 +695,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  padding: 35px;
+  padding: 15px;
   padding-bottom: 10px;
   min-height: 100vh;
 }
@@ -694,13 +719,13 @@ ul {
      |_|  |_|\__|_|\___|   */
 h1 {
   font-weight: bold;
-  font-size: 28px;
+  font-size: 24px;
   line-height: 1.1em;
   text-align: center;
   color: #000;
+  margin-top: 20px;
+  margin-bottom: 10px;
   display: block;
-  margin-top: 23px;
-  margin-bottom: 30px;
   font-family: $serif;
 }
 h1 a {
@@ -723,7 +748,7 @@ input[type="search"] {
   width: 100%;
   max-width: 420px;
   display: block;
-  margin: 30px auto 50px auto;
+  margin: 22px auto 50px auto;
 }
 input[type="search"]:focus {
   border: 3px solid #266bcf;

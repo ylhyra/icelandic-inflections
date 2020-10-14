@@ -14,8 +14,8 @@
     bottom: 10px;
     z-index: 100;
     right: 10px;
-  table
-    margin: 10px auto
+  table.table
+    margin: 10px 0
     &.not-center
       margin-left initial
   hr
@@ -41,8 +41,23 @@
     font-size: 17px;
     color black
 
+
+  div + .indent
+    margin-top: 20px
   .indent
-    margin-left 20px
+    margin-top 5px
+    &:first-child
+      margin-top 1px
+      dt
+        padding-top 2px
+    dt
+      font-size 15px
+      font-weight 500
+      // padding-top 5px
+      padding-bottom 5px
+    dd
+      border-left: 3px solid #ebe9e9;
+      padding-left: 12px;
 
   .license
     display none
