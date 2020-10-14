@@ -20,9 +20,6 @@ export default function getSingleTable({
   let table = ''
 
   if (!column_names && !row_names) {
-    column_names = column_names || [null]
-    row_names = row_names || [null]
-
     /* Nouns */
     if (word.is('noun')) {
       row_names = types['cases']
@@ -35,6 +32,10 @@ export default function getSingleTable({
     }
   }
 
+  column_names = column_names || [null]
+  row_names = row_names || [null]
+
+  word = word.getMeetingAny(...row_names).getMeetingAny(...column_names)
   const sibling_classification = without(word.getFirstClassification(), ...row_names, ...column_names)
   const siblings = word.getOriginal().get(...sibling_classification)
 

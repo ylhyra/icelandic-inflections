@@ -17,7 +17,6 @@ export default (rows, options) => {
     give_me = clean__temporary(give_me)
     column_names = cleanRowOrColum__temporary(column_names)
     row_names = cleanRowOrColum__temporary(row_names)
-    console.log(row_names)
     word = word.get(...give_me)
     if (word.rows.length > 0) {
       table = word.getSingleTable({ give_me, column_names, row_names })
@@ -50,6 +49,9 @@ export default (rows, options) => {
 }
 
 
+/*
+  Temporary helper functions that need to be moved elsewhere
+*/
 const cleanRowOrColum__temporary = (string) => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
@@ -58,7 +60,6 @@ const cleanRowOrColum__temporary = (string) => {
   // return string.split(';').map(clean__temporary)
   return clean__temporary(string)
 }
-
 const clean__temporary = (string) => {
   if (!string) return [];
   return string.replace(/_/g, ' ').split(',').map(normalizeTag).filter(Boolean)

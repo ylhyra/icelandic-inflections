@@ -547,6 +547,7 @@ table.table {
 table.table th {
   text-align: center;
   padding: 3px 10px;
+  vertical-align: middle;
 }
 table.table th label {
   font-size: 12px;

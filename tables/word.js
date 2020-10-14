@@ -66,10 +66,23 @@ class Word {
     })
   }
   get(...values) {
+    if (!values) return this;
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value =>
         row.inflectional_form_categories.includes(value)
         // || row.word_categories.includes(value) // Should not be needed
+      )
+    )), this.original)
+  }
+  /*
+    Returns all that meet *any* of the input values
+  */
+  getMeetingAny(...values) {
+    if (!values) return this;
+    if (values.filter(Boolean).length === 0) return this;
+    return new Word(this.rows.filter(row => (
+      values.filter(Boolean).some(value =>
+        row.inflectional_form_categories.includes(value)
       )
     )), this.original)
   }
@@ -79,7 +92,7 @@ class Word {
   getFirst() {
     return new Word(this.rows.slice(0, 1))
   }
-  getFirstAndItsVariants(){
+  getFirstAndItsVariants() {
     return this.get(this.getFirstClassification())
   }
   getFirstValue() {
