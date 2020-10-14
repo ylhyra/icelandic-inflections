@@ -1,4 +1,6 @@
+import assert from 'assert'
 import { removeLastVowelCluster, splitOnVowels } from './vowels'
+import Word from './../word'
 
 /**
  * Gets the stem of a word. See: https://is.wikipedia.org/wiki/Stofn_(málfræði)
@@ -25,6 +27,8 @@ export function getStem(options) {
       used in the masculine gender
     */
     if (options.masculinizeAdjectiveStem) {
+      console.log(stem)
+      console.log(typeof stem)
       const stemLength = splitOnVowels(stem).filter(Boolean).length
       let masculine = this.getOriginal().get('masculine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
       return splitOnVowels(masculine).filter(Boolean).slice(0, stemLength).join('')
@@ -59,6 +63,7 @@ export function getStem(options) {
  * @return {?string}
  */
 export const stripBeforeComparingToStem = (input, word) => {
+  assert(word instanceof Word)
   if (!word.is('adjective')) {
     return input
   }

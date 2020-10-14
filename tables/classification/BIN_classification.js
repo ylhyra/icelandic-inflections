@@ -14,12 +14,6 @@ import { shortcuts, normalizeTag, shortcuts_used_in_BIN } from './classification
  *   - grammatical_tag
  *   - BIN_domain
  *
- * @param {array} returns
- *   Can be one of:
- *   - word_categories
- *   - inflectional_form_categories
- *   If selected, an array is returned
- *
  * @returns {object|array}
  *   Returns the inputted object with the following keys removed:
  *   - word_categories
@@ -31,7 +25,7 @@ import { shortcuts, normalizeTag, shortcuts_used_in_BIN } from './classification
  *   - inflectional_form_categories - An array of
  *     values that only apply to certain forms of the word (plurality, case...)
  */
-const classify = (input, returns) => {
+const classify = (input) => {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input
   if (!word_categories && !grammatical_tag) return input;
 
@@ -79,14 +73,6 @@ const classify = (input, returns) => {
   const variantNumber = (grammatical_tag.match(/(\d)$/) ? grammatical_tag.match(/(\d)$/)[0] : 1).toString()
   inflectional_form_categories.push(variantNumber)
 
-  // inflectional_form_categories = inflectional_form_categories.join(', ')
-
-  if (returns === 'inflectional_form_categories') {
-    return inflectional_form_categories
-  }
-  if (returns === 'word_categories') {
-    return word_categories_output
-  }
   return {
     word_categories: word_categories_output,
     inflectional_form_categories,

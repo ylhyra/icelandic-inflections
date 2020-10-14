@@ -1,5 +1,4 @@
 import Word from './word'
-import link from './link'
 import { normalizeTag, types } from './classification/classification'
 
 export default (rows, options) => {
@@ -50,7 +49,7 @@ export default (rows, options) => {
 
 
 /*
-  Temporary helper functions that need to be moved elsewhere
+  Temporary helper functions, need to be moved elsewhere
 */
 const cleanRowOrColum__temporary = (string) => {
   if (!string) return;

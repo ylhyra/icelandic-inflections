@@ -1,4 +1,4 @@
-import { uniq, last } from 'lodash'
+import { last } from 'lodash'
 
 /* Remove incorrect variants */
 export const removeIncorrectVariants = (rows) => {

@@ -1,4 +1,4 @@
-import { endsInConsonant, splitOnVowels, splitOnAll } from './vowels'
+import { splitOnVowels } from './vowels'
 import { stripBeforeComparingToStem } from './stem'
 
 /**
