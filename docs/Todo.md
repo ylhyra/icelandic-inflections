@@ -13,17 +13,9 @@ Errors:
 
 Convert `correctness_grade_of_inflectional_form`'s "0" to "5" for easier sorting
 
-
-draga
-  - "dró" is marked as irregular, should it?
-
-428183
-  - failure in principal parts generation
-
-3700
-  - sound change failure
-
-
 Töluorð
 
 165782 - only one exists and is used in "Mér er sama um þetta"! Must be removed from table
+
+
+Cache calculations in object?

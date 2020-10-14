@@ -4,6 +4,14 @@ import Word from './../tables/word'
 import get_by_id from './../server/server-standalone/get_by_id'
 import { highlightIrregularities } from './../tables/functions/highlightIrregularities'
 import { stripHTML } from './../tables/link'
+
+
+/*
+Other words that might be interesting:
+- dró
+*/
+
+
 describe('Testing words', function () {
   it('„farinn“', (done) => {
     get(390363, done, word => {
@@ -21,16 +29,21 @@ describe('Testing words', function () {
   it('„Björn“', (done) => {
     get(353885, done, word => {
       /* Test that both variants were returned */
-      assert.deepEqual(word.get('genitive').renderForms(), ['Björns', 'B<span class="umlaut">ja</span>rnar'])
+      assert.deepEqual(word.get('genitive').renderForms(), [
+        'Björns',
+        'B<span class="umlaut">ja</span>rnar'
+      ])
       done()
     })
   })
 
-  it.only('„muna“', (done) => {
+
+  it('„muna“', (done) => {
     get(428183, done, word => {
-      /* Test that both variants were returned */
-      assert.equal(stripHTML(word.getPrincipalParts()), 'að muna, mig	munaði (í gær), ég hef munað')
+      assert.equal(stripHTML(word.getPrincipalParts()), 'að muna, mig munaði (í gær), ég hef munað')
       assert.equal(word.isStrong(), false)
+      assert.equal(word.isWordIrregular().isIrregular, false)
+      assert.equal(word.isWordIrregular().hasUmlaut, false)
       done()
     })
   })

@@ -49,8 +49,13 @@ class Word {
     }
     return this.getSingleTable({ returnAsString: true })
   }
+  /**
+   * TODO: Should be split into isWordIrregular & hasUmlaut
+   * @return {object} { hasUmlaut, isIrregular }
+   */
   isWordIrregular() {
-    let hasUmlaut, isIrregular
+    let hasUmlaut = false
+    let isIrregular = false
     const word = this
     const all_forms = uniq(this.getOriginal().get('1').rows.map(row => row.inflectional_form))
     all_forms.forEach(form => {
