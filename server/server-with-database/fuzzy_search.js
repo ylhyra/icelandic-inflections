@@ -58,9 +58,10 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
        ORDER BY
          a.score DESC,
          i1.should_be_taught DESC,
-         FIND_IN_SET(i1.correctness_grade_of_inflectional_form, '1,2,3,4,0'),
-         FIND_IN_SET(i1.correctness_grade_of_word, '1,2,3,4,0'),
-         i1.inflectional_form ASC
+         i1.correctness_grade_of_inflectional_form ASC,
+         i1.correctness_grade_of_word ASC,
+         i1.inflectional_form ASC,
+         i1.BIN_id ASC
 
        ) as inner_table
      LEFT JOIN inflection i2

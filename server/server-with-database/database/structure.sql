@@ -53,20 +53,23 @@ CREATE INDEX _score ON autocomplete (score);
 
 
 DROP TABLE IF EXISTS vocabulary_input;
-CREATE TABLE vocabulary_input (
-  id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  base VARCHAR(120),
-  word VARCHAR(120) COLLATE utf8_bin,
-  grammatical_category VARCHAR(2),
-  level INT,
-  translation VARCHAR(120),
-  word_package VARCHAR(120),
-  #beyging_id VARCHAR(20),
-  beyging_hash VARCHAR(20)
-);
-CREATE INDEX _id ON vocabulary_input (id);
-CREATE INDEX _grammatical_category ON vocabulary_input (grammatical_category);
-
+CREATE TABLE `vocabulary_input` (
+  `vocabulary_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `BIN_id` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_icelandic_ci DEFAULT NULL,
+  `word` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `translation` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grammatical_category` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` int DEFAULT NULL,
+  `word_package` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `beyging_hash_old` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `base_word_old` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`vocabulary_id`),
+  KEY `_id` (`vocabulary_id`),
+  KEY `_grammatical_category` (`grammatical_category`),
+  KEY `_beyging_hash` (`beyging_hash_old`),
+  KEY `_BIN_id` (`BIN_id`),
+  KEY `_level` (`level`)
+) ENGINE=InnoDB AUTO_INCREMENT=1823 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS vocabulary_fields;
 CREATE TABLE vocabulary_fields (
