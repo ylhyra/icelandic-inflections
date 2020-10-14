@@ -14,23 +14,23 @@ export const endsInVowel = (input) => {
   } else {
     string = input
   }
-  if (typeof string !== 'string') throw new Error('endsInVowel expected string');
-  return (new RegExp(`[${vowels}]$`, 'i')).test(string)
+  // if (typeof string !== 'string') throw new Error('endsInVowel expected string');
+  return string && (new RegExp(`[${vowels}]$`, 'i')).test(string)
 }
 
 export const endsInConsonant = (string) => {
-  if (typeof string !== 'string') throw new Error('endsInConsonant expected string');
+  // if (typeof string !== 'string') throw new Error('endsInConsonant expected string');
   return !endsInVowel(string)
 }
 export const splitOnVowels = (string) => {
-  if (typeof string !== 'string') throw new Error('splitOnVowels expected string');
+  // if (typeof string !== 'string') throw new Error('splitOnVowels expected string');
   return string && string.split(new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, 'i'))
 }
 export const splitOnAll = (string) => {
-  if (typeof string !== 'string') throw new Error('splitOnAll expected string');
+  // if (typeof string !== 'string') throw new Error('splitOnAll expected string');
   return string && string.split(new RegExp(`(${vowellike_clusters}|[${characters}])`, 'i'))
 }
 export const removeLastVowelCluster = (string) => {
-  if (typeof string !== 'string') throw new Error('removeLastVowelCluster expected string');
+  // if (typeof string !== 'string') throw new Error('removeLastVowelCluster expected string');
   return string && string.replace((new RegExp(`(${vowellike_clusters}|[${vowels}]+)$`, 'i')), '')
 }

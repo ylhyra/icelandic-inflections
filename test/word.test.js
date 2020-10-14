@@ -25,10 +25,21 @@ describe('Testing words', function () {
     get(466523, done, (output) => {
       const word = new Word(output)
       /* Irregularities */
-      assert.equal(highlightIrregularities(word.get('mediopassive','subjunctive','past tense').getFirstValue(), word), '<em class="irregular">s<span class="umlaut">æ</span>ist</em>')
+      assert.equal(highlightIrregularities(word.get('mediopassive', 'subjunctive', 'past tense').getFirstValue(), word), '<em class="irregular">s<span class="umlaut">æ</span>ist</em>')
       done()
     })
   })
+  it('„áramót“', (done) => {
+    get(51255, done, (output) => {
+      const word = new Word(output)
+      /* Irregularities */
+      // assert.equal(highlightIrregularities(word.get('mediopassive', 'subjunctive', 'past tense').getFirstValue(), word), '<em class="irregular">s<span class="umlaut">æ</span>ist</em>')
+      done()
+    })
+  })
+
+// 353885 test that it returns all values including variants
+
   // it.only('Junk data', () => {
   //   assert.throws(new Word(['ok']), Error)
   //   return

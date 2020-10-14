@@ -74,6 +74,10 @@ class Word {
   }
   get(...values) {
     if (!values) return this;
+    if(values.some(value => typeof value !== 'string')) {
+      /* Todo: Would be good to also support array passes */
+      throw new Error('You must pass parameters as spread into get()')
+    }
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value =>
         row.inflectional_form_categories.includes(value)
@@ -100,7 +104,7 @@ class Word {
     return new Word(this.rows.slice(0, 1))
   }
   getFirstAndItsVariants() {
-    return this.get(this.getFirstClassification())
+    return this.get(...this.getFirstClassification())
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form

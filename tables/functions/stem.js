@@ -12,10 +12,11 @@ import Word from './../word'
  */
 export function getStem(options) {
   if (this.is('noun')) {
+    // TODO: Test words that don't have plural
     if (this.isStrong()) {
-      return this.getOriginal().get('accusative', 'without definite article', 'singular').getFirstValue()
+      return this.getOriginal().get('accusative', /*'without definite article', 'singular' */ ).getFirstValue()
     } else {
-      const output = this.getOriginal().get('nominative', 'without definite article', 'singular').getFirstValue()
+      const output = this.getOriginal().get('nominative', /*'without definite article', 'singular' */ ).getFirstValue() 
       return removeLastVowelCluster(output)
     }
   }
