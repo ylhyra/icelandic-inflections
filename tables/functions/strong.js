@@ -17,16 +17,16 @@ export function isStrong() {
   }
   /* Verb */
   else if (this.is('verb')) {
-    const word = this.getOriginal().without(
-      'impersonal with accusative subject',
-      'impersonal with dative subject',
-      'impersonal with genitive subject',
-      'impersonal with dummy subject'
-    ).get('active voice')
+    // const word = this.getOriginal().without(
+    //   'impersonal with accusative subject',
+    //   'impersonal with dative subject',
+    //   'impersonal with genitive subject',
+    //   'impersonal with dummy subject'
+    // ).get('active voice')
 
-    const past_tense = word.get('indicative', 'past tense', '1st person', 'singular')
+    const past_tense = this.get( /*'indicative', */ 'past tense', /*'1st person', 'singular'*/ ).getFirstValue()
     /* Does not end in "-i" */
-    return !/i$/.test(past_tense.getFirstValue())
+    return !/i$/.test(past_tense)
   }
 }
 

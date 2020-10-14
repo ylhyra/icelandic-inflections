@@ -15,10 +15,7 @@ Convert `correctness_grade_of_inflectional_form`'s "0" to "5" for easier sorting
 
 
 draga
-  - "dró" is marked as irregular
-
-471204
-  - Hamri is listed as a sound change
+  - "dró" is marked as irregular, should it?
 
 428183
   - failure in principal parts generation

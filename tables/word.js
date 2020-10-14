@@ -176,12 +176,19 @@ class Word {
   getTree() {
     return tree(this.rows)
   }
-  render() {
+  /* Returns array */
+  renderForms() {
     let word = this
-    const value = this.rows.map(row => {
-      return `<b>${highlightIrregularities(row.inflectional_form, word)}</b>`
-    }).join(' / ')
-    let output = this.getHelperWordsBefore() + ' ' + value + this.getHelperWordsAfter()
+    return this.rows.map(row => {
+      return highlightIrregularities(row.inflectional_form, word)
+    })
+  }
+  /* Returns string with helper words */
+  render() {
+    let output =
+      this.getHelperWordsBefore() + ' ' +
+      this.renderForms().map(i=>`<b>${i}</b>`).join(' / ') +
+      this.getHelperWordsAfter()
     return output.trim()
   }
   importTree(input, original_word) {
