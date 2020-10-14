@@ -3,6 +3,7 @@ import { last } from 'lodash'
 /* Remove incorrect variants */
 export const removeIncorrectVariants = (rows) => {
   return rows.filter(row => {
+    // console.log(row)
     // /* Note: Commented out as "hendi" is marked with this */
     // if (row.should_be_taught) {
     //   return true

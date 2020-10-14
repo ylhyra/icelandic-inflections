@@ -31,7 +31,7 @@ const TraverseTree = (leaf, original_word) => {
     })
   }
   /* Pronouns */
-  else if (word.is('pronoun') && types['plurality'].includes(leaf.tag)) {
+  else if ((word.is('pronoun')||word.is('article')) && types['plurality'].includes(leaf.tag)) {
     table = RenderTable(leaf.values, original_word, {
       column_names: types['gender'],
       row_names: types['cases']
