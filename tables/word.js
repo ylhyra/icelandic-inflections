@@ -1,4 +1,3 @@
-import assert from 'assert'
 import getTables from './tables_all'
 import getSingleTable from './tables_single'
 import tree, { isNumber } from './tree'
@@ -16,15 +15,15 @@ import { uniq } from 'lodash'
 class Word {
   constructor(rows, original) {
     if (!Array.isArray(rows) && rows !== undefined) {
-      throw `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
+      throw new Error(`Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`)
     }
     rows = rows || []
 
     /* Test for broken input */
     if (!original) {
-      assert(rows.every(row => {
+      if (!rows.every(row => {
           return typeof row === 'object' && 'inflectional_form_categories' in row
-        }), 'Malformed input to Word')
+        })) throw new Error('Malformed input to Word');
     }
 
     rows = removeIncorrectVariants(rows)

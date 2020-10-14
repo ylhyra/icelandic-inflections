@@ -1,7 +1,6 @@
 /*
   Various helper functions
 */
-import assert from 'assert'
 import Word from './../word'
 export const characters = 'a-záéíóúýðþæö'
 export const vowels = 'aeiouyáéíóúýæö'
@@ -15,23 +14,23 @@ export const endsInVowel = (input) => {
   } else {
     string = input
   }
-  assert(typeof string === 'string')
+  if (typeof string !== 'string') throw new Error('endsInVowel expected string');
   return (new RegExp(`[${vowels}]$`, 'i')).test(string)
 }
 
 export const endsInConsonant = (string) => {
-  assert.equal(typeof string, 'string')
+  if (typeof string !== 'string') throw new Error('endsInConsonant expected string');
   return !endsInVowel(string)
 }
 export const splitOnVowels = (string) => {
-  assert.equal(typeof string, 'string')
+  if (typeof string !== 'string') throw new Error('splitOnVowels expected string');
   return string && string.split(new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, 'i'))
 }
 export const splitOnAll = (string) => {
-  assert.equal(typeof string, 'string')
+  if (typeof string !== 'string') throw new Error('splitOnAll expected string');
   return string && string.split(new RegExp(`(${vowellike_clusters}|[${characters}])`, 'i'))
 }
 export const removeLastVowelCluster = (string) => {
-  assert.equal(typeof string, 'string')
+  if (typeof string !== 'string') throw new Error('removeLastVowelCluster expected string');
   return string && string.replace((new RegExp(`(${vowellike_clusters}|[${vowels}]+)$`, 'i')), '')
 }

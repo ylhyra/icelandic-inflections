@@ -28,12 +28,13 @@ export function highlightIrregularities(form, word, returnDescription = false) {
   let form_split_original = splitOnVowels((form))
   /* Split on vowels *after* stripping endings, used to compare vowel changes */
   let form_split_stripped = splitOnVowels(stripBeforeComparingToStem(form, word))
-  // console.log({
-  //   stem,
-  //   form,
-  //   strip_step: stripBeforeComparingToStem(stem),
-  //   strip_form: stripBeforeComparingToStem(form),
-  // })
+
+  // if(form==='sæir'){
+  //   // console.log({input,stripped})
+  //   console.log({
+  //     form_split_original
+  //   })
+  // }
   const last_stem_vowel_index = stem_split.length - 2
   const second_last_stem_vowel_index = stem_split.length - 4
   if (last_stem_vowel_index >= 0 &&
@@ -46,8 +47,11 @@ export function highlightIrregularities(form, word, returnDescription = false) {
     umlauted_vowel_index = second_last_stem_vowel_index
   }
   if (umlauted_vowel_index) {
-    form_split_original[umlauted_vowel_index] = `<span class="umlaut">${form_split_original[umlauted_vowel_index]}</span>`
-    output = form_split_original.join('')
+    // Add umlaut to stripped variant and then append the rest to support words like „sæir“
+    const letters = form_split_stripped.join('').length
+    const letters_remaining_after_stripped = form_split_original.join('').split('').slice(letters).join('')
+    form_split_stripped[umlauted_vowel_index] = `<span class="umlaut">${form_split_stripped[umlauted_vowel_index]}</span>`
+    output = form_split_stripped.join('') + letters_remaining_after_stripped
     hasUmlaut = true
   }
 

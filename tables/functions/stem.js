@@ -27,8 +27,6 @@ export function getStem(options) {
       used in the masculine gender
     */
     if (options.masculinizeAdjectiveStem) {
-      console.log(stem)
-      console.log(typeof stem)
       const stemLength = splitOnVowels(stem).filter(Boolean).length
       let masculine = this.getOriginal().get('masculine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
       return splitOnVowels(masculine).filter(Boolean).slice(0, stemLength).join('')
@@ -63,24 +61,33 @@ export function getStem(options) {
  * @return {?string}
  */
 export const stripBeforeComparingToStem = (input, word) => {
-  assert(word instanceof Word)
-  if (!word.is('adjective')) {
-    return input
-  }
   if (!input) return;
-  const stripped = input.replace(endingsRegex, '')
+  let stripped
+
+  if (word.is('adjective') || word.is('past participle')) {
+    stripped = input.replace(adjectiveEndings, '')
+  } else if (word.is('verb')) {
+    stripped = input.replace(verbEndings, '')
+  }
+  // if(input==='sæir'){
+  //   console.log({input,stripped})
+  // }
   /* Check to see if there is at least one vowel left in stipped output */
-  if (splitOnVowels(stripped).length > 1) {
+  if (stripped && splitOnVowels(stripped).length > 1) {
     return stripped
   } else {
     return input
   }
 }
+
+
+
+const splittableRegexEndingsFromArray = string => {
+  return new RegExp(`(${string.sort((a, b) => (b.length - a.length)).join('|')})$`)
+}
+
 /* Common endings for definite articles and for adjectives */
-const endings = [
-  // 'i', // "asni"
-  // 'a', // "asna"
-  // 'ar',
+const adjectiveEndings = splittableRegexEndingsFromArray([
   'an',
   'anna',
   'ið',
@@ -102,5 +109,33 @@ const endings = [
   'unnar',
   'unni',
   'unum',
-]
-const endingsRegex = (new RegExp(`(${endings.sort((a, b) => (b.length - a.length)).join('|')})$`))
+])
+
+const verbEndings = splittableRegexEndingsFromArray([
+  'ðu',
+  'ið',
+  'iði',
+  'ir',
+  'ist',
+  'ju',
+  'juð',
+  'jum',
+  'jumst',
+  'just',
+  'st',
+  'uði',
+  'um',
+  'umst',
+  'uð',
+  'u',
+  'i',
+  'irðu',
+  'juði',
+  'usti',
+  'justi',
+  'istu',
+  'andi',
+  // Mediopassive
+  'isti',
+  'usti',
+])
