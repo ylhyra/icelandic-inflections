@@ -16,12 +16,13 @@ export function getStem(options) {
     if (this.isStrong()) {
       return this.getOriginal().get('accusative', /*'without definite article', 'singular' */ ).getFirstValue()
     } else {
-      const output = this.getOriginal().get('nominative', /*'without definite article', 'singular' */ ).getFirstValue() 
+      const output = this.getOriginal().get('nominative', /*'without definite article', 'singular' */ ).getFirstValue()
       return removeLastVowelCluster(output)
     }
   }
   if (this.is('adjective')) {
-    let stem = this.getOriginal().get('feminine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
+    let stem = this.getOriginal().get('feminine',/* 'nominative', 'singular', 'positive degree', 'strong declension'*/).getFirstValue()
+    if(!stem) return;
     /*
       For the purpose of highlighting umlauts,
       we want to get the stem with the vowel that's

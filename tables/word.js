@@ -181,7 +181,8 @@ class Word {
     const value = this.rows.map(row => {
       return `<b>${highlightIrregularities(row.inflectional_form, word)}</b>`
     }).join(' / ')
-    return this.getHelperWordsBefore() + ' ' + value + this.getHelperWordsAfter()
+    let output = this.getHelperWordsBefore() + ' ' + value + this.getHelperWordsAfter()
+    return output.trim()
   }
   importTree(input, original_word) {
     let rows = []
