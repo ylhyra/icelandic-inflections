@@ -14,6 +14,7 @@ export function getHelperWordsBefore() {
     this.is('past participle') ||
     this.is('pronoun') ||
     this.is('personal pronoun') ||
+    this.is('article') ||
     this.is('reflexive pronoun')
   ) {
     if (this.is('nominative') && this.is('singular')) {
@@ -120,8 +121,8 @@ export function getHelperWordsAfter() {
   }
 
   /* Adjectives & past participle */
-  else if (this.is('adjective') || this.is('past participle')) {
-    if (!this.is('weak declension')) {
+  else if (this.is('adjective') || this.is('past participle') || this.is('article')) {
+    if (!this.is('weak declension') /*&& !this.is('article')*/) {
       if (this.is('singular')) {
         if (this.is('nominative')) {
           text = this.dependingOnGender('maður', 'kona', 'barn')
