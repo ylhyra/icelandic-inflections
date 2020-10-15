@@ -213,6 +213,8 @@ const noun_endings = {
     // EINTALA
     // "ríki"
     ['i', 'i', 'i', 's'],
+    // "jójó"
+    ['', '', '', 's'],
     // "barn"
     ['', '', 'i', 's'],
     ['ið', 'ið', 'inu', 'sins'],
@@ -228,7 +230,7 @@ const noun_endings = {
     ['in', 'in', 'unum', 'anna'],
     // "börn"
     ['', '', 'um', 'a'],
-    ['in', 'in', 'unm', 'anna'],
+    ['in', 'in', 'unum', 'anna'],
     // "hjörtu"
     ['u', 'u', 'um', 'a'],
     ['un', 'un', 'unum', 'anna'],
