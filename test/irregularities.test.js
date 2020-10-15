@@ -5,7 +5,7 @@ import get_by_id from './../server/server-standalone/get_by_id'
 import { highlightIrregularities } from './../tables/functions/highlightIrregularities'
 import { get } from './word.test.js'
 
-describe('Irregularities', function() {
+describe('Irregularities', function () {
 
   /*
   Wikipedia: „Óreglulega beygingu hafa sex sterk karlkynsorð; faðir, bróðir, vetur, fótur, fingur og maður. Nokkur sterk kvenkynsorð hafa einnig óreglulega beygingu; hönd, kýr, ær, sýr, mús, lús, móðir, dóttir, systir, mær (mey).“
@@ -37,6 +37,13 @@ describe('Irregularities', function() {
     })
   })
 
+  it('„hér er á“', (done) => {
+    get(390363, done, word => {
+      assert.equal(word.isWordIrregular().isIrregular, false)
+      done()
+    })
+  })
+
   it('„sjá“', (done) => {
     get(466523, done, word => {
       assert.equal(highlightIrregularities(word.get('mediopassive', 'subjunctive', 'past tense').getFirstValue(), word), '<em class="irregular">s<span class="umlaut">æ</span>ist</em>')
@@ -44,9 +51,9 @@ describe('Irregularities', function() {
     })
   })
 
-  it('„hamar“”', (done) => {
+  it('„hamar“', (done) => {
     get(471203, done, word => {
-      assert.equal(word.isWordIrregular().isIrregular, false)
+      assert.equal(word.isWordIrregular().hasUmlaut, false)
       assert.equal(highlightIrregularities(word.get('dative').getFirstValue(), word), '<em class="irregular">hamri</em>')
       assert.equal(highlightIrregularities(word.get('dative', 'with definite article').getFirstValue(), word), '<em class="irregular">hamrinum</em>')
       assert.equal(highlightIrregularities(word.get('dative', 'plural').getFirstValue(), word), '<em class="irregular">h<span class="umlaut">ö</span>mrum</em>')

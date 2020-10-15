@@ -11,7 +11,7 @@ const splittableRegexEndingsFromArray = string => {
  * @param {word} Word
  * @return {?string}
  */
-export const removeCommonWordEndings = (input, word) => {
+export const findInflectionalPattern = (input, word) => {
   if (!input) return;
   let stripped = input;
 
@@ -36,113 +36,113 @@ const beygingarendingar = {
   m: [
     // EINTALA
     // "bróðir"
-    ['irinn', 'urinn', 'urnum', 'urins'],
-    ['ir', 'ur', 'ur', 'ur'],
+    ['(ir)', '(ur)', '(ur)', '(ur)'],
+    ['(ir)inn', '(ur)inn', '(ur)num', '(ur)ins'],
     // "plástur"
-    ['urinn', 'urinn', 'rinum', 'sins'],
-    ['ur', 'ur', 'ri', 's'],
+    ['(ur)', '(ur)', '(r)i', '(ur)s'],
+    ['(ur)inn', '(ur)inn', '(ur)inum', '(ur)sins'],
     // "bátur"
-    ['urinn', 'inn', 'num', 'sins'],
     ['ur', '', 'i', 's'],
+    ['urinn', 'inn', 'num', 'sins'],
     // "gangur"
     ['urinn', 'inn', 'inum', 'sins'],
     // "hringur"
     ['ur', '', '', 's'],
     // "vinur"
-    ['urinn', 'inn', 'inum', 'arins'],
     ['ur', '', 'i', 'ar'],
+    ['urinn', 'inn', 'inum', 'arins'],
     // "lækur"
-    ['urinn', 'inn', 'num', 'jarins'],
     ['ur', '', '', 'jar'],
+    ['urinn', 'inn', 'num', 'jarins'],
     // "matur"
-    ['urinn', 'inn', 'num', 'arins'],
     ['ur', '', '', 'ar'],
+    ['urinn', 'inn', 'num', 'arins'],
     // "skjár"
-    ['rinn', 'inn', 'num', 'sins'],
     ['r', '', '', 's'],
+    ['rinn', 'inn', 'num', 'sins'],
     // "pabbi"
-    ['inn', 'ann', 'anum', 'ans'],
     ['i', 'a', 'a', 'a'],
+    ['inn', 'ann', 'anum', 'ans'],
     // "ofn"
-    ['inn', 'inn', 'inum', 'sins'],
     ['', '', 'i', 's'],
+    ['inn', 'inn', 'inum', 'sins'],
     // "bíll"
-    ['inn', 'inn', 'num', 'sins'],
     ['', '', '', 's'],
+    ['inn', 'inn', 'num', 'sins'],
     // "morgunn"
-    ['unninn', 'uninn', 'ninum', 'unsins'],
     ['unn', 'un', 'ni', 'uns'],
+    ['unninn', 'uninn', 'ninum', 'unsins'],
     // "bær"
-    ['', '', '', 'jar'],
-    ['', '', '', 'jarins'],
+    ['r', '', '', 'jar'],
+    ['rinn', 'inn', 'num', 'jarins'],
     // FLEIRTALA
     // bátar" / "strákar"
-    ['arnir', 'ana', 'unum', 'anna'],
     ['ar', 'a', 'um', 'a'],
+    ['arnir', 'ana', 'unum', 'anna'],
     // "feður"
-    ['urnir', 'urna', 'runum', 'ranna'],
     ['ur', 'ur', 'rum', 'ra'],
+    ['urnir', 'urna', 'runum', 'ranna'],
     // "hringur"
-    ['irnir', 'ina', 'junum', 'janna'],
     ['ir', 'i', 'jum', 'ja'],
+    ['irnir', 'ina', 'junum', 'janna'],
     // "vinir"
-    ['irnir', 'ina', 'unum', 'anna'],
     ['ir', 'i', 'um', 'a'],
+    ['irnir', 'ina', 'unum', 'anna'],
     // "morgunn"
-    ['narnir', 'nana', 'nunum', 'nanna'],
     ['nar', 'na', 'num', 'na'],
+    ['narnir', 'nana', 'nunum', 'nanna'],
     // "bændur"
-    ['urnir', 'urna', 'unum', 'anna'],
     ['ur', 'ur', 'um', 'a'],
+    ['urnir', 'urna', 'unum', 'anna'],
     // "menn"
     ['', '', 'um', 'a'],
     // "bæir"
-    ['irnir', 'ina', 'junum', 'janna'],
     ['ir', 'i', 'jum', 'ja'],
+    ['irnir', 'ina', 'junum', 'janna'],
   ],
   // Kvenkyn
   f: [
     // EINTALA
     // systir
-    ['irin', 'urina', 'urinni', 'urinnar'],
     ['ir', 'ur', 'ur', 'ur'],
+    ['irin', 'urina', 'urinni', 'urinnar'],
     // "búð"
-    ['in', 'ina', 'inni', 'arinnar'],
     ['', '', '', 'ar'],
+    ['in', 'ina', 'inni', 'arinnar'],
     //  "kona"
-    ['an', 'una', 'unni', 'unnar'],
     ['a', 'u', 'u', 'u'],
+    ['an', 'una', 'unni', 'unnar'],
     // "elding"
-    ['in', 'una', 'unni', 'arinnar'],
     ['', 'u', 'u', 'ar'],
+    ['in', 'una', 'unni', 'arinnar'],
     // "mjólk"
-    ['in', 'ina', 'inni', 'urinnar'],
     ['', '', '', 'ur'],
+    ['in', 'ina', 'inni', 'urinnar'],
     // "keppni"
-    ['in', 'ina', 'inni', 'innar'],
     ['i', 'i', 'i', 'i'],
+    ['in', 'ina', 'inni', 'innar'],
     // FLEIRTALA
     // "stúlkur"
-    ['urnar', 'urnar', 'unum', 'nanna'],
     ['ur', 'ur', 'um', 'na'],
+    ['urnar', 'urnar', 'unum', 'nanna'],
     // "keppnir"
-    ['nirnar', 'nirnar', 'nunum', 'nanna'],
     ['nir', 'nir', 'num', 'na'],
+    ['nirnar', 'nirnar', 'nunum', 'nanna'],
     // "búðir"
-    ['irnar', 'irnar', 'unum', 'anna'],
     ['ir', 'ir', 'um', 'a'],
+    ['irnar', 'irnar', 'unum', 'anna'],
     // "persónur"
-    ['urnar', 'urnar', 'unum', 'anna'],
     ['ur', 'ur', 'um', 'a'],
+    ['urnar', 'urnar', 'unum', 'anna'],
     // "vélar"
-    ['arnar', 'arnar', 'unum', 'anna'],
     ['ar', 'ar', 'um', 'a'],
+    ['arnar', 'arnar', 'unum', 'anna'],
     // "bækur"
-    ['urnar', 'urnar', 'unum', 'anna'],
     ['ur', 'ur', 'um', 'a'],
+    ['urnar', 'urnar', 'unum', 'anna'],
     // "dyr"
-    ['nar', 'nar', 'unum', 'anna'],
     ['', '', 'um', 'a'],
+    ['nar', 'nar', 'unum', 'anna'],
   ],
   // Hvorugkyn
   n: [
@@ -150,24 +150,24 @@ const beygingarendingar = {
     // "ríki"
     ['i', 'i', 'i', 's'],
     // "barn"
-    ['ið', 'ið', 'inu', 'sins'],
     ['', '', 'i', 's'],
+    ['ið', 'ið', 'inu', 'sins'],
     // "hjarta"
-    ['að', 'að', 'anu', 'ans'],
     ['a', 'a', 'a', 'a'],
+    ['að', 'að', 'anu', 'ans'],
     // FLEIRTALA
     // "augu"
-    ['un', 'un', 'unum', 'nanna'],
     ['u', 'u', 'um', 'na'],
+    ['un', 'un', 'unum', 'nanna'],
     // "epli"
-    ['in', 'in', 'unum', 'anna'],
     ['i', 'i', 'um', 'a'],
+    ['in', 'in', 'unum', 'anna'],
     // "börn"
-    ['in', 'in', 'unm', 'anna'],
     ['', '', 'um', 'a'],
+    ['in', 'in', 'unm', 'anna'],
     // "hjörtu"
-    ['un', 'un', 'unum', 'anna'],
     ['u', 'u', 'um', 'a'],
+    ['un', 'un', 'unum', 'anna'],
   ],
 }
 

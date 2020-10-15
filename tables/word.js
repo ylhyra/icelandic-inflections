@@ -36,10 +36,10 @@ class Word {
       this.original = original || rows
     }
 
-    /* TEMPORARY */
-    if (!original) {
-      this.FindIrregularities()
-    }
+    // /* TEMPORARY */
+    // if (!original) {
+    //   this.FindIrregularities()
+    // }
   }
   getId() {
     return this.original.length > 0 && this.original[0].BIN_id
