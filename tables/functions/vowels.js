@@ -28,7 +28,11 @@ export const splitOnVowels = (string) => {
 }
 export const splitOnAll = (string) => {
   // if (typeof string !== 'string') throw new Error('splitOnAll expected string');
-  return string && string.split(new RegExp(`(${vowellike_clusters}|[${characters}])`, 'i'))
+  return string && string.split(new RegExp(`(${vowellike_clusters}|[${characters}])`, 'i')).filter(Boolean)
+}
+export const isVowellikeCluster = (string) => {
+  // if (typeof string !== 'string') throw new Error('splitOnAll expected string');
+  return (new RegExp(`(${vowellike_clusters})`, 'i')).test(string)
 }
 export const removeLastVowelCluster = (string) => {
   // if (typeof string !== 'string') throw new Error('removeLastVowelCluster expected string');
