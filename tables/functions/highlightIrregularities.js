@@ -1,6 +1,6 @@
 import { splitOnVowels, removeVowellikeClusters, splitOnAll, isVowellikeCluster } from './vowels'
 import { stripBeforeComparingToStem } from './commonEndings_OLD'
-import { removeCommonWordEndings } from './commonEndings'
+// import { removeCommonWordEndings } from './commonEndings'
 import _ from 'lodash'
 
 /**
@@ -59,7 +59,7 @@ export function highlightIrregularities(form, word, returnDescription = false) {
           remaining_after_stem_part += letter
         }
       })
-      console.log(removeCommonWordEndings(remaining_after_stem_part, word))
+      // console.log(removeCommonWordEndings(remaining_after_stem_part, word))
     } else {
       /**
        * TODO:

@@ -2,6 +2,7 @@ import getTables from './tables_all'
 import getSingleTable from './tables_single'
 import tree, { isNumber } from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
+/* TODO: Remove */
 import { highlightIrregularities } from './functions/highlightIrregularities'
 import { getPrincipalParts } from './functions/principalParts'
 import { getWordDescription } from './functions/wordDescription'
@@ -11,6 +12,7 @@ import { isStrong, isWeak } from './functions/strong'
 import { removeIncorrectVariants } from './functions/incorrectVariants'
 import { types } from './classification/classification'
 import { uniq } from 'lodash'
+import { FindIrregularities } from './irregularities/irregularities'
 
 class Word {
   constructor(rows, original) {
@@ -32,6 +34,11 @@ class Word {
       this.original = original.original
     } else {
       this.original = original || rows
+    }
+
+    /* TEMPORARY */
+    if (!original) {
+      this.FindIrregularities()
     }
   }
   getId() {
@@ -192,7 +199,7 @@ class Word {
   render() {
     let output =
       this.getHelperWordsBefore() + ' ' +
-      this.renderForms().map(i=>`<b>${i}</b>`).join(' / ') +
+      this.renderForms().map(i => `<b>${i}</b>`).join(' / ') +
       this.getHelperWordsAfter()
     return output.trim()
   }
@@ -210,6 +217,15 @@ class Word {
     traverse(input)
     this.rows = rows
     this.original = (original_word && original_word.original) || rows
+
+
+
+
+
+    /* TEMPORARY */
+    this.FindIrregularities()
+
+
     return this
   }
 }
@@ -224,5 +240,6 @@ Word.prototype.getTables = getTables
 Word.prototype.getSingleTable = getSingleTable
 Word.prototype.getWordDescription = getWordDescription
 Word.prototype.getWordNotes = getWordNotes
+Word.prototype.FindIrregularities = FindIrregularities
 
 export default Word

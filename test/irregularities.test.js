@@ -7,8 +7,16 @@ import { get } from './word.test.js'
 
 describe('Irregularities', function() {
 
+  /*
+  Wikipedia: „Óreglulega beygingu hafa sex sterk karlkynsorð; faðir, bróðir, vetur, fótur, fingur og maður. Nokkur sterk kvenkynsorð hafa einnig óreglulega beygingu; hönd, kýr, ær, sýr, mús, lús, móðir, dóttir, systir, mær (mey).“
+  https://vefir.mms.is/flettibaekur/namsefni/gullvor/28/
+
+  Test: orðstír (et.), mjólk (et.), dyr (ft.) buxur
+  */
+
   it('„bróðir“', (done) => {
     get(4385, done, word => {
+      assert.equal(word.isWordIrregular().isIrregular, true)
       assert.equal(highlightIrregularities(word.get('genitive', 'plural').getFirstValue(), word), 'br<span class="umlaut">æ</span>ðra')
       done()
     })
@@ -18,7 +26,6 @@ describe('Irregularities', function() {
     get(12258, done, word => {
       assert.equal(highlightIrregularities(word.getFirstValue(), word), 'systir')
       assert.equal(highlightIrregularities(word.get('dative', 'plura', 'with definite article').getFirstValue(), word), 'systrunum')
-      assert.equal(word.isWordIrregular().isIrregular, false)
       done()
     })
   })
@@ -46,6 +53,8 @@ describe('Irregularities', function() {
       done()
     })
   })
+
+  // frá himni
 
   it('„sykrið mitt“', (done) => {
     get(3700, done, word => {
