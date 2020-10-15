@@ -92,7 +92,7 @@ class Word {
   }
   get(...values) {
     if (!values) return this;
-    if (values.some(value => !(typeof value === 'string' || value === null))) {
+    if (values.some(value => !(typeof value === 'string' || typeof value ==='number' || value === null))) {
       /* Todo: Would be good to also support array passes */
       // console.log(values)
       throw new Error('You must pass parameters as spread into get()')

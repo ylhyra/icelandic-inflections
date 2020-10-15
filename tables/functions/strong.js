@@ -15,7 +15,7 @@ export function isStrong() {
 
   /* Noun */
   if (this.is('noun')) {
-    const table_to_check = this.getOriginal().get('singular', 'without definite article', '1').getForms()
+    const table_to_check = this.getOriginal().get('singular', 'without definite article', 1).getForms()
     if (table_to_check.length === 0) return;
     results = table_to_check.some(endsInConsonant)
   }

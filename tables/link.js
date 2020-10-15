@@ -12,7 +12,7 @@ export default (link, label) => {
   }
 
   /* Retrieve additional info from "classification.js" file */
-  const info = getTagInfo(link)
+  const info = getTagInfo(link, false)
   if (info) {
     if (info.has_article_on_ylhyra) {
       link = info.title

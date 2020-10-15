@@ -23,11 +23,11 @@ export const removeInflectionalPattern = (input, word) => {
   } else if (word.is('noun')) {
     let possible_endings_for_gender = noun_endings[word.getType('gender')] /*[word.getType('plurality')][word.getType('article')]*/
     const sibling_classification = without(word.getFirstClassification(), ...types['cases'])
-    const siblings = word.getOriginal().get(...sibling_classification).get('1')
+    const siblings = word.getOriginal().get(...sibling_classification).get(1)
     const word_case_index = types['cases'].indexOf(word.getType('case'))
     let ending = ''
     /* Find exact pattern matches for primary variants */
-    if (word.is('1')) {
+    if (word.is(1)) {
       const result = possible_endings_for_gender.find(pattern => {
         return pattern.every((ending, index) => {
           const case_ = types['cases'][index]
