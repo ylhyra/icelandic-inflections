@@ -17,11 +17,20 @@ export function getHelperWordsBefore() {
     this.is('article') ||
     this.is('reflexive pronoun')
   ) {
-    if (this.is('nominative') && this.is('singular')) {
+    if (this.is('nominative', 'singular')) {
       text = 'hér er'
+      if (this.getBaseWord() === 'þú') {
+        text = 'hér ert'
+      }
     }
-    if (this.is('nominative') && this.is('plural')) {
+    if (this.is('nominative', 'plural')) {
       text = 'hér eru'
+      if (this.getBaseWord() === 'ég') {
+        text = 'hér erum'
+      }
+      if (this.getBaseWord() === 'þú' || this.getBaseWord() === 'þér') {
+        text = 'hér eruð'
+      }
     }
     if (this.is('accusative')) {
       text = 'um'
@@ -122,7 +131,7 @@ export function getHelperWordsAfter() {
 
   /* Adjectives & past participle */
   else if (this.is('adjective') || this.is('past participle') || this.is('article')) {
-    if (!this.is('weak declension') /*&& !this.is('article')*/) {
+    if (!this.is('weak declension') /*&& !this.is('article')*/ ) {
       if (this.is('singular')) {
         if (this.is('nominative')) {
           text = this.dependingOnGender('maður', 'kona', 'barn')

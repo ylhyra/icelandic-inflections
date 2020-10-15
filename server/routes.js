@@ -58,6 +58,18 @@ export default (Search, Get_by_id) => {
   router.get(['/', '/:id(\\d+)/', '/:word?/:id(\\d+)?'], cors(), (req, res) => {
     const id = req.query.id || req.params.id
     const word = req.query.q || req.params.word
+    const embed = 'embed' in req.query
+
+    const sendError = (e) => {
+      console.error(e)
+      return res.send(layout({
+        title: word,
+        string: word,
+        results: 'There was an error. Please <a href="mailto:ylhyra@ylhyra.is">click here</a> to report this error.' +
+          `<br><br><small class=gray>Error message: ${e.message}</small>`
+      }))
+    }
+
     if (id) {
       Get_by_id(id, (rows) => {
         if (!rows || rows.length === 0) {
@@ -74,14 +86,10 @@ export default (Search, Get_by_id) => {
             string: word,
             results: render(rows, req.query),
             id,
+            embed,
           }))
         } catch (e) {
-          console.error(e)
-          return res.send(layout({
-            title: word,
-            string: word,
-            results: 'There was an error. Click the link at the bottom to report this error.'
-          }))
+          sendError(e)
         }
       })
     } else if (word) {
@@ -134,6 +142,7 @@ export default (Search, Get_by_id) => {
                 string: word,
                 results: render(rows, req.query),
                 id: rows[0].BIN_id,
+                embed,
               }))
             }
             /*
@@ -147,12 +156,7 @@ export default (Search, Get_by_id) => {
               }))
             }
           } catch (e) {
-            console.error(e)
-            return res.send(layout({
-              title: word,
-              string: word,
-              results: 'There was an error. Please <a href="mailto:ylhyra@ylhyra.is">click here</a> to report this error.'
-            }))
+            sendError(e)
           }
         })
     } else {

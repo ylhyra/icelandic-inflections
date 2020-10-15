@@ -67,15 +67,6 @@ class Word {
   getBaseWord() {
     return this.original.rows.length > 0 && this.original.rows[0].base_word || ''
   }
-  /**
-    A snippet is a short example of a conjugation to display in search results
-  */
-  getSnippet() {
-    if (this.is('verb')) {
-      return this.getPrincipalParts()
-    }
-    return this.getSingleTable({ returnAsString: true })
-  }
   getIsWordIrregular() {
     return this.original.wordIsIrregular
   }
@@ -84,6 +75,18 @@ class Word {
   }
   is(...values) {
     return values.every(value => {
+      /* Test word_categories */
+      if (this.getWordCategories().includes(normalizeTag(value))) {
+        return true
+      }
+      /* Test inflectional_form_categories */
+      return this.rows.length > 0 && this.rows.every(row => (
+        row.inflectional_form_categories.includes(normalizeTag(value))
+      ))
+    })
+  }
+  isAny(...values) {
+    return values.some(value => {
       /* Test word_categories */
       if (this.getWordCategories().includes(normalizeTag(value))) {
         return true
@@ -221,6 +224,15 @@ class Word {
       this.renderForms().map(i => `<b>${i}</b>`).join(' / ') +
       this.getHelperWordsAfter()
     return output.trim()
+  }
+  /**
+    A snippet is a short example of a conjugation to display in search results
+  */
+  getSnippet() {
+    if (this.is('verb')) {
+      return this.getPrincipalParts()
+    }
+    return this.getSingleTable({ returnAsString: true })
   }
 }
 

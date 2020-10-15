@@ -3,6 +3,7 @@ export default ({
   string,
   results,
   id,
+  embed,
 }) => `
 <!DOCTYPE html>
 <html>
@@ -33,10 +34,11 @@ if (/[?&](q|id)=/.test(location.search)) {
 </script>
 <body>
 
+${!embed ? `
 <h1><a href="/">Icelandic inflections</a></h1>
 <form method="get" action="/">
   <input name="q" id="s" placeholder="Search" type="search" value="${string || ''}" spellcheck="false" autocomplete="off"/>
-</form>
+</form>`:''}
 <main id="${id ? 'content': ''}">
   ${results || ''}
 </main>

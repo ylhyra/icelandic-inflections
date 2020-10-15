@@ -2,7 +2,7 @@ import assert from 'assert'
 import classify from './../tables/classification/BIN_classification'
 import Word from './../tables/word'
 import get_by_id from './../server/server-standalone/get_by_id'
-import { get } from './word.test.js'
+import { get } from './get.js'
 
 describe('Irregularities', function () {
 
