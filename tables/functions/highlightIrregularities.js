@@ -1,6 +1,5 @@
-import { splitOnVowels } from './vowels'
-import { stripBeforeComparingToStem } from './stem'
-
+import { splitOnVowels, removeVowellikeClusters, splitOnAll } from './vowels'
+import _ from 'lodash'
 /**
  * highlightIrregularities - Highlights umlauts in red and other irregularities by wrapping in italics
  *
@@ -17,6 +16,30 @@ export function highlightIrregularities(form, word, returnDescription = false) {
   let stem = word.getStem({ masculinizeAdjectiveStem: true })
   if (!stem) return form;
 
+
+  // /*
+  //  *
+  //  *  testing....
+  //  */
+  // if (word.is('nominative', 'singular', 'without definite article')) {
+  //
+  //   let stem_split2 = splitOnAll(stem)
+  //   let form_split2 = splitOnAll(form)
+  //
+  //   attemptToFindUnchangeableRegion(word)
+  //
+  //
+  //
+  //
+  // }
+
+
+
+
+
+
+
+
   /**
    * Highlight sound shifts.
    * Looks at the last and second-last vowel of the stem and
@@ -29,12 +52,6 @@ export function highlightIrregularities(form, word, returnDescription = false) {
   /* Split on vowels *after* stripping endings, used to compare vowel changes */
   let form_split_stripped = splitOnVowels(stripBeforeComparingToStem(form, word))
 
-  // if(form==='sæir'){
-  //   // console.log({input,stripped})
-  //   console.log({
-  //     form_split_original
-  //   })
-  // }
   const last_stem_vowel_index = stem_split.length - 2
   const second_last_stem_vowel_index = stem_split.length - 4
   if (last_stem_vowel_index >= 0 &&
@@ -82,3 +99,128 @@ const removeItemAtIndex = (array, index_to_remove) => {
   output.splice(index_to_remove, 1)
   return output
 }
+
+
+
+
+/*
+  Testing...
+*/
+const attemptToFindUnchangeableRegion = (word) => {
+  let x = word.getOriginal().rows.map(i => i.inflectional_form).map(removeVowellikeClusters)
+  let shortest = Math.min(...x.map(i => i.length))
+  let cut = x.map(i => i.slice(0, shortest))
+  var mostCommonBeginning = _.head(_(cut)
+  .countBy()
+  .entries()
+  .maxBy(_.last));
+
+  console.log({ x, shortest, cut ,mostCommonBeginning})
+}
+
+
+
+
+
+
+
+
+/**
+ * Certain words are too difficult to stem without
+ * knowing what word endings are common.
+ * Turns "farinn" into "far"
+ * Notes:
+ *   - Only runs for adjectives, since this trick does not work for "asni"
+ * TODO This is a total hack, needs a complete revamp
+ * @param {string} input
+ * @param {word} Word
+ * @return {?string}
+ */
+export const stripBeforeComparingToStem = (input, word) => {
+  if (!input) return;
+  let stripped
+
+  if (word.is('adjective') || word.is('past participle') || word.is('with definite article')) {
+    stripped = input.replace(adjectiveEndings, '')
+  } else if (word.is('verb')) {
+    stripped = input.replace(verbEndings, '')
+  } else if (word.is('noun')) {
+    stripped = input.replace(nounEndings, '')
+  }
+  // if(input==='sæir'){
+  //   console.log({input,stripped})
+  // }
+  /* Check to see if there is at least one vowel left in stipped output */
+  if (stripped && splitOnVowels(stripped).length > 1) {
+    return stripped
+  } else {
+    return input
+  }
+}
+
+
+
+const splittableRegexEndingsFromArray = string => {
+  return new RegExp(`(${string.sort((a, b) => (b.length - a.length)).join('|')})$`)
+}
+
+const nounEndings = splittableRegexEndingsFromArray([
+  'ri',
+  'rið',
+  'rinu',
+  'rinum',
+  'rum',
+])
+
+const adjectiveEndings = splittableRegexEndingsFromArray([
+  'an',
+  'anna',
+  'ið',
+  'in',
+  'inn',
+  'inna',
+  'innar',
+  'inni',
+  'ins',
+  'inu',
+  'inum',
+  'na',
+  'nar',
+  'ni',
+  'nir',
+  'nu',
+  'num',
+  'una',
+  'unnar',
+  'unni',
+  'unum',
+])
+
+const verbEndings = splittableRegexEndingsFromArray([
+  'ðu',
+  'ið',
+  'iði',
+  'ir',
+  'ist',
+  'ju',
+  'juð',
+  'jum',
+  'jumst',
+  'just',
+  'st',
+  'uði',
+  'um',
+  'umst',
+  'uð',
+  'u',
+  'i',
+  'irðu',
+  'juði',
+  'usti',
+  'justi',
+  'istu',
+  'andi',
+  // Mediopassive
+  'isti',
+  'usti',
+])

@@ -34,3 +34,6 @@ export const removeLastVowelCluster = (string) => {
   // if (typeof string !== 'string') throw new Error('removeLastVowelCluster expected string');
   return string && string.replace((new RegExp(`(${vowellike_clusters}|[${vowels}]+)$`, 'i')), '')
 }
+export const removeVowellikeClusters = (string) => {
+  return string && string.replace((new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, 'ig')), '')
+}

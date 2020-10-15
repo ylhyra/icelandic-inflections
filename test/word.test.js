@@ -5,14 +5,12 @@ import get_by_id from './../server/server-standalone/get_by_id'
 import { highlightIrregularities } from './../tables/functions/highlightIrregularities'
 import { stripHTML } from './../tables/link'
 
-
 /*
 Other words that might be interesting:
 - dró
 */
 
-
-describe('Testing words', function () {
+describe('General word tests', function () {
   it('„farinn“', (done) => {
     get(390363, done, word => {
       assert.equal(word.get('weak declension').getFirstValue(), 'farni')
@@ -37,18 +35,25 @@ describe('Testing words', function () {
     })
   })
 
-
-  it('„muna“', (done) => {
-    get(428183, done, word => {
-      assert.equal(stripHTML(word.getPrincipalParts()), 'að muna, mig munaði (í gær), ég hef munað')
-      assert.equal(word.isStrong(), false)
-      assert.equal(word.isWordIrregular().isIrregular, false)
+  it('„sjár“', (done) => {
+    get(5198, done, word => {
       assert.equal(word.isWordIrregular().hasUmlaut, false)
       done()
     })
   })
 
-  // 353885 test that it returns all values including variants
+  it('„muna“', (done) => {
+    get(428183, done, word => {
+      // console.time('someFunction')
+      assert.equal(stripHTML(word.getPrincipalParts()), 'að muna, mig munaði (í gær), ég hef munað')
+      assert.equal(word.isStrong(), false)
+      assert.equal(word.isWordIrregular().isIrregular, false)
+      assert.equal(word.isWordIrregular().hasUmlaut, false)
+      // console.timeEnd('someFunction')
+
+      done()
+    })
+  })
 
   // it.only('Junk data', () => {
   //   assert.throws(new Word(['ok']), Error)
