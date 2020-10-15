@@ -21,15 +21,13 @@ export const removeInflectionalPattern = (input, word) => {
   } else if (word.is('verb')) {
     stripped = input.replace(verbEndings, '')
   } else if (word.is('noun')) {
-    let possible_endings_for_gender = noun_endings[word.getType('gender')]
+    let possible_endings_for_gender = noun_endings[word.getType('gender')] /*[word.getType('plurality')][word.getType('article')]*/
     const sibling_classification = without(word.getFirstClassification(), ...types['cases'])
     const siblings = word.getOriginal().get(...sibling_classification).get('1')
-    /*
-      TEMP
-      hringur has two alternative inflections!
-    */
-    if (word.is('nominative')) { // TEMP FOR TESTINGS
-      // console.log(siblings)
+    const word_case_index = types['cases'].indexOf(word.getType('case'))
+    let ending = ''
+    /* Find exact pattern matches for primary variants */
+    if (word.is('1')) {
       const result = possible_endings_for_gender.find(pattern => {
         return pattern.every((ending, index) => {
           const case_ = types['cases'][index]
@@ -38,19 +36,33 @@ export const removeInflectionalPattern = (input, word) => {
         })
       })
       if (result) {
+        ending = result[word_case_index]
         // console.log('Found ending for ' + input)
         // console.log(result)
       } else {
-        throw new Error('!!!!!!! Did not find ending for ' + input)
+        if (process.env.NODE_ENV === 'development') {
+          throw new Error('!!!!!!! Did not find ending for ' + input)
+        }
       }
     }
+    /* Secondary variants get just a quick check */
+    else {
+      const result = possible_endings_for_gender
+        .map(pattern => pattern[word_case_index])
+        .sort((a, b) => b.length - a.length)
+        .find(ending => {
+          return (new RegExp(`${ending}$`)).test(input)
+        })
+      if (result) {
+        ending = result
+      } else {
+        // throw new Error('!!!!!!! Did not find ending for ' + input)
+      }
+    }
+    stripped = input.replace(new RegExp(`(${ending})$`), '')
   }
   return stripped
 }
-
-
-
-
 
 
 
@@ -62,7 +74,6 @@ const sortLongest = (arrays) => {
   return arrays.sort((a, b) => b.join('').length - a.join('').length)
 }
 const noun_endings = {
-  // Karlkyn
   masculine: sortLongest([
     // EINTALA
     // "bróðir"
@@ -205,6 +216,44 @@ const noun_endings = {
     ['u', 'u', 'um', 'a'],
     ['un', 'un', 'unum', 'anna'],
   ]),
+
+  // masculine: {
+  //   singular: {
+  //     'with definite article': sortLongest([
+  //       // "bróðir"
+  //       ['(ir)', '(ur)', '(ur)', '(ur)'],
+  //     ]),
+  //     'without definite article': sortLongest([]),
+  //   },
+  //   plural: {
+  //     'with definite article': sortLongest([]),
+  //     'without definite article': sortLongest([]),
+  //   },
+  // },
+  // feminine: {
+  //   singular: {
+  //     'with definite article': sortLongest([]),
+  //     'without definite article': sortLongest([]),
+  //   },
+  //   plural: {
+  //     'with definite article': sortLongest([]),
+  //     'without definite article': sortLongest([]),
+  //   },
+  // },
+  // neuter: {
+  //   singular: {
+  //     'with definite article': sortLongest([]),
+  //     'without definite article': sortLongest([]),
+  //   },
+  //   plural: {
+  //     'with definite article': sortLongest([]),
+  //     'without definite article': sortLongest([]),
+  //   },
+  // },
+
+
+
+
 }
 
 const nounEndings = splittableRegexEndingsFromArray([

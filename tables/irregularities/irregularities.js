@@ -23,7 +23,6 @@ export function FindIrregularities() {
 
   word.rows.forEach(row => {
     const form = row.inflectional_form
-
     removeInflectionalPattern(form, new Word([row], word.original))
     // findLeftoverAfterStem(form, stem, word)
   })
