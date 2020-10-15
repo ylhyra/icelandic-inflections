@@ -28,12 +28,11 @@ export const removeInflectionalPattern = (input, word) => {
     let ending = ''
     /* Find exact pattern matches for primary variants */
     if (word.is('1')) {
-      console.log(siblings.getValues())
       const result = possible_endings_for_gender.find(pattern => {
         return pattern.every((ending, index) => {
           const case_ = types['cases'][index]
           const value = siblings.get(case_).getFirstValue()
-          if(value) {
+          if (value) {
             return (new RegExp(`${ending}$`)).test(siblings.get(case_).getFirstValue())
           } else {
             if (process.env.NODE_ENV === 'development') {

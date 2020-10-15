@@ -15,7 +15,7 @@ import { sort_by_classification } from './classification/sort_by_classification'
  *         values: []
  *       }]
  *     }]
- *   } 
+ *   }
  *
  */
 const tree = (rows) => {
@@ -51,6 +51,7 @@ const tree = (rows) => {
           should_be_taught: row.should_be_taught,
           correctness_grade_of_inflectional_form: row.correctness_grade_of_inflectional_form,
           register_of_inflectional_form: row.register_of_inflectional_form,
+          formattedOutput: row.formattedOutput,
           // various_feature_markers: row.various_feature_markers,
         })
       }

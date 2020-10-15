@@ -37,11 +37,13 @@ class Word {
     } else if (original) {
       // console.log(original)
       throw new Error('Expected original to be a Word');
+    } else {
+      this.original = this
     }
-    this.original = this
 
     if (rows && !original) {
       this.setup()
+      // console.log(this.rows.map(r => r.formattedOutput))
     }
   }
   setup() {
@@ -52,10 +54,10 @@ class Word {
     this.alreadySetup = true
   }
   getId() {
-    return this.original.rowslength > 0 && this.original.rows[0].BIN_id
+    return this.original.rows.length > 0 && this.original.rows[0].BIN_id
   }
   getBaseWord() {
-    return this.original.rowslength > 0 && this.original.rows[0].base_word || ''
+    return this.original.rows.length > 0 && this.original.rows[0].base_word || ''
   }
   /**
     A snippet is a short example of a conjugation to display in search results
@@ -111,8 +113,7 @@ class Word {
     )), this)
   }
   getOriginal() {
-    console.log(this.original.rows.length)
-    if(this.original.rows.length <=1) throw new Error()
+    if (this.original.rows.length <= 1) throw new Error()
     return this.original
   }
   getFirst() {

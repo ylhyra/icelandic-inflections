@@ -531,6 +531,9 @@ hr {
 .umlaut {
   color: #b00030;
 }
+.elision {
+  text-decoration: underline;
+}
 table.table {
   border-spacing: 0;
   margin: auto;

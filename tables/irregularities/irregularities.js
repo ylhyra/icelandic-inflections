@@ -30,6 +30,7 @@ export function FindIrregularities() {
     const consonants_in_stem = removeVowellikeClusters(stem)
     const consonants_in_form_without_ending = removeVowellikeClusters(form_without_ending)
     let output = form
+    let hasAnElision
 
     /*
      * Test umlaut
@@ -48,13 +49,18 @@ export function FindIrregularities() {
         if (vowels_in_form_without_ending[vowel_index]) {
           /* There is an umlaut */
           if (vowels_in_stem[vowel_index] !== vowels_in_form_without_ending[vowel_index]) {
-            letters[vowel_index * 2] = `<span class="umlaut">${letters[vowel_index * 2]}</span>`
+            const letter_index = (vowel_index + 1) * 2 - 1
+            letters[letter_index] = `<span class="umlaut">${letters[letter_index]}</span>`
           }
         } else {
-          /* Todo: Elision of "hamar -> hamri"*/
+          /* Elision of "hamar -> hamri"*/
+          hasAnElision = true
         }
       })
       output = letters.join('')
+    }
+    if(hasAnElision){
+      output = `<span class="elision">${output}</span>`
     }
     /* Test consonant change irregularity */
     if (!consonants_in_form_without_ending.startsWith(consonants_in_stem)) {
@@ -63,6 +69,7 @@ export function FindIrregularities() {
 
     row.formattedOutput = output
   })
+
 
   /* Save output in the original Word class */
   word.wordHasUmlaut = wordHasUmlaut
