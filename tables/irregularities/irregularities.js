@@ -10,6 +10,18 @@ import _ from 'lodash'
 export function FindIrregularities() {
   let word = this
   let wordHasUmlaut, wordIsIrregular, wordIsHighlyIrregular
+
+
+
+  if (word.is('pronoun') || word.is('article') ||
+    word.is('personal pronoun') || word.is('reflexive pronoun')) {
+    return
+  }
+
+
+
+
+
   let stem = word.getStem({ masculinizeAdjectiveStem: true, trimExtra: true })
   if (!stem) {
     // console.log(stem)
@@ -86,7 +98,7 @@ export function FindIrregularities() {
 
 
   /* Save output into the original Word class */
-  word.wordHasUmlaut = wordHasUmlaut || false
+  word.wordHasUmlaut = wordHasUmlaut || false;
   word.wordIsIrregular = wordIsIrregular || false
 }
 
