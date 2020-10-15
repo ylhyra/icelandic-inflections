@@ -54,7 +54,7 @@ export function getStem(options) {
       // return output
     }
   }
-  if (this.is('numeral')) {
+  if (this.is('numeral') || this.is('personal pronoun')) {
     output = this.getOriginal().getFirstValue()
   }
 
@@ -93,7 +93,7 @@ const attemptToGenerateStem = (word) => {
   let output = ''
   let current_consonant_index = 0
   let done = false
-  firstVariantMatching.split('').forEach((letter, index) => {
+  firstVariantMatching && firstVariantMatching.split('').forEach((letter, index) => {
     if (!done) {
       if (!isVowellikeCluster(letter)) {
         current_consonant_index++
