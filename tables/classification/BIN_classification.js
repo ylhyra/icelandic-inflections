@@ -46,11 +46,11 @@ const classify = (input) => {
   grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/i, '$2-$1')
   grammatical_tag.split((new RegExp(`(${tagRegex})`, 'g'))).filter(Boolean).forEach(tag => {
     if (tag === '-') return;
-    if (get_label_for_BIN_inflection_form(tag)) {
-      inflectional_form_categories.push(get_label_for_BIN_inflection_form(tag))
-    } else if (isNumber(tag)) {
+     if (isNumber(tag)) {
       // inflectional_form_categories.push(tag)
-    } else {
+    }else if (get_label_for_BIN_inflection_form(tag)) {
+      inflectional_form_categories.push(get_label_for_BIN_inflection_form(tag))
+    }  else {
       if (process.env.NODE_ENV === 'development') {
         console.error(`Unknown tag in BIN_classification.js: ${tag}. Full tag is ${grammatical_tag}`)
       }

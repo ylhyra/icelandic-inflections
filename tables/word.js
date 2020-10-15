@@ -19,6 +19,7 @@ class Word {
    */
   constructor(rows, original, skipInitialization) {
     if (!Array.isArray(rows) && rows !== undefined) {
+      // console.log(rows)
       throw new Error(`Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`)
     }
     rows = rows || []

@@ -81,7 +81,7 @@ const TraverseAndSort = (input) => {
 }
 
 export const isNumber = (string) => {
-  return /^\d+$/.test(string + '')
+  return typeof string === 'number' || /^\d+$/.test(string + '')
 }
 
 export default tree
