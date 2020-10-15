@@ -1,6 +1,5 @@
 import link, { ucfirst } from './link'
 import Word from './word'
-import { highlightIrregularities } from './functions/highlightIrregularities'
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
@@ -125,7 +124,7 @@ export const renderCell = (word, shouldHighlight) => {
   }
   const value = word.rows.map((row, index) => {
     return `<span>` +
-      highlightIrregularities(row.inflectional_form, word) +
+      (row.formattedOutput || row.inflectional_form) +
       (index + 1 < word.rows.length ? `<span class="light-gray"> / </span>` : '') +
       `</span>`
   }).join('')

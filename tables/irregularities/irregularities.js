@@ -3,6 +3,7 @@ import { removeInflectionalPattern, isHighlyIrregular } from './patterns'
 import Word from './../word'
 import _ from 'lodash'
 
+
 /**
  * @memberof Word
  */

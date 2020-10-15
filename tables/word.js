@@ -2,8 +2,6 @@ import getTables from './tables_all'
 import getSingleTable from './tables_single'
 import tree, { isNumber } from './tree'
 import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
-/* TODO: Remove */
-import { highlightIrregularities } from './functions/highlightIrregularities'
 import { getPrincipalParts } from './functions/principalParts'
 import { getWordDescription } from './functions/wordDescription'
 import { getWordNotes } from './functions/wordNotes'
@@ -15,7 +13,7 @@ import { uniq } from 'lodash'
 import { FindIrregularities } from './irregularities/irregularities'
 
 class Word {
-  constructor(rows, original) {
+  constructor(rows, original, skipInitialization) {
     if (!Array.isArray(rows) && rows !== undefined) {
       throw new Error(`Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`)
     }
@@ -36,12 +34,14 @@ class Word {
       this.original = original || rows
     }
 
-    if (rows && !original) {
-      this.setup()
+    if (rows && !original && !skipInitialization) {
+      // this.setup()
     }
   }
   setup() {
-    if ('wordHasUmlaut' in this) {
+    console.log('haha')
+    this.alreadySetup = true
+    if ('alreadySetup' in this) {
       throw new Error('Has already been set up')
     }
     this.FindIrregularities()
@@ -106,7 +106,7 @@ class Word {
     )), this.original)
   }
   getOriginal() {
-    return new Word(this.original)
+    return new Word(this.original, null, true)
   }
   getFirst() {
     return new Word(this.rows.slice(0, 1))
@@ -187,7 +187,8 @@ class Word {
   renderForms() {
     let word = this
     return this.rows.map(row => {
-      return highlightIrregularities(row.inflectional_form, word)
+      /* formattedOutput contains umlaut higlights */
+      return row.formattedOutput || row.inflectional_form
     })
   }
   /* Returns string with helper words */
@@ -212,7 +213,9 @@ class Word {
     traverse(input)
     this.rows = rows
     this.original = (original_word && original_word.original) || rows
-    this.setup()
+    // console.log('hahaa')
+    // throw new Error('h')
+    // this.setup()
     return this
   }
 }
