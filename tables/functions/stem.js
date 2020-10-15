@@ -87,7 +87,7 @@ const attemptToGenerateStem = (word) => {
   let x = y.map(removeVowellikeClusters)
   let shortest = Math.min(...x.map(i => i.length))
   let cut = x.map(i => i.slice(0, shortest))
-  var mostCommonBeginning = _.head(_(cut).countBy().entries().maxBy(_.last));
+  var mostCommonConsonantBeginning = _.head(_(cut).countBy().entries().maxBy(_.last));
   var firstVariantMatching = y.find(i => removeVowellikeClusters(i).slice(0, shortest))
 
   let output = ''
@@ -97,13 +97,20 @@ const attemptToGenerateStem = (word) => {
     if (!done) {
       if (!isVowellikeCluster(letter)) {
         current_consonant_index++
-        if (current_consonant_index >= mostCommonBeginning.length) {
+        if (current_consonant_index >= mostCommonConsonantBeginning.length) {
           done = true
         }
       }
       output += letter
     }
   })
+
+  if (!output) {
+    let shortest2 = Math.min(...y.map(i => i.length))
+    let cut2 = y.map(i => i.slice(0, shortest2))
+    var mostCommonBeginning2 = _.head(_(cut2).countBy().entries().maxBy(_.last));
+    return mostCommonBeginning2
+  }
 
   // if (word.isStrong()) {
   //
