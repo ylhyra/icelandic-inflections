@@ -41,16 +41,19 @@ class Word {
       this.original = this
     }
 
-    // if (this.rows.length === 0) {
-    //   throw new Error()
-    // }
 
     if (rows && !original) {
+      if (this.rows.length === 0) {
+        if(process.env.NODE_ENV==='development'){
+          throw new Error('Word created with empty rows')
+        }
+      }
       this.setup()
       // console.log(this.rows.map(r => r.formattedOutput))
     }
   }
   setup() {
+    // console.log(this.rows[0])
     if ('alreadySetup' in this) {
       throw new Error('Has already been set up')
     }
@@ -92,7 +95,7 @@ class Word {
   }
   get(...values) {
     if (!values) return this;
-    if (values.some(value => !(typeof value === 'string' || typeof value ==='number' || value === null))) {
+    if (values.some(value => !(typeof value === 'string' || typeof value === 'number' || value === null))) {
       /* Todo: Would be good to also support array passes */
       // console.log(values)
       throw new Error('You must pass parameters as spread into get()')

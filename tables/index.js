@@ -7,8 +7,9 @@ export default (rows, options) => {
   let row_names = options.rows || options.row_names
 
   // console.log(rows.slice(0,1))
-  // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == 1)
+  // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == 1
   let word = (new Word(rows))
+  // console.log('hah')
   // const word = (new Word()).importTree(rows)
 
   let table;

@@ -1,9 +1,8 @@
 import assert from 'assert'
 import classify from './../tables/classification/BIN_classification'
 import Word from './../tables/word'
-import get_by_id from './../server/server-standalone/get_by_id'
 import { stripHTML } from './../tables/link'
-
+import { get } from './get'
 /*
 Other words that might be interesting:
 - dró
@@ -59,32 +58,3 @@ describe('General word tests', function () {
   //   return
   // })
 })
-
-
-/*
-  Testing helper function
-  Callback is a Word
-*/
-let cache = {}
-export const get = (id, done, input_function) => {
-  if (cache[id]) {
-    try {
-      input_function(new Word(cache[id]))
-    } catch (error) {
-      done(error)
-    }
-  } else {
-    get_by_id(id, (server_results) => {
-      if (server_results === null) {
-        throw new Error('Server request failed')
-        return;
-      }
-      cache[id] = server_results
-      try {
-        input_function(new Word(server_results))
-      } catch (error) {
-        done(error)
-      }
-    })
-  }
-}

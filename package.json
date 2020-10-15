@@ -15,7 +15,8 @@
     "styles": "stylus --include styles/ < styles/index.styl > styles/build.css",
     "style_watch": "nodemon --exec 'stylus --include styles/ < styles/index.styl > styles/build.css' -e styl",
     "test": "mocha -r esm",
-    "test_server": "export LOCAL_TESTING=true && mocha -r esm"
+    "test_server": "export LOCAL_TESTING=true && mocha -r esm",
+    "test_random": "node -r esm ./test/random.js"
   },
   "repository": {
     "type": "git",

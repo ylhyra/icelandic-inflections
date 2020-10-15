@@ -103,6 +103,8 @@ export default (Search, Get_by_id) => {
               }))
             }
 
+            // console.log(results)
+
             const {
               perfect_matches,
               did_you_mean,
@@ -149,7 +151,7 @@ export default (Search, Get_by_id) => {
             return res.send(layout({
               title: word,
               string: word,
-              results: 'There was an error. Click the link at the bottom to report this error.'
+              results: 'There was an error. Please <a href="mailto:ylhyra@ylhyra.is">click here</a> to report this error.'
             }))
           }
         })
