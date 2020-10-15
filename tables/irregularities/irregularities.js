@@ -13,8 +13,7 @@ export function FindIrregularities() {
 
 
 
-  if (word.is('pronoun') || word.is('article') ||
-    word.is('personal pronoun') || word.is('reflexive pronoun')) {
+  if (word.is('indeclinable') || word.is('pronoun') || word.is('article') || word.is('personal pronoun') || word.is('reflexive pronoun')) {
     return
   }
 
