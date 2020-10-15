@@ -1,5 +1,5 @@
 import { splitOnVowels, removeVowellikeClusters, splitOnAll, isVowellikeCluster } from './../functions/vowels'
-import { findInflectionalPattern } from './patterns'
+import { removeInflectionalPattern } from './patterns'
 import Word from './../word'
 import _ from 'lodash'
 
@@ -24,8 +24,8 @@ export function FindIrregularities() {
   word.rows.forEach(row => {
     const form = row.inflectional_form
 
-    // findInflectionalPattern(form, new Word([row]))
-    findLeftoverAfterStem(form, stem, word)
+    removeInflectionalPattern(form, new Word([row], word.original))
+    // findLeftoverAfterStem(form, stem, word)
   })
 }
 
@@ -76,6 +76,3 @@ const findLeftoverAfterStem = (form, stem) => {
     }
   }
 }
-
-
-// console.log(findLeftoverAfterStem('hamar', 'hamar'))

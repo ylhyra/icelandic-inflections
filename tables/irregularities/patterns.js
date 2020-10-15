@@ -1,17 +1,18 @@
 import { splitOnVowels, removeVowellikeClusters, splitOnAll } from './../functions/vowels'
+import { types } from './../classification/classification'
+import { without } from 'lodash'
 const splittableRegexEndingsFromArray = string => {
   return new RegExp(`(${string.sort((a, b) => (b.length - a.length)).join('|')})$`)
 }
 
 
 /**
- * Input given is the part that comes *after* the stem region of the word, such as "inum" for the word "hamrinum".
- * Removes inflectional patterns and returns the rest.
+ * Removes inflectional pattern and returns the rest
  * @param {string} input
  * @param {word} Word
  * @return {?string}
  */
-export const findInflectionalPattern = (input, word) => {
+export const removeInflectionalPattern = (input, word) => {
   if (!input) return;
   let stripped = input;
 
@@ -20,9 +21,30 @@ export const findInflectionalPattern = (input, word) => {
   } else if (word.is('verb')) {
     stripped = input.replace(verbEndings, '')
   } else if (word.is('noun')) {
-    stripped = input.replace(nounEndings, '')
+    let possible_endings_for_gender = noun_endings[word.getType('gender')]
+    const sibling_classification = without(word.getFirstClassification(), ...types['cases'])
+    const siblings = word.getOriginal().get(...sibling_classification).get('1')
+    /*
+      TEMP
+      hringur has two alternative inflections!
+    */
+    if (word.is('nominative')) { // TEMP FOR TESTINGS
+      // console.log(siblings)
+      const result = possible_endings_for_gender.find(pattern => {
+        return pattern.every((ending, index) => {
+          const case_ = types['cases'][index]
+          // console.log('testing '+case_+' for '+siblings.get(case_).getFirstValue())
+          return (new RegExp(`${ending}$`)).test(siblings.get(case_).getFirstValue())
+        })
+      })
+      if (result) {
+        // console.log('Found ending for ' + input)
+        // console.log(result)
+      } else {
+        throw new Error('!!!!!!! Did not find ending for ' + input)
+      }
+    }
   }
-
   return stripped
 }
 
@@ -31,9 +53,17 @@ export const findInflectionalPattern = (input, word) => {
 
 
 
-const beygingarendingar = {
+
+
+/*
+  Helper function for above noun arrays
+*/
+const sortLongest = (arrays) => {
+  return arrays.sort((a, b) => b.join('').length - a.join('').length)
+}
+const noun_endings = {
   // Karlkyn
-  m: [
+  masculine: sortLongest([
     // EINTALA
     // "bróðir"
     ['(ir)', '(ur)', '(ur)', '(ur)'],
@@ -99,9 +129,9 @@ const beygingarendingar = {
     // "bæir"
     ['ir', 'i', 'jum', 'ja'],
     ['irnir', 'ina', 'junum', 'janna'],
-  ],
+  ]),
   // Kvenkyn
-  f: [
+  feminine: sortLongest([
     // EINTALA
     // systir
     ['ir', 'ur', 'ur', 'ur'],
@@ -121,6 +151,9 @@ const beygingarendingar = {
     // "keppni"
     ['i', 'i', 'i', 'i'],
     ['in', 'ina', 'inni', 'innar'],
+    // "á"
+    ['', '', '', 'r'],
+    ['in', 'na', 'nni', 'rinnar'],
     // FLEIRTALA
     // "stúlkur"
     ['ur', 'ur', 'um', 'na'],
@@ -143,9 +176,12 @@ const beygingarendingar = {
     // "dyr"
     ['', '', 'um', 'a'],
     ['nar', 'nar', 'unum', 'anna'],
-  ],
+    // "ár"
+    ['', '', 'm', 'a'],
+    ['nar', 'nar', 'num', 'nna'],
+  ]),
   // Hvorugkyn
-  n: [
+  neuter: sortLongest([
     // EINTALA
     // "ríki"
     ['i', 'i', 'i', 's'],
@@ -168,7 +204,7 @@ const beygingarendingar = {
     // "hjörtu"
     ['u', 'u', 'um', 'a'],
     ['un', 'un', 'unum', 'anna'],
-  ],
+  ]),
 }
 
 const nounEndings = splittableRegexEndingsFromArray([
@@ -231,8 +267,6 @@ const verbEndings = splittableRegexEndingsFromArray([
   'isti',
   'usti',
 ])
-
-
 
 
 
