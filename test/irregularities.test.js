@@ -16,7 +16,7 @@ describe('Irregularities', function () {
 
   it('„bróðir“', (done) => {
     get(4385, done, word => {
-      assert.equal(word.isWordIrregular().isIrregular, true)
+      assert.equal(word.getIsWordIrregular(), true)
       assert.equal(highlightIrregularities(word.get('genitive', 'plural').getFirstValue(), word), 'br<span class="umlaut">æ</span>ðra')
       done()
     })
@@ -39,7 +39,7 @@ describe('Irregularities', function () {
 
   it('„hér er á“', (done) => {
     get(390363, done, word => {
-      assert.equal(word.isWordIrregular().isIrregular, false)
+      assert.equal(word.getIsWordIrregular(), false)
       done()
     })
   })
@@ -53,7 +53,7 @@ describe('Irregularities', function () {
 
   it('„hamar“', (done) => {
     get(471203, done, word => {
-      assert.equal(word.isWordIrregular().hasUmlaut, false)
+      assert.equal(word.getWordHasUmlaut(), false)
       assert.equal(highlightIrregularities(word.get('dative').getFirstValue(), word), '<em class="irregular">hamri</em>')
       assert.equal(highlightIrregularities(word.get('dative', 'with definite article').getFirstValue(), word), '<em class="irregular">hamrinum</em>')
       assert.equal(highlightIrregularities(word.get('dative', 'plural').getFirstValue(), word), '<em class="irregular">h<span class="umlaut">ö</span>mrum</em>')
@@ -65,7 +65,7 @@ describe('Irregularities', function () {
 
   it('„sykrið mitt“', (done) => {
     get(3700, done, word => {
-      assert.equal(word.isWordIrregular().hasUmlaut, false)
+      assert.equal(word.getWordHasUmlaut(), false)
       done()
     })
   })
@@ -73,7 +73,7 @@ describe('Irregularities', function () {
   it('„að ausa“', (done) => {
     get(480329, done, word => {
       assert.equal(highlightIrregularities(word.get('2nd person').getFirstValue(), word), '<span class="umlaut">ey</span>st')
-      assert.equal(word.isWordIrregular().isIrregular, false)
+      assert.equal(word.getIsWordIrregular(), false)
       done()
     })
   })

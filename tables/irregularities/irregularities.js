@@ -59,7 +59,13 @@ export function FindIrregularities() {
     if (!consonants_in_form_without_ending.startsWith(consonants_in_stem)) {
       output = `<em class="irregular">${output}</em>`
     }
+
+    row.formattedOutput = output
   })
+
+  /* Save output in the original Word class */
+  word.wordHasUmlaut = wordHasUmlaut
+  word.wordIsIrregular = wordIsIrregular
 }
 
 // /*

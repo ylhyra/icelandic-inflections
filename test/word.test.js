@@ -37,7 +37,7 @@ describe('General word tests', function () {
 
   it('„sjár“', (done) => {
     get(5198, done, word => {
-      assert.equal(word.isWordIrregular().hasUmlaut, false)
+      assert.equal(word.getWordHasUmlaut(), false)
       done()
     })
   })
@@ -47,8 +47,8 @@ describe('General word tests', function () {
       // console.time('someFunction')
       assert.equal(stripHTML(word.getPrincipalParts()), 'að muna, mig munaði (í gær), ég hef munað')
       assert.equal(word.isStrong(), false)
-      assert.equal(word.isWordIrregular().isIrregular, false)
-      assert.equal(word.isWordIrregular().hasUmlaut, false)
+      assert.equal(word.getIsWordIrregular(), false)
+      assert.equal(word.getWordHasUmlaut(), false)
       // console.timeEnd('someFunction')
 
       done()

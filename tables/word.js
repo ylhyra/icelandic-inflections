@@ -36,10 +36,15 @@ class Word {
       this.original = original || rows
     }
 
-    // /* TEMPORARY */
-    // if (!original) {
-    //   this.FindIrregularities()
-    // }
+    if (rows && !original) {
+      this.setup()
+    }
+  }
+  setup() {
+    if ('wordHasUmlaut' in this) {
+      throw new Error('Has already been set up')
+    }
+    this.FindIrregularities()
   }
   getId() {
     return this.original.length > 0 && this.original[0].BIN_id
@@ -56,21 +61,11 @@ class Word {
     }
     return this.getSingleTable({ returnAsString: true })
   }
-  /**
-   * TODO: Should be split into isWordIrregular & hasUmlaut
-   * @return {object} { hasUmlaut, isIrregular }
-   */
-  isWordIrregular() {
-    let hasUmlaut = false
-    let isIrregular = false
-    const word = this
-    const all_forms = uniq(this.getOriginal().get('1').rows.map(row => row.inflectional_form))
-    all_forms.forEach(form => {
-      const results = highlightIrregularities(form, word, true)
-      hasUmlaut = results.hasUmlaut || hasUmlaut
-      isIrregular = results.isIrregular || isIrregular
-    })
-    return { hasUmlaut, isIrregular }
+  getIsWordIrregular() {
+    return this.wordIsIrregular
+  }
+  getWordHasUmlaut() {
+    return this.wordHasUmlaut
   }
   is(...values) {
     return values.every(value => {
@@ -217,15 +212,7 @@ class Word {
     traverse(input)
     this.rows = rows
     this.original = (original_word && original_word.original) || rows
-
-
-
-
-
-    /* TEMPORARY */
-    this.FindIrregularities()
-
-
+    this.setup()
     return this
   }
 }
