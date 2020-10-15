@@ -23,8 +23,16 @@ export const endsInConsonant = (string) => {
   return !endsInVowel(string)
 }
 export const splitOnVowels = (string) => {
-  // if (typeof string !== 'string') throw new Error('splitOnVowels expected string');
-  return string && string.split(new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, 'i'))
+  // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
+  return string && string.split(new RegExp(`(${vowellike_clusters}|[${vowels}])`, 'ig'))
+}
+export const splitOnVowelRegions = (string) => {
+  // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
+  return string && string.split(new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, 'ig'))
+}
+export const getVowelClusters = (string) => {
+  // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
+  return string && string.match(new RegExp(`(${vowellike_clusters}|[${vowels}])`, 'ig'))
 }
 export const splitOnAll = (string) => {
   // if (typeof string !== 'string') throw new Error('splitOnAll expected string');

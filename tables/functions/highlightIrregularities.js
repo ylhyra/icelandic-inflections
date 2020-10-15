@@ -1,4 +1,4 @@
-import { splitOnVowels, removeVowellikeClusters, splitOnAll, isVowellikeCluster } from './vowels'
+import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll, isVowellikeCluster } from './vowels'
 import { stripBeforeComparingToStem } from './commonEndings_OLD'
 // import { removeCommonWordEndings } from './commonEndings'
 import _ from 'lodash'
@@ -82,11 +82,11 @@ export function highlightIrregularities(form, word, returnDescription = false) {
    * sees if it's different from the relevant vowel in the form
    */
   let umlauted_vowel_index;
-  const stem_split = splitOnVowels(stripBeforeComparingToStem(stem, word))
+  const stem_split = splitOnVowelRegions(stripBeforeComparingToStem(stem, word))
   /* Split on vowels to reconstruct later */
-  let form_split_original = splitOnVowels((form))
+  let form_split_original = splitOnVowelRegions((form))
   /* Split on vowels *after* stripping endings, used to compare vowel changes */
-  let form_split_stripped = splitOnVowels(stripBeforeComparingToStem(form, word))
+  let form_split_stripped = splitOnVowelRegions(stripBeforeComparingToStem(form, word))
 
   const last_stem_vowel_index = stem_split.length - 2
   const second_last_stem_vowel_index = stem_split.length - 4

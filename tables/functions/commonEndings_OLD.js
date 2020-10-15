@@ -1,4 +1,4 @@
-import { splitOnVowels, removeVowellikeClusters, splitOnAll } from './vowels'
+import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll } from './vowels'
 
 /**
  * Certain words are too difficult to stem without
@@ -26,7 +26,7 @@ export const stripBeforeComparingToStem = (input, word) => {
   //   console.log({input,stripped})
   // }
   /* Check to see if there is at least one vowel left in stipped output */
-  if (stripped && splitOnVowels(stripped).length > 1) {
+  if (stripped && splitOnVowelRegions(stripped).length > 1) {
     return stripped
   } else {
     return input

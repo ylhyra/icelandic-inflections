@@ -1,4 +1,4 @@
-import { splitOnVowels, removeVowellikeClusters, splitOnAll } from './vowels'
+import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll } from './vowels'
 const splittableRegexEndingsFromArray = string => {
   return new RegExp(`(${string.sort((a, b) => (b.length - a.length)).join('|')})$`)
 }

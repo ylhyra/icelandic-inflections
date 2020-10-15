@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { removeLastVowelCluster, splitOnVowels } from './vowels'
+import { removeLastVowelCluster, splitOnVowelRegions } from './vowels'
 import Word from './../word'
 
 /**
@@ -29,9 +29,9 @@ export function getStem(options) {
       used in the masculine gender
     */
     if (options.masculinizeAdjectiveStem) {
-      const stemLength = splitOnVowels(stem).filter(Boolean).length
+      const stemLength = splitOnVowelRegions(stem).filter(Boolean).length
       let masculine = this.getOriginal().get('masculine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
-      return splitOnVowels(masculine).filter(Boolean).slice(0, stemLength).join('')
+      return splitOnVowelRegions(masculine).filter(Boolean).slice(0, stemLength).join('')
     } else {
       return stem
     }

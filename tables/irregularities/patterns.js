@@ -1,4 +1,4 @@
-import { splitOnVowels, removeVowellikeClusters, splitOnAll } from './../functions/vowels'
+import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll } from './../functions/vowels'
 import { types } from './../classification/classification'
 import { without } from 'lodash'
 const splittableRegexEndingsFromArray = string => {
@@ -323,9 +323,13 @@ const verbEndings = splittableRegexEndingsFromArray([
 
 
 
+export const isHighlyIrregular = (word) => {
+  if (word.is('noun')) {
+    return isHighlyIrregularNouns.some(i => i.endsWith(word.getBaseWord()))
+  }
+}
 
-
-export const highlyIrregularNouns = [
+const isHighlyIrregularNouns = [
   /* Masculine */
   'bróðir',
   'faðir',
