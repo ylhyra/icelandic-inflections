@@ -8,12 +8,16 @@ import { endsInConsonant } from './vowels'
  * @return {?boolean}
  */
 export function isStrong() {
+  let results
+  if ('isStrong_saved' in this) {
+    return this.isStrong_saved
+  }
+
   /* Noun */
   if (this.is('noun')) {
-    /* TODO! What about where singular doesn't exist? */
-    const table_to_check = this.getOriginal().get('singular', 'without definite article', '1').getForms()
+    const table_to_check = this.getOriginal().get('singular', 'without definite article', 1).getForms()
     if (table_to_check.length === 0) return;
-    return table_to_check.some(endsInConsonant)
+    results = table_to_check.some(endsInConsonant)
   }
   /* Verb */
   else if (this.is('verb')) {
@@ -26,8 +30,11 @@ export function isStrong() {
 
     const past_tense = this.get( /*'indicative', */ 'past tense', /*'1st person', 'singular'*/ ).getFirstValue()
     /* Does not end in "-i" */
-    return !/i$/.test(past_tense)
+    results = !/i$/.test(past_tense)
   }
+
+  this.isStrong_saved = results
+  return results
 }
 
 /**

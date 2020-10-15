@@ -71,7 +71,7 @@ const classify = (input) => {
 
   /* If it ends in a number it is an alternative version */
   const variantNumber = (grammatical_tag.match(/(\d)$/) ? grammatical_tag.match(/(\d)$/)[0] : 1).toString()
-  inflectional_form_categories.push(variantNumber)
+  inflectional_form_categories.push(parseInt(variantNumber))
 
   return {
     word_categories: word_categories_output,

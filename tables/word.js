@@ -8,7 +8,7 @@ import { getWordNotes } from './functions/wordNotes'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { removeIncorrectVariants } from './functions/incorrectVariants'
-import { types } from './classification/classification'
+import { types, normalizeTag } from './classification/classification'
 import { uniq } from 'lodash'
 import { FindIrregularities } from './irregularities/irregularities'
 
@@ -41,16 +41,19 @@ class Word {
       this.original = this
     }
 
-    // if (this.rows.length === 0) {
-    //   throw new Error()
-    // }
 
     if (rows && !original) {
+      if (this.rows.length === 0) {
+        if(process.env.NODE_ENV==='development'){
+          throw new Error('Word created with empty rows')
+        }
+      }
       this.setup()
       // console.log(this.rows.map(r => r.formattedOutput))
     }
   }
   setup() {
+    // console.log(this.rows[0])
     if ('alreadySetup' in this) {
       throw new Error('Has already been set up')
     }
@@ -81,25 +84,25 @@ class Word {
   is(...values) {
     return values.every(value => {
       /* Test word_categories */
-      if (this.getWordCategories().includes(value)) {
+      if (this.getWordCategories().includes(normalizeTag(value))) {
         return true
       }
       /* Test inflectional_form_categories */
       return this.rows.length > 0 && this.rows.every(row => (
-        row.inflectional_form_categories.includes(value)
+        row.inflectional_form_categories.includes(normalizeTag(value))
       ))
     })
   }
   get(...values) {
     if (!values) return this;
-    if (values.some(value => !(typeof value === 'string' || value === null))) {
+    if (values.some(value => !(typeof value === 'string' || typeof value === 'number' || value === null))) {
       /* Todo: Would be good to also support array passes */
       // console.log(values)
       throw new Error('You must pass parameters as spread into get()')
     }
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value =>
-        row.inflectional_form_categories.includes(value)
+        row.inflectional_form_categories.includes(normalizeTag(value))
         // || row.word_categories.includes(value) // Should not be needed
       )
     )), this)
@@ -112,12 +115,12 @@ class Word {
     if (values.filter(Boolean).length === 0) return this;
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).some(value =>
-        row.inflectional_form_categories.includes(value)
+        row.inflectional_form_categories.includes(normalizeTag(value))
       )
     )), this)
   }
   getOriginal() {
-    if (this.original.rows.length <= 1) throw new Error()
+    if (this.original.rows.length === 0) throw new Error('Empty original')
     return this.original
   }
   getFirst() {
@@ -147,7 +150,7 @@ class Word {
   }
   without(...values) {
     return new Word(this.rows.filter(row => (
-      values.filter(Boolean).every(value => !row.inflectional_form_categories.includes(value))
+      values.filter(Boolean).every(value => !row.inflectional_form_categories.includes(normalizeTag(value)))
     )), this)
   }
   /**

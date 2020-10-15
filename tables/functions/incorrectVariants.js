@@ -9,11 +9,11 @@ export const removeIncorrectVariants = (rows) => {
     //   return true
     // }
     /* Leave the first item */
-    if (last(row.inflectional_form_categories) === '1') {
+    if (last(row.inflectional_form_categories) === 1 || last(row.inflectional_form_categories) === '1') {
       return true
     }
     /* Leave subsequent items if they are correct */
-    if (row.correctness_grade_of_inflectional_form == '1') {
+    if (row.correctness_grade_of_inflectional_form === 1 || row.correctness_grade_of_inflectional_form === '1') {
       return true
     }
     return false

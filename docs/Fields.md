@@ -20,9 +20,9 @@ These are the fields that may be returned by the API. They are adapted from [the
     - ['reflexive pronoun']
 - `inflectional_form_categories` (type: array of strings)
   - Grammatical categories that apply to this particular inflectional form, but not all of its siblings,  such as:
-    - ['singular', 'nominative', '1']
-    - ['active voice', 'past tense', '1']
-  - The last item is always a digit (represented as a string). The main/preferred version of a word form is '1', while alternative versions are '2', '3' and so on.
+    - ['singular', 'nominative', 1]
+    - ['active voice', 'past tense', 1]
+  - The last item is always a digit. The main/preferred version of a word form is 1, while alternative versions are 2, 3 and so on.
 
 ---
 
