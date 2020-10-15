@@ -8,7 +8,7 @@ import { getWordNotes } from './functions/wordNotes'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { removeIncorrectVariants } from './functions/incorrectVariants'
-import { types } from './classification/classification'
+import { types, normalizeTag } from './classification/classification'
 import { uniq } from 'lodash'
 import { FindIrregularities } from './irregularities/irregularities'
 
@@ -81,12 +81,12 @@ class Word {
   is(...values) {
     return values.every(value => {
       /* Test word_categories */
-      if (this.getWordCategories().includes(value)) {
+      if (this.getWordCategories().includes(normalizeTag(value))) {
         return true
       }
       /* Test inflectional_form_categories */
       return this.rows.length > 0 && this.rows.every(row => (
-        row.inflectional_form_categories.includes(value)
+        row.inflectional_form_categories.includes(normalizeTag(value))
       ))
     })
   }
@@ -99,7 +99,7 @@ class Word {
     }
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value =>
-        row.inflectional_form_categories.includes(value)
+        row.inflectional_form_categories.includes(normalizeTag(value))
         // || row.word_categories.includes(value) // Should not be needed
       )
     )), this)
@@ -112,12 +112,12 @@ class Word {
     if (values.filter(Boolean).length === 0) return this;
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).some(value =>
-        row.inflectional_form_categories.includes(value)
+        row.inflectional_form_categories.includes(normalizeTag(value))
       )
     )), this)
   }
   getOriginal() {
-    if (this.original.rows.length <= 1) throw new Error()
+    if (this.original.rows.length === 0) throw new Error('Empty original')
     return this.original
   }
   getFirst() {
@@ -147,7 +147,7 @@ class Word {
   }
   without(...values) {
     return new Word(this.rows.filter(row => (
-      values.filter(Boolean).every(value => !row.inflectional_form_categories.includes(value))
+      values.filter(Boolean).every(value => !row.inflectional_form_categories.includes(normalizeTag(value)))
     )), this)
   }
   /**

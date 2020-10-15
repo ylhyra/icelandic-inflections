@@ -42,9 +42,9 @@ export function getStem(options) {
       // return output
     }
   }
-  if (this.is('numeral')) {
-    output = this.getOriginal().get('feminine', 'nominative', 'singular').getFirstValue()
-  }
+  // if (this.is('numeral')) {
+  //   output = this.getOriginal().get('feminine', 'nominative', 'singular').getFirstValue()
+  // }
   if (this.is('verb')) {
     output = this.getOriginal().get('clipped imperative', /*'active voice'*/ ).getFirstValue()
     /* Remove last vowel */
@@ -53,6 +53,9 @@ export function getStem(options) {
     } else {
       // return output
     }
+  }
+  if (this.is('numeral')) {
+    output = this.getOriginal().getFirstValue()
   }
 
   if (selection) {
@@ -101,6 +104,12 @@ const attemptToGenerateStem = (word) => {
       output += letter
     }
   })
+
+  // if (word.isStrong()) {
+  //
+  // }
+
+
 
   return output
 }

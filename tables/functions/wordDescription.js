@@ -25,7 +25,7 @@ export function getWordDescription() {
   if (this.getWordHasUmlaut()) {
     output += ', ' + link('includes a sound change')
   }
-  if (!this.getIsWordIrregular() && !this.getWordHasUmlaut()) {
+  if (!this.is('indeclinable') && !this.getIsWordIrregular() && !this.getWordHasUmlaut()) {
     output += ', ' + link('regular inflection')
   }
 

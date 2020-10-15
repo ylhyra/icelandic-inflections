@@ -488,8 +488,10 @@ Object.keys(type_aliases).forEach(key => {
 })
 
 export const normalizeTag = (tag) => {
-  tag = tag.toLowerCase().trim()
-  return shortcuts[tag]
+  if (typeof tag === 'number') return tag;
+  let output = shortcuts[tag] || shortcuts[tag.toLowerCase().trim()]
+  if (!output) throw new Error(`Value not recognized: ${tag}`)
+  return output
 }
 
 export const getTagInfo = (tag) => {
