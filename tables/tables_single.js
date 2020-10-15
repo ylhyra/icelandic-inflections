@@ -1,5 +1,5 @@
 import RenderTable from './render_table'
-import { without } from 'lodash'
+import { without, flatten } from 'lodash'
 import { types } from './classification/classification'
 
 /**
@@ -34,9 +34,17 @@ export default function getSingleTable({
   column_names = column_names || [null]
   row_names = row_names || [null]
 
-  word = word.getMeetingAny(...row_names).getMeetingAny(...column_names)
-  const sibling_classification = without(word.getFirstClassification(), ...row_names, ...column_names)
-  const siblings = word.getOriginal().get(...sibling_classification)
+  word = word.getMeetingAny(...row_names, ...column_names)
+  const sibling_classification = without(word.getFirstClassification(), ...flatten(row_names), ...flatten(column_names))
+  // console.log({
+  //   sibling_classification,
+  //   // column_names,
+  //   // row_names,
+  //   // flat:flatten(row_names),
+  // })
+  const siblings = word.getOriginal().get(sibling_classification)
+
+  // console.log(siblings.getFirst().getForms_describe_as_string__temp())
 
   /* As string */
   if (returnAsString) {

@@ -76,7 +76,7 @@ export default (Search, Get_by_id) => {
           return res.send(layout({
             title: word,
             string: word,
-            results: rows === null ? 'Error. Try reloading.' : 'No matches'
+            results: rows === null ? 'Internal network error. Try reloading.' : 'No matches'
           }))
         }
         try {

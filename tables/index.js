@@ -51,14 +51,14 @@ export default (rows, options) => {
 
 /*
   Temporary helper functions, need to be moved elsewhere
+  returns array
 */
 const cleanRowOrColum__temporary = (string) => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
   if (string in types) return types[string];
   // /* Should be made to work in the future */
-  // return string.split(';').map(clean__temporary)
-  return clean__temporary(string)
+  return string.split(';').map(clean__temporary)
 }
 const clean__temporary = (string) => {
   if (!string) return [];
