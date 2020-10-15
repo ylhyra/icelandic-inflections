@@ -2,7 +2,6 @@ import assert from 'assert'
 import classify from './../tables/classification/BIN_classification'
 import Word from './../tables/word'
 import get_by_id from './../server/server-standalone/get_by_id'
-import { highlightIrregularities } from './../tables/functions/highlightIrregularities'
 import { stripHTML } from './../tables/link'
 
 /*

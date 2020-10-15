@@ -17,11 +17,13 @@ export function FindIrregularities() {
     }
     return;
   }
+  // /* Trim even further */
+  // stem = removeInflectionalPattern(stem, word)
 
   /* Extreme irregularity (kýr, bróðir) */
   if (isHighlyIrregular(word)) {
     wordIsIrregular = true
-    // wordIsHighlyIrregular = true
+    wordIsHighlyIrregular = true
   }
 
   word.rows.forEach(row => {
@@ -51,6 +53,7 @@ export function FindIrregularities() {
           if (vowels_in_stem[vowel_index] !== vowels_in_form_without_ending[vowel_index]) {
             const letter_index = (vowel_index + 1) * 2 - 1
             letters[letter_index] = `<span class="umlaut">${letters[letter_index]}</span>`
+            wordHasUmlaut = true
           }
         } else {
           /* Elision of "hamar -> hamri"*/
@@ -59,21 +62,31 @@ export function FindIrregularities() {
       })
       output = letters.join('')
     }
-    if(hasAnElision){
+    if (hasAnElision) {
       output = `<span class="elision">${output}</span>`
     }
     /* Test consonant change irregularity */
-    if (!consonants_in_form_without_ending.startsWith(consonants_in_stem)) {
+    if (
+      (!consonants_in_form_without_ending.startsWith(consonants_in_stem) &&
+      /* Silly hack for "systir" */
+      !consonants_in_stem.startsWith(consonants_in_form_without_ending)) ||
+      wordIsHighlyIrregular
+    ) {
       output = `<em class="irregular">${output}</em>`
+      wordIsIrregular = true
+      // console.log({
+      //   consonants_in_form_without_ending,
+      //   consonants_in_stem
+      // })
     }
 
     row.formattedOutput = output
   })
 
 
-  /* Save output in the original Word class */
-  word.wordHasUmlaut = wordHasUmlaut
-  word.wordIsIrregular = wordIsIrregular
+  /* Save output into the original Word class */
+  word.wordHasUmlaut = wordHasUmlaut || false
+  word.wordIsIrregular = wordIsIrregular || false
 }
 
 // /*

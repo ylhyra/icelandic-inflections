@@ -69,10 +69,10 @@ class Word {
     return this.getSingleTable({ returnAsString: true })
   }
   getIsWordIrregular() {
-    return this.wordIsIrregular
+    return this.original.wordIsIrregular
   }
   getWordHasUmlaut() {
-    return this.wordHasUmlaut
+    return this.original.wordHasUmlaut
   }
   is(...values) {
     return values.every(value => {
@@ -124,6 +124,9 @@ class Word {
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form
+  }
+  getFirstValueRendered() {
+    return this.rows.length > 0 && this.rows[0].formattedOutput
   }
   getValues() {
     return this.rows.map(row => row.inflectional_form)
