@@ -41,6 +41,10 @@ class Word {
       this.original = this
     }
 
+    // if (this.rows.length === 0) {
+    //   throw new Error()
+    // }
+
     if (rows && !original) {
       this.setup()
       // console.log(this.rows.map(r => r.formattedOutput))
@@ -123,10 +127,11 @@ class Word {
     return this.get(...this.getFirstClassification())
   }
   getFirstValue() {
-    return this.rows.length > 0 && this.rows[0].inflectional_form
+    return this.rows.length > 0 && this.rows[0].inflectional_form || undefined
   }
   getFirstValueRendered() {
-    return this.rows.length > 0 && this.rows[0].formattedOutput
+    // console.log(this)
+    return this.rows.length > 0 && this.rows[0].formattedOutput || undefined
   }
   getValues() {
     return this.rows.map(row => row.inflectional_form)

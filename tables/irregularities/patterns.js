@@ -94,10 +94,15 @@ const noun_endings = {
     ['urinn', 'inn', 'num', 'sins'],
     // "gangur"
     ['urinn', 'inn', 'inum', 'sins'],
+    // "hamar"
+    ['inn', 'inn', 'inum', 'sins'],
     // "hringur"
     ['ur', '', '', 's'],
     // "Egill"
     ['', '', 'i', 's'],
+    // "sjár"
+    ['r', '', '', 'var'],
+    ['rinn', 'inn', 'num', 'varins'],
     // "vinur"
     ['ur', '', 'i', 'ar'],
     ['urinn', 'inn', 'inum', 'arins'],
@@ -175,6 +180,9 @@ const noun_endings = {
     ['', '', '', 'r'],
     ['in', 'na', 'nni', 'rinnar'],
     // FLEIRTALA
+    // "systur"
+    ['ur', 'ur', 'rum', 'ra'],
+    ['urnar', 'urnar', 'runum', 'ranna'],
     // "stúlkur"
     ['ur', 'ur', 'um', 'na'],
     ['urnar', 'urnar', 'unum', 'nanna'],

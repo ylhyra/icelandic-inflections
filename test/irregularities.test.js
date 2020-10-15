@@ -16,22 +16,22 @@ describe('Irregularities', function () {
   it('„bróðir“', (done) => {
     get(4385, done, word => {
       assert.equal(word.getIsWordIrregular(), true)
-      assert.equal(word.get('genitive', 'plural').getFirstValueRendered(), 'br<span class="umlaut">æ</span>ðra')
+      assert.equal(word.get('genitive', 'plural').getFirstValueRendered(), '<em class="irregular">br<span class="umlaut">æ</span>ðra</em>')
       done()
     })
   })
 
   it('„systir“', (done) => {
     get(12258, done, word => {
-      assert.equal(word.getFirstValueRendered(), 'systir')
-      assert.equal(word.get('dative', 'plura', 'with definite article').getFirstValueRendered(), 'systrunum')
+      assert.equal(word.getFirstValueRendered(), '<em class="irregular">systir</em>')
+      assert.equal(word.get('dative', 'plural', 'with definite article').getFirstValueRendered(), '<em class="irregular">systrunum</em>')
       done()
     })
   })
 
   it('„farinn“', (done) => {
     get(390363, done, word => {
-      assert.equal(word.get('neuter', 'dative').getFirstValueRendered(), 'f<span class="umlaut">ö</span>rnu')
+      assert.equal(word.get('neuter', 'dative').getFirstValueRendered(), '<span class="elision">f<span class="umlaut">ö</span>rnu</span>')
       done()
     })
   })
@@ -45,17 +45,17 @@ describe('Irregularities', function () {
 
   it('„sjá“', (done) => {
     get(466523, done, word => {
-      assert.equal(word.get('mediopassive', 'subjunctive', 'past tense').getFirstValueRendered(), '<em class="irregular">s<span class="umlaut">æ</span>ist</em>')
+      assert.equal(word.get('mediopassive', 'subjunctive', 'past tense').getFirstValueRendered(), 's<span class="umlaut">æ</span>ist')
       done()
     })
   })
 
   it('„hamar“', (done) => {
     get(471203, done, word => {
-      assert.equal(word.getWordHasUmlaut(), false)
-      assert.equal(word.get('dative').getFirstValueRendered(), '<em class="irregular">hamri</em>')
-      assert.equal(word.get('dative', 'with definite article').getFirstValueRendered(), '<em class="irregular">hamrinum</em>')
-      assert.equal(word.get('dative', 'plural').getFirstValueRendered(), '<em class="irregular">h<span class="umlaut">ö</span>mrum</em>')
+      assert.equal(word.getWordHasUmlaut(), true)
+      assert.equal(word.get('dative').getFirstValueRendered(), '<span class="elision">hamri</span>')
+      assert.equal(word.get('dative', 'with definite article').getFirstValueRendered(), '<span class="elision">hamrinum</span>')
+      assert.equal(word.get('dative', 'plural').getFirstValueRendered(), '<span class="elision">h<span class="umlaut">ö</span>mrum</span>')
       done()
     })
   })

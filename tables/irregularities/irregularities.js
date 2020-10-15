@@ -10,15 +10,14 @@ import _ from 'lodash'
 export function FindIrregularities() {
   let word = this
   let wordHasUmlaut, wordIsIrregular, wordIsHighlyIrregular
-  let stem = word.getStem({ masculinizeAdjectiveStem: true })
+  let stem = word.getStem({ masculinizeAdjectiveStem: true, trimExtra: true })
   if (!stem) {
+    // console.log(stem)
     if (process.env.NODE_ENV === 'development') {
       throw new Error('Stem not found for ' + word.getBaseWord())
     }
     return;
   }
-  // /* Trim even further */
-  // stem = removeInflectionalPattern(stem, word)
 
   /* Extreme irregularity (kýr, bróðir) */
   if (isHighlyIrregular(word)) {
@@ -46,7 +45,7 @@ export function FindIrregularities() {
       const vowel_indexes_to_check = [
         vowels_in_stem.length - 1,
         vowels_in_stem.length - 2
-      ]
+      ].filter(i => i >= 0)
       vowel_indexes_to_check.forEach(vowel_index => {
         if (vowels_in_form_without_ending[vowel_index]) {
           /* There is an umlaut */
@@ -57,6 +56,11 @@ export function FindIrregularities() {
           }
         } else {
           /* Elision of "hamar -> hamri"*/
+          // console.log({
+          //   form,
+          //   vowels_in_stem,
+          //   vowels_in_form_without_ending
+          // })
           hasAnElision = true
         }
       })
@@ -68,16 +72,13 @@ export function FindIrregularities() {
     /* Test consonant change irregularity */
     if (
       (!consonants_in_form_without_ending.startsWith(consonants_in_stem) &&
-      /* Silly hack for "systir" */
-      !consonants_in_stem.startsWith(consonants_in_form_without_ending)) ||
+        /* Silly hack for "systir" */
+        !consonants_in_stem.startsWith(consonants_in_form_without_ending)
+      ) ||
       wordIsHighlyIrregular
     ) {
       output = `<em class="irregular">${output}</em>`
       wordIsIrregular = true
-      // console.log({
-      //   consonants_in_form_without_ending,
-      //   consonants_in_stem
-      // })
     }
 
     row.formattedOutput = output
