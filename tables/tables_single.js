@@ -40,7 +40,7 @@ export default function getSingleTable({
 
   /* As string */
   if (returnAsString) {
-    return row_names.map(c => siblings.get(c)).map(i => i.render()).join(', ')
+    return row_names.map(c => siblings.get(c)).map(i => i.render()).filter(Boolean).join(', ')
   }
   /* As table */
   else {

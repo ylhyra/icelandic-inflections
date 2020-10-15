@@ -1,9 +1,9 @@
 import assert from 'assert'
-import { splitOnVowels, removeLastVowelCluster } from './../tables/functions/vowels.js'
+import { splitOnVowelRegions, removeLastVowelCluster } from './../tables/functions/vowels.js'
 
-it('splitOnVowels', () => {
-  assert.deepEqual(splitOnVowels('Kjartan'), ['K', 'ja', 'rt', 'a', 'n'])
-  assert.deepEqual(splitOnVowels('andrés'), ['', 'a', 'ndr', 'é', 's'])
+it('splitOnVowelRegions', () => {
+  assert.deepEqual(splitOnVowelRegions('Kjartan'), ['K', 'ja', 'rt', 'a', 'n'])
+  assert.deepEqual(splitOnVowelRegions('andrés'), ['', 'a', 'ndr', 'é', 's'])
   return
 })
 it('removeLastVowelCluster', () => {

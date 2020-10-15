@@ -1,6 +1,5 @@
 import link, { ucfirst } from './link'
-import Word from './word'
-import { highlightIrregularities } from './functions/highlightIrregularities'
+import Word, {WordFromTree} from './word'
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
@@ -56,7 +55,7 @@ const RenderTable = (input, original_word, structure, highlight) => {
   if (input instanceof Word) {
     word = input
   } else {
-    word = (new Word()).importTree(input, original_word)
+    word = WordFromTree(input, original_word)
   }
   let table = []
   row_names.forEach((row_name, row_index) => {
@@ -125,7 +124,7 @@ export const renderCell = (word, shouldHighlight) => {
   }
   const value = word.rows.map((row, index) => {
     return `<span>` +
-      highlightIrregularities(row.inflectional_form, word) +
+      (row.formattedOutput || row.inflectional_form) +
       (index + 1 < word.rows.length ? `<span class="light-gray"> / </span>` : '') +
       `</span>`
   }).join('')

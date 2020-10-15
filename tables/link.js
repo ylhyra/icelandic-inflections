@@ -8,7 +8,7 @@ export default (link, label) => {
   if (label === undefined) {
     label = link;
   } else if (!label) {
-    return '';  
+    return '';
   }
 
   /* Retrieve additional info from "classification.js" file */
@@ -35,6 +35,14 @@ export const removeLinks = (string) => {
   return string && string
     .replace(/<\/a>/g, '')
     .replace(/<a .+?>/g, '')
+}
+
+export const stripHTML = (string) => {
+  return string && string
+    .replace(/<\/[a-z]+>/g, '')
+    .replace(/<[a-z]+ ?([^>]+)?>/g, '')
+    .replace(/\s+/g,' ')
+    .trim()
 }
 
 export const ucfirst = (input) => (

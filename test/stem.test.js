@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { stripBeforeComparingToStem } from './../tables/functions/stem'
+// import { stripBeforeComparingToStem } from './../tables/functions/stem'
 
 // it('stripBeforeComparingToStem', () => {
 //   assert.equal(stripBeforeComparingToStem('farinn'), 'far')

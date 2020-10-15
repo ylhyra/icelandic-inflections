@@ -19,14 +19,13 @@ export function getWordDescription() {
     output += ', ' + link('weakly conjugated')
   }
 
-  const { hasUmlaut, isIrregular } = this.isWordIrregular()
-  if (isIrregular) {
+  if (this.getIsWordIrregular()) {
     output += ', ' + link('irregular inflection')
   }
-  if (hasUmlaut) {
+  if (this.getWordHasUmlaut()) {
     output += ', ' + link('includes a sound change')
   }
-  if (!isIrregular && !hasUmlaut) {
+  if (!this.getIsWordIrregular() && !this.getWordHasUmlaut()) {
     output += ', ' + link('regular inflection')
   }
 

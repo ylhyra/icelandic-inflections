@@ -4,7 +4,7 @@
  */
 export function getWordNotes() {
   let notes = []
-  switch (this.original[0].correctness_grade_of_word) {
+  switch (this.original.rows[0].correctness_grade_of_word) {
     case '0':
       notes.push(`This word is not used in modern Icelandic`)
       break;

@@ -1,5 +1,5 @@
 import link, { ucfirst } from './link'
-import Word from './word'
+import Word, { WordFromTree } from './word'
 import RenderTable, { renderCell } from './render_table'
 import { types } from './classification/classification'
 
@@ -22,7 +22,7 @@ export default function getTables() {
  */
 const TraverseTree = (leaf, original_word) => {
   let table = null
-  const word = (new Word()).importTree(leaf, original_word)
+  const word = WordFromTree(leaf, original_word)
   /* Nouns */
   if (word.is('noun') && types['plurality'].includes(leaf.tag)) {
     table = RenderTable(leaf.values, original_word, {
@@ -31,7 +31,7 @@ const TraverseTree = (leaf, original_word) => {
     })
   }
   /* Pronouns */
-  else if (word.is('pronoun') && types['plurality'].includes(leaf.tag)) {
+  else if ((word.is('pronoun') || word.is('article')) && types['plurality'].includes(leaf.tag)) {
     table = RenderTable(leaf.values, original_word, {
       column_names: types['gender'],
       row_names: types['cases']
