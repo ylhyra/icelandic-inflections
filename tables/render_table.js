@@ -1,5 +1,5 @@
 import link, { ucfirst } from './link'
-import Word from './word'
+import Word, {WordFromTree} from './word'
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
@@ -55,7 +55,7 @@ const RenderTable = (input, original_word, structure, highlight) => {
   if (input instanceof Word) {
     word = input
   } else {
-    word = (new Word()).importTree(input, original_word)
+    word = WordFromTree(input, original_word)
   }
   let table = []
   row_names.forEach((row_name, row_index) => {

@@ -28,11 +28,19 @@ export const removeInflectionalPattern = (input, word) => {
     let ending = ''
     /* Find exact pattern matches for primary variants */
     if (word.is('1')) {
+      console.log(siblings.getValues())
       const result = possible_endings_for_gender.find(pattern => {
         return pattern.every((ending, index) => {
           const case_ = types['cases'][index]
-          // console.log('testing '+case_+' for '+siblings.get(case_).getFirstValue())
-          return (new RegExp(`${ending}$`)).test(siblings.get(case_).getFirstValue())
+          const value = siblings.get(case_).getFirstValue()
+          if(value) {
+            return (new RegExp(`${ending}$`)).test(siblings.get(case_).getFirstValue())
+          } else {
+            if (process.env.NODE_ENV === 'development') {
+              throw new Error(`Sure that there is no ${case_} for ${input}?`)
+            }
+            return true
+          }
         })
       })
       if (result) {
@@ -89,6 +97,8 @@ const noun_endings = {
     ['urinn', 'inn', 'inum', 'sins'],
     // "hringur"
     ['ur', '', '', 's'],
+    // "Egill"
+    ['', '', 'i', 's'],
     // "vinur"
     ['ur', '', 'i', 'ar'],
     ['urinn', 'inn', 'inum', 'arins'],

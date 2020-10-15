@@ -13,6 +13,10 @@ import { uniq } from 'lodash'
 import { FindIrregularities } from './irregularities/irregularities'
 
 class Word {
+  /**
+   * @param {array} rows
+   * @param {?Word} original
+   */
   constructor(rows, original, skipInitialization) {
     if (!Array.isArray(rows) && rows !== undefined) {
       throw new Error(`Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`)
@@ -30,27 +34,28 @@ class Word {
     this.rows = rows
     if (original instanceof Word) {
       this.original = original.original
-    } else {
-      this.original = original || rows
+    } else if (original) {
+      // console.log(original)
+      throw new Error('Expected original to be a Word');
     }
+    this.original = this
 
-    if (rows && !original && !skipInitialization) {
-      // this.setup()
+    if (rows && !original) {
+      this.setup()
     }
   }
   setup() {
-    console.log('haha')
-    this.alreadySetup = true
     if ('alreadySetup' in this) {
       throw new Error('Has already been set up')
     }
     this.FindIrregularities()
+    this.alreadySetup = true
   }
   getId() {
-    return this.original.length > 0 && this.original[0].BIN_id
+    return this.original.rowslength > 0 && this.original.rows[0].BIN_id
   }
   getBaseWord() {
-    return this.original.length > 0 && this.original[0].base_word || ''
+    return this.original.rowslength > 0 && this.original.rows[0].base_word || ''
   }
   /**
     A snippet is a short example of a conjugation to display in search results
@@ -91,7 +96,7 @@ class Word {
         row.inflectional_form_categories.includes(value)
         // || row.word_categories.includes(value) // Should not be needed
       )
-    )), this.original)
+    )), this)
   }
   /*
     Returns all that meet *any* of the input values
@@ -103,13 +108,15 @@ class Word {
       values.filter(Boolean).some(value =>
         row.inflectional_form_categories.includes(value)
       )
-    )), this.original)
+    )), this)
   }
   getOriginal() {
-    return new Word(this.original, null, true)
+    console.log(this.original.rows.length)
+    if(this.original.rows.length <=1) throw new Error()
+    return this.original
   }
   getFirst() {
-    return new Word(this.rows.slice(0, 1))
+    return new Word(this.rows.slice(0, 1), this)
   }
   getFirstAndItsVariants() {
     return this.get(...this.getFirstClassification())
@@ -117,11 +124,14 @@ class Word {
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form
   }
+  getValues() {
+    return this.rows.map(row => row.inflectional_form)
+  }
   getForms() {
     return this.rows.map(row => row.inflectional_form)
   }
   getWordCategories() {
-    return this.original[0] && this.original[0].word_categories || []
+    return this.original.rows[0] && this.original.rows[0].word_categories || []
   }
   getFirstClassification() {
     return this.rows.length > 0 && this.rows[0].inflectional_form_categories.filter(i => !isNumber(i)) || []
@@ -129,7 +139,7 @@ class Word {
   without(...values) {
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value => !row.inflectional_form_categories.includes(value))
-    )), this.original)
+    )), this)
   }
   /**
    * Used to ask "which case does this word have?"
@@ -199,25 +209,21 @@ class Word {
       this.getHelperWordsAfter()
     return output.trim()
   }
-  importTree(input, original_word) {
-    let rows = []
-    const traverse = (x) => {
-      if (Array.isArray(x)) {
-        x.map(traverse)
-      } else if (x.values) {
-        x.values.map(traverse)
-      } else {
-        rows.push(x)
-      }
+}
+
+export const WordFromTree = (input, original) => {
+  let rows = []
+  const traverse = (x) => {
+    if (Array.isArray(x)) {
+      x.map(traverse)
+    } else if (x.values) {
+      x.values.map(traverse)
+    } else {
+      rows.push(x)
     }
-    traverse(input)
-    this.rows = rows
-    this.original = (original_word && original_word.original) || rows
-    // console.log('hahaa')
-    // throw new Error('h')
-    // this.setup()
-    return this
   }
+  traverse(input)
+  return new Word(rows, original)
 }
 
 Word.prototype.getHelperWordsBefore = getHelperWordsBefore

@@ -26,7 +26,7 @@ export function FindIrregularities() {
 
   word.rows.forEach(row => {
     const form = row.inflectional_form
-    const form_without_ending = removeInflectionalPattern(form, new Word([row], word.original))
+    const form_without_ending = removeInflectionalPattern(form, new Word([row], word))
     const consonants_in_stem = removeVowellikeClusters(stem)
     const consonants_in_form_without_ending = removeVowellikeClusters(form_without_ending)
     let output = form
