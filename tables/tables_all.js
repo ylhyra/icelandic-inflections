@@ -1,7 +1,7 @@
-import link, { ucfirst } from './link'
-import Word, { WordFromTree } from './word'
+import link, { ucfirst } from 'tables/link'
+import Word, { WordFromTree } from 'tables/word'
 import RenderTable, { renderCell } from './render_table'
-import { types } from './classification/classification'
+import { types } from 'tables/classification/classification'
 
 /**
  * getTables - Prints all tables for a given word

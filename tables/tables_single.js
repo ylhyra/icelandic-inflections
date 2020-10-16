@@ -1,6 +1,6 @@
 import RenderTable from './render_table'
 import { without, flatten } from 'lodash'
-import { types } from './classification/classification'
+import { types } from 'tables/classification/classification'
 
 /**
  * Finds a single relevant table

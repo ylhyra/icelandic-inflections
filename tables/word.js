@@ -8,7 +8,7 @@ import { getWordNotes } from './functions/wordNotes'
 import { getStem } from './functions/stem'
 import { isStrong, isWeak } from './functions/strong'
 import { removeIncorrectVariants } from './functions/incorrectVariants'
-import { types, normalizeTag } from './classification/classification'
+import { types, normalizeTag } from 'tables/classification/classification'
 import { uniq, flatten } from 'lodash'
 import { FindIrregularities } from './irregularities/irregularities'
 

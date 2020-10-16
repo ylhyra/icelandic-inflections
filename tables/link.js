@@ -1,4 +1,4 @@
-import { getTagInfo } from './classification/classification'
+import { getTagInfo } from 'tables/classification/classification'
 
 /*
   Creates a link from our labels to relevant Ylhýra pages

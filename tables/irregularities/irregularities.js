@@ -1,6 +1,6 @@
-import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll, splitOnVowels, isVowellikeCluster, getVowelClusters } from './../functions/vowels'
+import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll, splitOnVowels, isVowellikeCluster, getVowelClusters } from 'tables/functions/vowels'
 import { removeInflectionalPattern, isHighlyIrregular } from './patterns'
-import Word from './../word'
+import Word from 'tables/word'
 import _ from 'lodash'
 
 

@@ -1,5 +1,5 @@
-import Word from './word'
-import { normalizeTag, types } from './classification/classification'
+import Word from 'tables/word'
+import { normalizeTag, types } from 'tables/classification/classification'
 import link, { ucfirst_link } from 'tables/link'
 
 export default (rows, options) => {

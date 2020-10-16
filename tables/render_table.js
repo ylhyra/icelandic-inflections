@@ -1,5 +1,5 @@
-import link, { ucfirst } from './link'
-import Word, {WordFromTree} from './word'
+import link, { ucfirst } from 'tables/link'
+import Word, {WordFromTree} from 'tables/word'
 import { without, flatten } from 'lodash'
 
 /*

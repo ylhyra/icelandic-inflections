@@ -1,4 +1,4 @@
-import { sort_by_classification } from './classification/sort_by_classification'
+import { sort_by_classification } from 'tables/classification/sort_by_classification'
 
 /**
  * Turns rows into nested tree, with each leaf containing

@@ -1,8 +1,7 @@
 import assert from 'assert'
-import { removeLastVowelCluster, splitOnVowelRegions, isVowellikeCluster } from './vowels'
-import { removeInflectionalPattern } from './../irregularities/patterns'
-import Word from './../word'
-import { removeVowellikeClusters } from './../functions/vowels'
+import { removeInflectionalPattern } from 'tables/irregularities/patterns'
+import Word from 'tables/word'
+import { removeVowellikeClusters,removeLastVowelCluster, splitOnVowelRegions, isVowellikeCluster } from 'tables/functions/vowels'
 import _ from 'lodash'
 
 /**
