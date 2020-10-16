@@ -39,10 +39,11 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
         i2.various_feature_markers,
         i2.alternative_entry,
         inner_table.inflectional_form as matched_term,
+        (output = i2.inflectional_form_lowercase) as variant_matched,
         (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
       FROM
       (
-       SELECT score, i1.inflectional_form, i1.BIN_id FROM (
+       SELECT score, i1.inflectional_form, i1.BIN_id, output FROM (
          SELECT score, output FROM autocomplete
            WHERE input = ${word}
            OR input = ${without_special_characters(word)}
@@ -73,6 +74,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
     } else if (rows.length === 0) {
       callback(null)
     } else {
+      // console.log(rows.slice(0,2))
       try {
         let words = []
         let lastBINid = null
@@ -85,12 +87,12 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
         })
 
         let output = []
-        words.forEach(rows => {
-          const word = new Word(rows)
+        words.forEach(rows1 => {
+          const word = new Word(rows1)
           /* Prevent "null" from appearing during index creation, which causes Word() to fail */
           if (word.getId()) {
             output.push({
-              perfect_match: rows[0].word_has_perfect_match,
+              perfect_match: rows1[0].word_has_perfect_match,
               BIN_id: word.getId(),
               base_word: word.getBaseWord(),
               description: removeLinks(word.getWordDescription()),

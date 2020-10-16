@@ -107,6 +107,7 @@ export default (Search, Get_by_id) => {
               return res.send(layout({
                 title: word,
                 string: word,
+                embed,
                 results: results === 'Error' ? 'Error, try reloading' : 'No matches'
               }))
             }
@@ -152,7 +153,8 @@ export default (Search, Get_by_id) => {
               res.send(layout({
                 title: word,
                 string: word,
-                results: output
+                results: output,
+                embed,
               }))
             }
           } catch (e) {
