@@ -34,8 +34,13 @@ export function getStem(options) {
     */
     if (output && options.masculinizeAdjectiveStem) {
       const stemLength = splitOnVowelRegions(output).filter(Boolean).length
-      let masculine = this.getOriginal().get('masculine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
-      return splitOnVowelRegions(masculine).filter(Boolean).slice(0, stemLength).join('')
+      let masculine = this.getOriginal().get('masculine', 'nominative', 'singular', /*'positive degree',*/ 'strong declension').getFirstValue()
+      if(masculine){
+        return splitOnVowelRegions(masculine).filter(Boolean).slice(0, stemLength).join('')
+      } else {
+        // console.log(output)
+        return output
+      }
     } else {
       // return output
     }
