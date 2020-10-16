@@ -24,28 +24,33 @@ export default (Search, Get_by_id) => {
   router.get('/api/inflections?', cors(), (req, res) => {
     res.setHeader('X-Robots-Tag', 'noindex')
     let { id, type, search, fuzzy, return_rows_if_only_one_match } = req.query
-    if (search) {
-      return Search({ word: search, fuzzy, return_rows_if_only_one_match }, results => {
-        res.json({ results })
-      })
-    } else if (id) {
-      Get_by_id(id, (rows) => {
-        /* Flat */
-        if (type === 'flat') {
-          return res.json(withLicense(rows, id))
-        }
-        /* HTML */
-        else if (type === 'html') {
-          return res.send(render(rows))
-        }
-        /* Nested */
-        else {
-          return res.send(withLicense(tree(rows), id))
-        }
-      })
-    } else {
-      return res.status(400).send({ error: 'Parameters needed' })
-      // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
+    try {
+
+      if (search) {
+        return Search({ word: search, fuzzy, return_rows_if_only_one_match }, results => {
+          res.json({ results })
+        })
+      } else if (id) {
+        Get_by_id(id, (rows) => {
+          /* Flat */
+          if (type === 'flat') {
+            return res.json(withLicense(rows, id))
+          }
+          /* HTML */
+          else if (type === 'html') {
+            return res.send(render(rows, req.query))
+          }
+          /* Nested */
+          else {
+            return res.send(withLicense(tree(rows), id))
+          }
+        })
+      } else {
+        return res.status(400).send({ error: 'Parameters needed' })
+        // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
+      }
+    } catch (e) {
+      res.send({ error: `There was an error. The message was ${e.message}` })
     }
   })
 
@@ -142,6 +147,7 @@ export default (Search, Get_by_id) => {
                 title: rows[0].base_word || '',
                 string: word,
                 results: render(rows, req.query),
+                did_you_mean_in_footer: did_you_mean.slice(1).map(renderItemOnSearchPage).join(''),
                 id: rows[0].BIN_id,
                 embed,
               }))

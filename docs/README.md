@@ -30,6 +30,9 @@ Get a flat array of all rows:
 **API documentation**
 
 * [Fields](Fields.md)
+
+## Custom tables
+
 * [Custom tables](Custom_tables.md)
 
 ## Development

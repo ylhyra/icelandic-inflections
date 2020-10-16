@@ -26,7 +26,7 @@ URL parameters to construct a custom table:
 [/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl](/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl)
 
 <pre>
-<b>inf</b>     að fara
+   <b>inf</b>  að fara
 <b>1p, sg</b>  ég fer
 <b>2p, sg</b>  þú ferð
 <b>3p, sg</b>  hún fer
@@ -34,6 +34,7 @@ URL parameters to construct a custom table:
 <b>2p, pl</b>  þið farið
 <b>3p, pl</b>  þær fara
 </pre>
+
 
 
 **Other options**

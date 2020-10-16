@@ -27,3 +27,5 @@ http://localhost:4545/hafa/478745
 http://localhost:4545/geta/479125
   - watch out for nh-þt https://bin.arnastofnun.is/korn/23
   - Supine ég hef	getið ég hef	getað
+
+Override variant order for "geta" supine

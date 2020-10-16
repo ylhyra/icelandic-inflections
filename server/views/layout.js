@@ -4,6 +4,7 @@ export default ({
   results,
   id,
   embed,
+  did_you_mean_in_footer, /* For when one main variant is shown */
 }) => `
 <!DOCTYPE html>
 <html>
@@ -43,6 +44,12 @@ ${!embed ? `
   ${results || ''}
 </main>
 <footer>
+
+${/*did_you_mean_in_footer ? `
+<ul class="results small">
+  ${did_you_mean_in_footer}
+</ul>
+`:*/ ''}
 
 ${id ? `<a href="https://bin.arnastofnun.is/beyging/${id}" target="_blank"><b>View this word on BÍN</b></a>` : ''}
 
