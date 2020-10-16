@@ -7,7 +7,7 @@ import { getWordDescription } from 'tables/functions/wordDescription'
 import { getWordNotes } from 'tables/functions/wordNotes'
 import { getStem } from 'tables/functions/stem'
 import { isStrong, isWeak } from 'tables/functions/strong'
-import { removeIncorrectVariants } from 'tables/functions/incorrectVariants'
+import { discardUnnecessaryForms } from 'tables/functions/discard'
 import { types, normalizeTag } from 'tables/classification/classification'
 import { flatten } from 'lodash'
 import { FindIrregularities } from 'tables/functions/irregularities'
@@ -31,7 +31,7 @@ class Word {
         })) throw new Error('Malformed input to Word');
     }
 
-    rows = removeIncorrectVariants(rows)
+    rows = discardUnnecessaryForms(rows)
     this.rows = rows
     if (original instanceof Word) {
       this.original = original.original
