@@ -7,7 +7,7 @@ export default (rows, options) => {
   let column_names = options.columns || options.column_names
   let row_names = options.rows || options.row_names
 
-  // console.log(rows.slice(0,1))
+  // console.log(rows.slice(0,10))
   // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == 1
   let word = (new Word(rows))
   // console.log('hah')

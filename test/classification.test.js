@@ -22,6 +22,8 @@ it('BÍN classification', () => {
   )
 
 
+'GM-NH-ÞT' í gætu   / 479125
+
 
   return
 })

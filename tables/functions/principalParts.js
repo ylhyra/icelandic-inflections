@@ -16,8 +16,8 @@ export function getPrincipalParts() {
 
     let principalParts = [
       word.get('infinitive'),
-      word.get( /*'indicative', */ 'past tense', /* '1st person', 'singular'*/ ),
-      word.isStrong() && word.get( /*'indicative',*/ 'past tense', /*'1st person',*/ 'plural'),
+      word.get( /*'indicative', */ 'past tense', '1st person', 'singular'),
+      word.isStrong() && word.get( /*'indicative',*/ 'past tense', '1st person', 'plural'),
       word.get('supine'),
     ]
     // console.log(this.getFirst().render())
