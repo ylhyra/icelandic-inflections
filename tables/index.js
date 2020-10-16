@@ -3,9 +3,9 @@ import { normalizeTag, types } from 'tables/classification/classification'
 import link, { ucfirst_link } from 'tables/link'
 
 export default (rows, options) => {
-  let give_me = options.give_me
-  let column_names = options.columns || options.column_names
-  let row_names = options.rows || options.row_names
+  let give_me = options && options.give_me
+  let column_names = options && (options.columns || options.column_names)
+  let row_names = options && (options.rows || options.row_names)
 
   // console.log(rows.slice(0,10))
   // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == 1
