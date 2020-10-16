@@ -140,13 +140,18 @@ class Word {
     return new Word(this.rows.slice(0, 1), this)
   }
   getFirstAndItsVariants() {
-    return this.get(...this.getFirstClassification())
+    /* We make sure the categories are completely equal to prevent
+     * verbs (which come in various deep nestings) from matching */
+    let match = this.getFirstClassification()
+    return new Word(this.rows.filter(row =>
+      match.length === row.inflectional_form_categories.length - 1 && // -1 to remove number
+      match.every((value, index) => value === row.inflectional_form_categories[index])
+    ), this)
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form || undefined
   }
   getFirstValueRendered() {
-    // console.log(this)
     return this.rows.length > 0 && this.rows[0].formattedOutput || undefined
   }
   getForms() {

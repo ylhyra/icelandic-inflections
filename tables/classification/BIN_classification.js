@@ -64,13 +64,13 @@ const classify = (input) => {
     inflectional_form_categories.push('without definite article')
   }
 
-  /* Add "personal use" to verbs */
-  if (word_categories_output.includes('verb') &&
-    !inflectional_form_categories.find(i => i.startsWith('impersonal') &&
-      !inflectional_form_categories.includes('question form')
-    )) {
-    inflectional_form_categories = ['personal', ...inflectional_form_categories]
-  }
+  // /* Add "personal use" to verbs */
+  // if (word_categories_output.includes('verb') &&
+  //   !inflectional_form_categories.find(i => i.startsWith('impersonal') &&
+  //     !inflectional_form_categories.includes('question form')
+  //   )) {
+  //   inflectional_form_categories = ['personal', ...inflectional_form_categories]
+  // }
 
   /* If it ends in a number it is an alternative version */
   const variantNumber = (grammatical_tag.match(/(\d)$/) ? grammatical_tag.match(/(\d)$/)[0] : 1).toString()
