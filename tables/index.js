@@ -1,5 +1,6 @@
 import Word from './word'
 import { normalizeTag, types } from './classification/classification'
+import link, { ucfirst_link } from 'tables/link'
 
 export default (rows, options) => {
   let give_me = options.give_me
@@ -30,10 +31,20 @@ export default (rows, options) => {
   return `
     <div class="inflection">
       <div class="main">
-        <h4>${(word.getBaseWord())}</h4>
-        <div>${word.getWordDescription()}</div>
+        <h4>
+          ${
+            // TODO: Generate base word instead of this
+            word.is('verb') ? `<span class=gray>að</span>` : ''
+          }
+          ${(word.getBaseWord())}
+        </h4>
+        <div>${ucfirst_link(word.getWordDescription())}</div>
         <div>${word.getWordNotes()}</div>
-        <div>${word.getPrincipalParts()}</div>
+        <div>${
+          word.getPrincipalParts() ? `
+            <span> ${word.getPrincipalParts()}
+          ` : ''
+        }</div>
 
         ${table}
       </div>

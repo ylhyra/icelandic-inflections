@@ -10,7 +10,7 @@
   },
   "scripts": {
     "startX": "nodemon --exec 'npm run styles && npm run server' -e js,styl --ignore styles/build.css",
-    "start": "nodemon -r esm ./server/server-standalone/index.js -e js --ignore styles/build.css",
+    "start": "export NODE_PATH=. && nodemon -r esm ./server/server-standalone/index.js -e js --ignore styles/build.css",
     "server": "node -r esm ./server/server-standalone/index.js",
     "styles": "stylus --include styles/ < styles/index.styl > styles/build.css",
     "style_watch": "nodemon --exec 'stylus --include styles/ < styles/index.styl > styles/build.css' -e styl",

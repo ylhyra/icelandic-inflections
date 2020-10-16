@@ -41,12 +41,20 @@ export const stripHTML = (string) => {
   return string && string
     .replace(/<\/[a-z]+>/g, '')
     .replace(/<[a-z]+ ?([^>]+)?>/g, '')
-    .replace(/\s+/g,' ')
+    .replace(/\s+/g, ' ')
     .trim()
 }
 
 export const ucfirst = (input) => (
   input && (input.charAt(0).toUpperCase() + input.slice(1))
+)
+
+export const ucfirst_link = (input) => (
+  input = input.replace(/^(?:<a .+?>)?(.)/, part => {
+    let split = part.split('')
+    split[split.length - 1] = ucfirst(split[split.length - 1])
+    return split.join('')
+  })
 )
 
 let missing_links = [

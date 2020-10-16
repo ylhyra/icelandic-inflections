@@ -145,236 +145,6 @@ i {
 .hidden {
   display: none;
 }
-.entry {
-  border: 1px solid #d2d2d2;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 3px;
-  background: rgba(255,255,255,0.8);
-  font-size: 14px;
-  line-height: 16px;
-  min-width: 300px;
-  float: left;
-  clear: left;
-/*    __    _      __
-       / /   (_)____/ /______
-      / /   / / ___/ __/ ___/
-     / /___/ (__  ) /_(__  )
-    /_____/_/____/\__/____/   */
-/*    __  __               __
-       / / / /__  ____ _____/ /
-      / /_/ / _ \/ __ `/ __  /
-     / __  /  __/ /_/ / /_/ /
-    /_/ /_/\___/\__,_/\__,_/   */
-/*    ____            __
-       / __ )____  ____/ /_  __
-      / __  / __ \/ __  / / / /
-     / /_/ / /_/ / /_/ / /_/ /
-    /_____/\____/\__,_/\__, /
-                      /____/   */
-}
-.entry ul,
-.entry ol {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-.entry ol[data-indent="1"] {
-  counter-reset: level1;
-}
-.entry ol[data-indent="1"] > li {
-  counter-increment: level1;
-}
-.entry ol[data-indent="1"] > li:before {
-  content: counter(level1);
-}
-.entry ol[data-indent="1"].lower-latin > li:before {
-  content: counter(level1, lower-latin);
-}
-.entry ol[data-indent="1"].upper-latin > li:before {
-  content: counter(level1, upper-latin);
-}
-.entry ol[data-indent="2"] {
-  counter-reset: level2;
-}
-.entry ol[data-indent="2"] > li {
-  counter-increment: level2;
-}
-.entry ol[data-indent="2"] > li:before {
-  content: counter(level2);
-}
-.entry ol[data-indent="2"].lower-latin > li:before {
-  content: counter(level2, lower-latin);
-}
-.entry ol[data-indent="2"].upper-latin > li:before {
-  content: counter(level2, upper-latin);
-}
-.entry ol[data-indent="3"] {
-  counter-reset: level3;
-}
-.entry ol[data-indent="3"] > li {
-  counter-increment: level3;
-}
-.entry ol[data-indent="3"] > li:before {
-  content: counter(level3);
-}
-.entry ol[data-indent="3"].lower-latin > li:before {
-  content: counter(level3, lower-latin);
-}
-.entry ol[data-indent="3"].upper-latin > li:before {
-  content: counter(level3, upper-latin);
-}
-.entry ol[data-indent="4"] {
-  counter-reset: level4;
-}
-.entry ol[data-indent="4"] > li {
-  counter-increment: level4;
-}
-.entry ol[data-indent="4"] > li:before {
-  content: counter(level4);
-}
-.entry ol[data-indent="4"].lower-latin > li:before {
-  content: counter(level4, lower-latin);
-}
-.entry ol[data-indent="4"].upper-latin > li:before {
-  content: counter(level4, upper-latin);
-}
-.entry li,
-.entry .sense {
-  position: relative;
-  padding-left: 20px;
-}
-.entry li:before,
-.entry .sense:before {
-  color: $gray;
-  margin-left: -20px;
-  position: absolute;
-}
-.entry ul > li:before,
-.entry .sense:before {
-  content: '\2022';
-}
-.entry .orth {
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  margin-bottom: 10px;
-  display: inline-block;
-}
-.entry .gramgrp {
-  margin: 0 7px;
-  font-size: 12px;
-}
-.entry .gramgrp .pos {
-  font-family: sans-serif;
-  color: #5b5b5b;
-  background-color: #eee;
-  padding: 1px 5px;
-  border-radius: 2px;
-}
-.entry .number {
-  font-size: 20px;
-  color: $gray;
-}
-.entry p {
-  padding-bottom: 3px;
-}
-.entry .punc {
-  margin-right: 1px;
-  color: $gray;
-}
-.entry em {
-  font-weight: bold;
-  font-style: normal;
-}
-.entry small {
-  font-size: 13px;
-  color: $gray;
-  font-weight: 400;
-}
-.entry .grammatical-category {
-  font-size: 13px;
-  color: #ea6924;
-}
-.entry * + .grammatical-category {
-  margin-left: 7px;
-}
-.entry .expression {
-  font-weight: 600;
-}
-.entry .expression:after {
-  font-weight: normal;
-  margin-right: 3px;
-}
-.entry .classification {
-  font-weight: 400;
-  color: #888;
-  font-size: 13px;
-}
-.entry .classification-andheiti {
-  font-weight: 400;
-  color: #c9070a;
-  font-size: 13px;
-}
-.entry .undir-ord-med-skyringu {
-  font-size: 15px;
-}
-.entry .very-big---phrase {
-  font-weight: 500;
-  font-size: 16px;
-}
-.entry .phrase---main {
-  font-weight: 500;
-}
-.entry .inflection {
-  font-style: italic;
-}
-.entry .category {
-  color: $blue;
-}
-.entry .forward-to-another-word,
-.entry .forward-to-another-word---andheiti {
-  color: $blue;
-  font-size: 12px;
-}
-.entry .forward-to-another-word:before,
-.entry .forward-to-another-word---andheiti:before {
-  content: '(→ ';
-}
-.entry .forward-to-another-word:after,
-.entry .forward-to-another-word---andheiti:after {
-  content: ')';
-}
-.entry .forward-to-another-word---andheiti {
-  color: $red;
-}
-.entry .forward-to-another-word---andheiti:before {
-  content: '(↝ ';
-}
-.entry .word-that-includes {
-  color: #5fa75e;
-}
-.entry .word-that-includes:before {
-  content: '→ ';
-}
-.entry .expression {
-  background: #ffedfa;
-  border: 2px solid #c435b3;
-  padding: 1px 3px;
-  border-radius: 3px;
-}
-.entry .proverb {
-  background: #f2ffed;
-  border: 2px solid #51c435;
-  padding: 1px 3px;
-  border-radius: 3px;
-}
-.entry .referringto {
-  background: #ffffed;
-  border: 2px solid #d9bb3a;
-  padding: 1px 3px;
-  border-radius: 3px;
-}
 .wrapper {
   min-height: 100vh;
 }
@@ -395,12 +165,6 @@ i {
   flex: 1;
   max-width: 700px;
   min-width: 400px;
-}
-.note {
-  background: #f0f0f0;
-  border-radius: 3px;
-  padding: 6px 10px;
-  margin: 4px 0;
 }
 footer {
   max-width: 500px;
@@ -457,6 +221,7 @@ ul.results li:not(:last-child) a {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 13px;
   padding: 10px;
+/* Base word heading */
 }
 .inflection b {
   color: #000;
@@ -498,6 +263,7 @@ ul.results li:not(:last-child) a {
   line-height: 1;
   font-size: 17px;
   color: #000;
+  word-spacing: 1px;
 }
 .inflection div + .indent {
   margin-top: 20px;
@@ -523,13 +289,19 @@ ul.results li:not(:last-child) a {
 .inflection .license {
   display: none;
 }
-hr {
+.inflection hr {
   margin: 40px 20px;
   border: none;
   border-bottom: 1px solid #e6e6e6;
 }
-.umlaut {
+.inflection .umlaut {
   color: #b00030;
+}
+.inflection .note {
+  background: #f0f0f0;
+  border-radius: 3px;
+  padding: 6px 10px;
+  margin: 4px 0;
 }
 table.table {
   border-spacing: 0;

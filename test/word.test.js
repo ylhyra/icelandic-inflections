@@ -53,6 +53,17 @@ describe('General word tests', function () {
     })
   })
 
+  it('„fara“', (done) => {
+    get(433568, done, word => {
+      /* Test principal part generation from other than first */
+      assert.equal(stripHTML(word.get('past').getPrincipalParts()), 'að fara, ég fór (í gær), við fórum (í gær), ég hef farið')
+      assert.equal(word.isStrong(), true)
+      done()
+    })
+  })
+
+
+
   // it.only('Junk data', () => {
   //   assert.throws(new Word(['ok']), Error)
   //   return

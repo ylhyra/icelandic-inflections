@@ -1,3 +1,6 @@
+/**
+ * Encapsulated styles for reprinting an inflectional page go here.
+ */
 .inflection
   sans-serif()
   font-size 13px
@@ -35,12 +38,14 @@
       // border-bottom 1px solid rgba(#c8c8c8, 0.2)
   td.highlight
     background white
+
+  /* Base word heading */
   h4
     margin: 0;
     line-height: 1;
     font-size: 17px;
     color black
-
+    word-spacing 1px
 
   div + .indent
     margin-top: 20px
@@ -61,15 +66,19 @@
 
   .license
     display none
+  hr /* <hr> in license */
+    margin 40px 20px
+    border none
+    border-bottom 1px solid #e6e6e6
 
 
-hr
-  margin 40px 20px
-  border none
-  border-bottom 1px solid #e6e6e6
+  .umlaut
+    color #b00030
+  // .elision
+  //   text-decoration underline
 
-
-.umlaut
-  color #b00030
-// .elision
-//   text-decoration underline
+  .note
+    background #f0f0f0
+    border-radius 3px
+    padding 6px 10px
+    margin 4px 0

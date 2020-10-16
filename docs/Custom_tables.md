@@ -15,7 +15,7 @@ URL parameters to construct a custom table:
 
 
 
-https://inflections.ylhyra.is/öpum/8842?give_me=plural,genitive
+[/öpum/8842?give_me=plural,genitive](https://inflections.ylhyra.is/öpum/8842?give_me=plural,genitive)
 
 <pre>
 <b>Nom</b>  hér eru apar
@@ -23,8 +23,7 @@ https://inflections.ylhyra.is/öpum/8842?give_me=plural,genitive
 <b>Dat</b>  frá öpum   
 <b>Gen</b>  til <b>apa</b>
 </pre>
-
-http://localhost:4545/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl
+[/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl](/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl)
 
 <pre>
 <b>inf</b>     að fara
