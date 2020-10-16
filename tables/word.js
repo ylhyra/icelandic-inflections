@@ -9,7 +9,7 @@ import { getStem } from 'tables/functions/stem'
 import { isStrong, isWeak } from 'tables/functions/strong'
 import { removeIncorrectVariants } from 'tables/functions/incorrectVariants'
 import { types, normalizeTag } from 'tables/classification/classification'
-import { uniq, flatten } from 'lodash'
+import { flatten } from 'lodash'
 import { FindIrregularities } from 'tables/functions/irregularities'
 
 class Word {
@@ -17,7 +17,7 @@ class Word {
    * @param {array} rows
    * @param {?Word} original
    */
-  constructor(rows, original, skipInitialization) {
+  constructor(rows, original) {
     if (!Array.isArray(rows) && rows !== undefined) {
       // console.log(rows)
       throw new Error(`Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`)

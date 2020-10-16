@@ -1,4 +1,3 @@
-import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll } from 'tables/functions/vowels'
 import { types } from 'tables/classification/classification'
 import { without } from 'lodash'
 const splittableRegexEndingsFromArray = string => {

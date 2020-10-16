@@ -1,5 +1,5 @@
 import { isNumber } from 'tables/tree'
-import { shortcuts, normalizeTag, shortcuts_used_in_BIN } from 'tables/classification/classification'
+import { normalizeTag, shortcuts_used_in_BIN } from 'tables/classification/classification'
 
 /**
  *  Turns BÍN's classifications into English

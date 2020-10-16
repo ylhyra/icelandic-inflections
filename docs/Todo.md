@@ -19,3 +19,10 @@ Töluorð
 
 
 Cache calculations in object?
+
+
+
+Test for table regressions:
+http://localhost:4545/hafa/478745
+http://localhost:4545/geta/479125
+  -að geta, að gætu (í gær) **HA???**

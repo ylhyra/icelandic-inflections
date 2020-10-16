@@ -1,6 +1,6 @@
 import link, { ucfirst } from 'tables/link'
-import Word, {WordFromTree} from 'tables/word'
-import { without, flatten } from 'lodash'
+import Word, { WordFromTree } from 'tables/word'
+import { flatten } from 'lodash'
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
@@ -64,7 +64,7 @@ const RenderTable = (input, original_word, structure, highlight) => {
     if (row_index === 0 && column_names[0] !== null) {
       let column = []
       column.push(null)
-      column_names.forEach((column_name, column_index) => {
+      column_names.forEach(column_name => {
         column.push(column_name)
       })
       table.push(column)
