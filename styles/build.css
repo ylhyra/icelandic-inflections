@@ -258,12 +258,23 @@ ul.results li:not(:last-child) a {
 .inflection td.highlight {
   background: #fff;
 }
-.inflection h4 {
-  margin: 0;
+.inflection h4.base_word {
+  margin: 0 0 6px 0;
   line-height: 1;
-  font-size: 17px;
+  font-size: 18px;
   color: #000;
   word-spacing: 1px;
+}
+.inflection .word_description {
+  color: #676767;
+  margin: 6px 0 3px 0;
+  font-size: 15px;
+}
+.inflection .word_description a:not(:hover) {
+  color: inherit;
+}
+.inflection .principal_parts b {
+  font-weight: normal;
 }
 .inflection div + .indent {
   margin-top: 20px;

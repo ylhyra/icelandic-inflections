@@ -16,7 +16,7 @@ export const removeInflectionalPattern = (input, word) => {
   if (!input) return;
   let stripped = input;
 
-  if (word.is('adjective') || word.is('past participle') /*|| word.is('with definite article')*/) {
+  if (word.isAny('adjective', 'past participle') /*|| word.is('with definite article')*/ ) {
     stripped = input.replace(adjectiveEndings, '')
   } else if (word.is('verb')) {
     stripped = input.replace(verbEndings, '')

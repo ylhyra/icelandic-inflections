@@ -98,7 +98,7 @@ export function getHelperWordsAfter() {
   let addSpace = true
 
   /* Nouns */
-  if (this.is('noun') && this.is('with definite article')) {
+  if (this.is('noun', 'with definite article')) {
     if (this.is('singular')) {
       if (this.is('nominative')) {
         text = this.dependingOnGender('minn', 'mín', 'mitt')
@@ -130,7 +130,7 @@ export function getHelperWordsAfter() {
   }
 
   /* Adjectives & past participle */
-  else if (this.is('adjective') || this.is('past participle') || this.is('article')) {
+  else if (this.isAny('adjective', 'past participle', 'article')) {
     if (!this.is('weak declension') /*&& !this.is('article')*/ ) {
       if (this.is('singular')) {
         if (this.is('nominative')) {

@@ -1,7 +1,7 @@
 import assert from 'assert'
-import { removeInflectionalPattern } from 'tables/irregularities/patterns'
+import { removeInflectionalPattern } from 'tables/functions/patterns'
 import Word from 'tables/word'
-import { removeVowellikeClusters,removeLastVowelCluster, splitOnVowelRegions, isVowellikeCluster } from 'tables/functions/vowels'
+import { removeVowellikeClusters, removeLastVowelCluster, splitOnVowelRegions, isVowellikeCluster } from 'tables/functions/vowels'
 import _ from 'lodash'
 
 /**
@@ -53,7 +53,7 @@ export function getStem(options) {
       // return output
     }
   }
-  if (this.is('numeral') || this.is('personal pronoun')) {
+  if (this.isAny('numeral', 'personal pronoun')) {
     output = this.getOriginal().getFirstValue()
   }
 

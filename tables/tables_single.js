@@ -1,6 +1,7 @@
-import RenderTable from './render_table'
+import RenderTable from 'tables/render_table'
 import { without, flatten } from 'lodash'
 import { types } from 'tables/classification/classification'
+import link, { ucfirst_link } from 'tables/link'
 
 /**
  * Finds a single relevant table
@@ -53,9 +54,16 @@ export default function getSingleTable({
   /* As table */
   else {
     table = RenderTable(siblings, word.getOriginal(), { column_names, row_names }, give_me)
-    description = sibling_classification.join(', ')
+    description = ucfirst_link(sibling_classification.map(i => link(i)).join(', '))
+    let output
+    if (description) {
+      output = `<dl class="indent">
+        <dt>${description}</dt>
+        <dd>${table}</dd>
+      </dl>`
+    } else {
+      output = table
+    }
+    return output + `<a href="/${encodeURIComponent(word.getBaseWord())}/${word.getId()}"><b>Show all tables</b></a>`
   }
-
-  return description + table +
-    `<a href="/${encodeURIComponent(word.getBaseWord())}/${word.getId()}"><b>Show all tables</b></a>`
 }

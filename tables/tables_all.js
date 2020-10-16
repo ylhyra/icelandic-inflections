@@ -1,6 +1,6 @@
 import link, { ucfirst } from 'tables/link'
 import Word, { WordFromTree } from 'tables/word'
-import RenderTable, { renderCell } from './render_table'
+import RenderTable, { renderCell } from 'tables/render_table'
 import { types } from 'tables/classification/classification'
 
 /**

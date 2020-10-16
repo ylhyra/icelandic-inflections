@@ -31,18 +31,19 @@ export default (rows, options) => {
   return `
     <div class="inflection">
       <div class="main">
-        <h4>
+        <h4 class="base_word">
           ${
             // TODO: Generate base word instead of this
             word.is('verb') ? `<span class=gray>að</span>` : ''
           }
           ${(word.getBaseWord())}
         </h4>
-        <div>${ucfirst_link(word.getWordDescription())}</div>
+        <div class="word_description">${(word.getWordDescription())}</div>
         <div>${word.getWordNotes()}</div>
-        <div>${
+        <div class="principal_parts">${
           word.getPrincipalParts() ? `
-            <span> ${word.getPrincipalParts()}
+            <span hidden>${link('Principal parts')}:</span>
+            ${word.getPrincipalParts()}
           ` : ''
         }</div>
 

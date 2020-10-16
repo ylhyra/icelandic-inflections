@@ -1,5 +1,5 @@
 import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll, splitOnVowels, isVowellikeCluster, getVowelClusters } from 'tables/functions/vowels'
-import { removeInflectionalPattern, isHighlyIrregular } from './patterns'
+import { removeInflectionalPattern, isHighlyIrregular } from 'tables/functions/patterns'
 import Word from 'tables/word'
 import _ from 'lodash'
 
@@ -11,14 +11,10 @@ export function FindIrregularities() {
   let word = this
   let wordHasUmlaut, wordIsIrregular, wordIsHighlyIrregular
 
-
-
-  if (word.is('indeclinable') || word.is('pronoun') || word.is('article') || word.is('personal pronoun') || word.is('reflexive pronoun')) {
+  /* Skip highlighting for certain word classes */
+  if (word.isAny('indeclinable', 'pronoun', 'article', 'personal pronoun', 'reflexive pronoun')) {
     return
   }
-
-
-
 
 
   let stem = word.getStem({ masculinizeAdjectiveStem: true, trimExtra: true })
