@@ -1,7 +1,8 @@
-import link, { ucfirst } from './link'
-import Word, { WordFromTree } from './word'
-import RenderTable, { renderCell } from './render_table'
-import { types } from './classification/classification'
+import link, { ucfirst } from 'tables/link'
+import Word, { WordFromTree } from 'tables/word'
+import RenderTable, { renderCell } from 'tables/render_table'
+import { types } from 'tables/classification/classification'
+import tree, { isNumber } from 'tables/tree'
 
 /**
  * getTables - Prints all tables for a given word
@@ -67,7 +68,8 @@ const TraverseTree = (leaf, original_word) => {
   /* Verbs */
   else if (
     word.is('verb') && types['tense'].includes(leaf.tag) &&
-    !word.is('question form')
+    !word.is('question form') &&
+    !word.is('infinitive')
   ) {
     /* Dummy subjects */
     if (word.is('impersonal with dummy subject')) {
@@ -102,10 +104,24 @@ const TraverseTree = (leaf, original_word) => {
     })
   }
 
-  const output = table || (leaf.values ?
-    leaf.values.map(i => TraverseTree(i, original_word)).join('') :
-    `<table class="table not-center"><tbody><tr>${renderCell(new Word([leaf], original_word))}</tr></tbody></table>`
-  )
+  let output = table
+  if (!output) {
+    /*
+      Go deeper
+    */
+    if (leaf.values && !LeafOnlyContainsVariants(leaf.values)) {
+      output = leaf.values.map(i => TraverseTree(i, original_word)).join('')
+    }
+    /*
+      No table was created above,
+      generate a simple field
+    */
+    else {
+      let rows = leaf.values || [leaf] /* For supine of "geta" */
+      output =
+        `<table class="table not-center"><tbody><tr>${renderCell(new Word(rows, original_word))}</tr></tbody></table>`
+    }
+  }
 
   if (leaf.tag) {
     return `<dl class="indent">
@@ -115,4 +131,21 @@ const TraverseTree = (leaf, original_word) => {
   } else {
     return output
   }
+}
+
+
+/**
+ * If a leaf only contains a single form and its variants,
+ * we want to be able to group them together.
+ * Created to handle the supine of "geta".
+ */
+const LeafOnlyContainsVariants = (array) => {
+  let first = array[0]
+  if (!first || !first.inflectional_form_categories) return;
+  let match = first.inflectional_form_categories.filter(i => !isNumber(i))
+  return array.slice(1).every(row => (
+    row.inflectional_form_categories &&
+    match.length === row.inflectional_form_categories.length - 1 && // -1 to remove number
+    match.every((value, index) => value === row.inflectional_form_categories[index])
+  ))
 }

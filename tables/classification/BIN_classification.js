@@ -1,5 +1,5 @@
-import { isNumber } from './../tree'
-import { shortcuts, normalizeTag, shortcuts_used_in_BIN } from './classification'
+import { isNumber } from 'tables/tree'
+import { normalizeTag, shortcuts_used_in_BIN } from 'tables/classification/classification'
 
 /**
  *  Turns BÍN's classifications into English
@@ -46,11 +46,11 @@ const classify = (input) => {
   grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/i, '$2-$1')
   grammatical_tag.split((new RegExp(`(${tagRegex})`, 'g'))).filter(Boolean).forEach(tag => {
     if (tag === '-') return;
-     if (isNumber(tag)) {
+    if (isNumber(tag)) {
       // inflectional_form_categories.push(tag)
-    }else if (get_label_for_BIN_inflection_form(tag)) {
+    } else if (get_label_for_BIN_inflection_form(tag)) {
       inflectional_form_categories.push(get_label_for_BIN_inflection_form(tag))
-    }  else {
+    } else {
       if (process.env.NODE_ENV === 'development') {
         console.error(`Unknown tag in BIN_classification.js: ${tag}. Full tag is ${grammatical_tag}`)
       }
@@ -65,8 +65,11 @@ const classify = (input) => {
   }
 
   // /* Add "personal use" to verbs */
-  // if (word_categories_output.includes('verb') !inflectional_form_categories.find(i => i.startsWith('impersonal')) {
-  //   inflectional_form_categories.push('without definite article')
+  // if (word_categories_output.includes('verb') &&
+  //   !inflectional_form_categories.find(i => i.startsWith('impersonal') &&
+  //     !inflectional_form_categories.includes('question form')
+  //   )) {
+  //   inflectional_form_categories = ['personal', ...inflectional_form_categories]
   // }
 
   /* If it ends in a number it is an alternative version */

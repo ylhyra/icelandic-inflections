@@ -1,23 +1,23 @@
-import getTables from './tables_all'
-import getSingleTable from './tables_single'
-import tree, { isNumber } from './tree'
-import { getHelperWordsBefore, getHelperWordsAfter } from './functions/helperWords'
-import { getPrincipalParts } from './functions/principalParts'
-import { getWordDescription } from './functions/wordDescription'
-import { getWordNotes } from './functions/wordNotes'
-import { getStem } from './functions/stem'
-import { isStrong, isWeak } from './functions/strong'
-import { removeIncorrectVariants } from './functions/incorrectVariants'
-import { types, normalizeTag } from './classification/classification'
-import { uniq } from 'lodash'
-import { FindIrregularities } from './irregularities/irregularities'
+import getTables from 'tables/tables_all'
+import getSingleTable from 'tables/tables_single'
+import tree, { isNumber } from 'tables/tree'
+import { getHelperWordsBefore, getHelperWordsAfter } from 'tables/functions/helperWords'
+import { getPrincipalParts } from 'tables/functions/principalParts'
+import { getWordDescription } from 'tables/functions/wordDescription'
+import { getWordNotes } from 'tables/functions/wordNotes'
+import { getStem } from 'tables/functions/stem'
+import { isStrong, isWeak } from 'tables/functions/strong'
+import { discardUnnecessaryForms } from 'tables/functions/discard'
+import { types, normalizeTag } from 'tables/classification/classification'
+import { flatten } from 'lodash'
+import { FindIrregularities } from 'tables/functions/irregularities'
 
 class Word {
   /**
    * @param {array} rows
    * @param {?Word} original
    */
-  constructor(rows, original, skipInitialization) {
+  constructor(rows, original) {
     if (!Array.isArray(rows) && rows !== undefined) {
       // console.log(rows)
       throw new Error(`Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`)
@@ -31,7 +31,7 @@ class Word {
         })) throw new Error('Malformed input to Word');
     }
 
-    rows = removeIncorrectVariants(rows)
+    rows = discardUnnecessaryForms(rows)
     this.rows = rows
     if (original instanceof Word) {
       this.original = original.original
@@ -45,7 +45,7 @@ class Word {
 
     if (rows && !original) {
       if (this.rows.length === 0) {
-        if(process.env.NODE_ENV==='development'){
+        if (process.env.NODE_ENV === 'development') {
           throw new Error('Word created with empty rows')
         }
       }
@@ -73,7 +73,11 @@ class Word {
   getWordHasUmlaut() {
     return this.original.wordHasUmlaut
   }
+  /**
+   * @param  {array|...string} values
+   */
   is(...values) {
+    values = flatten(values)
     return values.every(value => {
       /* Test word_categories */
       if (this.getWordCategories().includes(normalizeTag(value))) {
@@ -85,7 +89,11 @@ class Word {
       ))
     })
   }
+  /**
+   * @param  {array|...string} values
+   */
   isAny(...values) {
+    values = flatten(values)
     return values.some(value => {
       /* Test word_categories */
       if (this.getWordCategories().includes(normalizeTag(value))) {
@@ -97,13 +105,12 @@ class Word {
       ))
     })
   }
+  /**
+   * @param  {array|...string} values
+   */
   get(...values) {
     if (!values) return this;
-    if (values.some(value => !(typeof value === 'string' || typeof value === 'number' || value === null))) {
-      /* Todo: Would be good to also support array passes */
-      // console.log(values)
-      throw new Error('You must pass parameters as spread into get()')
-    }
+    values = flatten(values)
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value =>
         row.inflectional_form_categories.includes(normalizeTag(value))
@@ -111,11 +118,13 @@ class Word {
       )
     )), this)
   }
-  /*
-    Returns all that meet *any* of the input values
-  */
+  /**
+   * Returns all that meet *any* of the input values
+   * @param  {array|...string} values
+   */
   getMeetingAny(...values) {
     if (!values) return this;
+    values = flatten(values)
     if (values.filter(Boolean).length === 0) return this;
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).some(value =>
@@ -131,20 +140,25 @@ class Word {
     return new Word(this.rows.slice(0, 1), this)
   }
   getFirstAndItsVariants() {
-    return this.get(...this.getFirstClassification())
+    /* We make sure the categories are completely equal to prevent
+     * verbs (which come in various deep nestings) from matching */
+    let match = this.getFirstClassification()
+    return new Word(this.rows.filter(row =>
+      match.length === row.inflectional_form_categories.length - 1 && // -1 to remove number
+      match.every((value, index) => value === row.inflectional_form_categories[index])
+    ), this)
   }
   getFirstValue() {
     return this.rows.length > 0 && this.rows[0].inflectional_form || undefined
   }
   getFirstValueRendered() {
-    // console.log(this)
     return this.rows.length > 0 && this.rows[0].formattedOutput || undefined
-  }
-  getValues() {
-    return this.rows.map(row => row.inflectional_form)
   }
   getForms() {
     return this.rows.map(row => row.inflectional_form)
+  }
+  getForms_describe_as_string__temp() {
+    return this.rows.map(row => `${row.inflectional_form} ${row.inflectional_form_categories.join(',')}`).join('\n')
   }
   getWordCategories() {
     return this.original.rows[0] && this.original.rows[0].word_categories || []
@@ -152,7 +166,11 @@ class Word {
   getFirstClassification() {
     return this.rows.length > 0 && this.rows[0].inflectional_form_categories.filter(i => !isNumber(i)) || []
   }
+  /**
+   * @param  {array|...string} values
+   */
   without(...values) {
+    values = flatten(values)
     return new Word(this.rows.filter(row => (
       values.filter(Boolean).every(value => !row.inflectional_form_categories.includes(normalizeTag(value)))
     )), this)
@@ -179,7 +197,7 @@ class Word {
    * Three values are inputted, a value is returned
    * based on the gender of the word.
    * Used when generating helper words
-   * @param  {...array} values
+   * @param  {...*} values
    */
   dependingOnGender(...values) {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
@@ -188,7 +206,7 @@ class Word {
    * Five values are inputted, a value is returned
    * based on the subject type of the verb
    * Used when generating helper words
-   * @param  {...array} values
+   * @param  {...*} values
    */
   dependingOnSubject(...values) {
     if (this.is('impersonal with accusative subject')) {

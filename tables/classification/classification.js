@@ -272,7 +272,7 @@ const labels_array = [
     title: 'personal',
     icelandic_title: 'persónuleg beyging',
     type: '',
-    shortcuts: [],
+    shortcuts: ['persónuleg', 'pers'],
     has_article_on_ylhyra: false,
   },
   {
@@ -489,8 +489,9 @@ Object.keys(type_aliases).forEach(key => {
 
 export const normalizeTag = (tag, strict) => {
   if (typeof tag === 'number') return tag;
+  if (typeof tag !== 'string') throw new Error(`normalizeTag received type ${typeof tag}`)
   let output = shortcuts[tag] || shortcuts[tag.toLowerCase().trim()]
-  if (!output && strict!==false) throw new Error(`Value not recognized: ${tag}`)
+  if (!output && strict !== false) throw new Error(`Value not recognized: ${tag}`)
   return output
 }
 

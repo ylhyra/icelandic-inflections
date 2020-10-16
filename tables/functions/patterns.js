@@ -1,5 +1,4 @@
-import { splitOnVowelRegions, removeVowellikeClusters, splitOnAll } from './../functions/vowels'
-import { types } from './../classification/classification'
+import { types } from 'tables/classification/classification'
 import { without } from 'lodash'
 const splittableRegexEndingsFromArray = string => {
   return new RegExp(`(${string.sort((a, b) => (b.length - a.length)).join('|')})$`)
@@ -16,7 +15,7 @@ export const removeInflectionalPattern = (input, word) => {
   if (!input) return;
   let stripped = input;
 
-  if (word.is('adjective') || word.is('past participle') /*|| word.is('with definite article')*/) {
+  if (word.isAny('adjective', 'past participle') /*|| word.is('with definite article')*/ ) {
     stripped = input.replace(adjectiveEndings, '')
   } else if (word.is('verb')) {
     stripped = input.replace(verbEndings, '')

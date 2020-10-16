@@ -1,6 +1,7 @@
-import RenderTable from './render_table'
-import { without } from 'lodash'
-import { types } from './classification/classification'
+import RenderTable from 'tables/render_table'
+import { without, flatten } from 'lodash'
+import { types } from 'tables/classification/classification'
+import link, { ucfirst_link } from 'tables/link'
 
 /**
  * Finds a single relevant table
@@ -34,9 +35,17 @@ export default function getSingleTable({
   column_names = column_names || [null]
   row_names = row_names || [null]
 
-  word = word.getMeetingAny(...row_names).getMeetingAny(...column_names)
-  const sibling_classification = without(word.getFirstClassification(), ...row_names, ...column_names)
-  const siblings = word.getOriginal().get(...sibling_classification)
+  word = word.getMeetingAny(...row_names, ...column_names)
+  const sibling_classification = without(word.getFirstClassification(), ...flatten(row_names), ...flatten(column_names))
+  // console.log({
+  //   sibling_classification,
+  //   // column_names,
+  //   // row_names,
+  //   // flat:flatten(row_names),
+  // })
+  const siblings = word.getOriginal().get(sibling_classification)
+
+  // console.log(siblings.getFirst().getForms_describe_as_string__temp())
 
   /* As string */
   if (returnAsString) {
@@ -45,9 +54,16 @@ export default function getSingleTable({
   /* As table */
   else {
     table = RenderTable(siblings, word.getOriginal(), { column_names, row_names }, give_me)
-    description = sibling_classification.join(', ')
+    description = ucfirst_link(sibling_classification.map(i => link(i)).join(', '))
+    let output
+    if (description) {
+      output = `<dl class="indent">
+        <dt>${description}</dt>
+        <dd>${table}</dd>
+      </dl>`
+    } else {
+      output = table
+    }
+    return output + `<a href="/${encodeURIComponent(word.getBaseWord())}/${word.getId()}"><b>Show all tables</b></a>`
   }
-
-  return description + table +
-    `<a href="/${encodeURIComponent(word.getBaseWord())}/${word.getId()}"><b>Show all tables</b></a>`
 }

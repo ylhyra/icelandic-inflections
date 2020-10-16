@@ -1,12 +1,13 @@
-import Word from './word'
-import { normalizeTag, types } from './classification/classification'
+import Word from 'tables/word'
+import { normalizeTag, types } from 'tables/classification/classification'
+import link, { ucfirst_link } from 'tables/link'
 
 export default (rows, options) => {
   let give_me = options.give_me
   let column_names = options.columns || options.column_names
   let row_names = options.rows || options.row_names
 
-  // console.log(rows.slice(0,1))
+  // console.log(rows.slice(0,10))
   // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == 1
   let word = (new Word(rows))
   // console.log('hah')
@@ -30,10 +31,21 @@ export default (rows, options) => {
   return `
     <div class="inflection">
       <div class="main">
-        <h4>${(word.getBaseWord())}</h4>
-        <div>${word.getWordDescription()}</div>
+        <h4 class="base_word">
+          ${
+            // TODO: Generate base word instead of this
+            word.is('verb') ? `<span class=gray>að</span>` : ''
+          }
+          ${(word.getBaseWord())}
+        </h4>
+        <div class="word_description">${(word.getWordDescription())}</div>
         <div>${word.getWordNotes()}</div>
-        <div>${word.getPrincipalParts()}</div>
+        <div class="principal_parts">${
+          word.getPrincipalParts() ? `
+            <span hidden>${link('Principal parts')}:</span>
+            ${word.getPrincipalParts()}
+          ` : ''
+        }</div>
 
         ${table}
       </div>
@@ -51,14 +63,14 @@ export default (rows, options) => {
 
 /*
   Temporary helper functions, need to be moved elsewhere
+  returns array
 */
 const cleanRowOrColum__temporary = (string) => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
   if (string in types) return types[string];
   // /* Should be made to work in the future */
-  // return string.split(';').map(clean__temporary)
-  return clean__temporary(string)
+  return string.split(';').map(clean__temporary)
 }
 const clean__temporary = (string) => {
   if (!string) return [];

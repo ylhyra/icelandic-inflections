@@ -1,4 +1,4 @@
-import link from './../link'
+import link from 'tables/link'
 
 /**
  * @memberof Word

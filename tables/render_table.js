@@ -1,5 +1,6 @@
-import link, { ucfirst } from './link'
-import Word, {WordFromTree} from './word'
+import link, { ucfirst } from 'tables/link'
+import Word, { WordFromTree } from 'tables/word'
+import { flatten } from 'lodash'
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
@@ -63,7 +64,7 @@ const RenderTable = (input, original_word, structure, highlight) => {
     if (row_index === 0 && column_names[0] !== null) {
       let column = []
       column.push(null)
-      column_names.forEach((column_name, column_index) => {
+      column_names.forEach(column_name => {
         column.push(column_name)
       })
       table.push(column)
@@ -76,7 +77,7 @@ const RenderTable = (input, original_word, structure, highlight) => {
       if (column_index === 0) {
         column.push(row_name)
       }
-      column.push(word.get(column_name, row_name))
+      column.push(word.get(column_name, row_name).getFirstAndItsVariants())
     })
     table.push(column)
   })
@@ -100,8 +101,14 @@ const TableHTML = (rows, highlight = []) => {
                   rows[row_index - 1] && (rows[row_index - 1][column_index] === null)
                 let css_class = (
                   isCellAboveEmpty || isCellToTheLeftEmpty
-                ) ? 'first-top' : ''
-                return `<th colSpan="2" class="${css_class}">${link(ucfirst(cell)) || ''}</th>`
+                ) ? 'first-top' : '';
+
+                /* Flatten to support multiple at once */
+                let i = flatten([cell])
+                i[0] = ucfirst(i[0])
+                i = i.map(u => link(u)).join(', ')
+
+                return `<th colSpan="2" class="${css_class}">${i || ''}</th>`
               }
             }).join('')}
           </tr>

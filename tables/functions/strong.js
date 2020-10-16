@@ -1,4 +1,4 @@
-import { endsInConsonant } from './vowels'
+import { endsInConsonant } from 'tables/functions/vowels'
 
 /**
  * Strong or weak inflection

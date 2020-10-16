@@ -1,8 +1,6 @@
-import assert from 'assert'
-import { removeLastVowelCluster, splitOnVowelRegions, isVowellikeCluster } from './vowels'
-import { removeInflectionalPattern } from './../irregularities/patterns'
-import Word from './../word'
-import { removeVowellikeClusters } from './../functions/vowels'
+import { removeInflectionalPattern } from 'tables/functions/patterns'
+import Word from 'tables/word'
+import { removeVowellikeClusters, removeLastVowelCluster, splitOnVowelRegions, isVowellikeCluster } from 'tables/functions/vowels'
 import _ from 'lodash'
 
 /**
@@ -36,8 +34,13 @@ export function getStem(options) {
     */
     if (output && options.masculinizeAdjectiveStem) {
       const stemLength = splitOnVowelRegions(output).filter(Boolean).length
-      let masculine = this.getOriginal().get('masculine', 'nominative', 'singular', 'positive degree', 'strong declension').getFirstValue()
-      return splitOnVowelRegions(masculine).filter(Boolean).slice(0, stemLength).join('')
+      let masculine = this.getOriginal().get('masculine', 'nominative', 'singular', /*'positive degree',*/ 'strong declension').getFirstValue()
+      if(masculine){
+        return splitOnVowelRegions(masculine).filter(Boolean).slice(0, stemLength).join('')
+      } else {
+        // console.log(output)
+        return output
+      }
     } else {
       // return output
     }
@@ -54,7 +57,7 @@ export function getStem(options) {
       // return output
     }
   }
-  if (this.is('numeral') || this.is('personal pronoun')) {
+  if (this.isAny('numeral', 'personal pronoun')) {
     output = this.getOriginal().getFirstValue()
   }
 
@@ -90,10 +93,11 @@ const attemptToGenerateStem = (word) => {
   var mostCommonConsonantBeginning = _.head(_(cut).countBy().entries().maxBy(_.last));
   var firstVariantMatching = y.find(i => removeVowellikeClusters(i).slice(0, shortest))
 
+  /* Find match based on consonants */
   let output = ''
   let current_consonant_index = 0
   let done = false
-  firstVariantMatching && firstVariantMatching.split('').forEach((letter, index) => {
+  firstVariantMatching && firstVariantMatching.split('').forEach(letter => {
     if (!done) {
       if (!isVowellikeCluster(letter)) {
         current_consonant_index++
@@ -105,6 +109,7 @@ const attemptToGenerateStem = (word) => {
     }
   })
 
+  /* If the above failed, try to find match using vowels as well */
   if (!output) {
     let shortest2 = Math.min(...y.map(i => i.length))
     let cut2 = y.map(i => i.slice(0, shortest2))

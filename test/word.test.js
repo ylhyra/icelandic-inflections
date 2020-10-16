@@ -14,7 +14,7 @@ describe('General word tests', function () {
       assert.equal(word.get('weak declension').getFirstValue(), 'farni')
       assert.equal(word.getFirst().is('masculine'), true)
       assert.equal(word.getFirst().is('neuter'), false)
-      assert.equal(word.getFirst().is('inexistent classification :)'), false)
+      // assert.equal(word.getFirst().is('inexistent classification :)'), false)
       assert.equal(word.getType('class'), 'adjective')
       assert.equal(word.getFirst().getType('plurality'), 'singular')
       assert.equal(word.getId(), 390363)
@@ -52,6 +52,17 @@ describe('General word tests', function () {
       done()
     })
   })
+
+  it('„fara“', (done) => {
+    get(433568, done, word => {
+      /* Test principal part generation from other than first */
+      assert.equal(stripHTML(word.get('past').getPrincipalParts()), 'að fara, ég fór (í gær), við fórum (í gær), ég hef farið')
+      assert.equal(word.isStrong(), true)
+      done()
+    })
+  })
+
+
 
   // it.only('Junk data', () => {
   //   assert.throws(new Word(['ok']), Error)

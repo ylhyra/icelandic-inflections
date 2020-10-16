@@ -1,4 +1,4 @@
-import { sorted_tags } from './classification'
+import { sorted_tags } from 'tables/classification/classification'
 
 export const sort_by_classification = (a, b) => {
   /* Sort by single tag */
