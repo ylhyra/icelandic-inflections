@@ -61,6 +61,12 @@ class Word {
     this.FindIrregularities()
     this.alreadySetup = true
   }
+
+  /* temp */
+  highlight(input_string) {
+    if(!input_string) return this;
+  }
+
   getId() {
     return this.original.rows.length > 0 && this.original.rows[0].BIN_id
   }

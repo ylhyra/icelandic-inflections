@@ -10,10 +10,17 @@ export function FindIrregularities() {
   let wordHasUmlaut, wordIsIrregular, wordIsHighlyIrregular
 
   /* Skip highlighting for certain word classes */
-  if (word.isAny('indeclinable', 'pronoun', 'article', 'personal pronoun', 'reflexive pronoun')) {
-    return
-  }
-
+  if (word.isAny(
+      'indeclinable',
+      'article',
+      'pronoun',
+      'personal pronoun',
+      'reflexive pronoun',
+      'preposition',
+      'infinitive particle',
+      'interjection',
+      'adverb',
+    )) return;
 
   let stem = word.getStem({ masculinizeAdjectiveStem: true, trimExtra: true })
   if (!stem) {

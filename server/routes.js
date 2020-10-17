@@ -89,7 +89,7 @@ export default (Search, Get_by_id) => {
           res.send(layout({
             title: rows[0].base_word || '',
             string: word,
-            results: render(rows, req.query),
+            results: render(rows, req.query, { input_string: word }),
             id,
             embed,
           }))
@@ -145,7 +145,7 @@ export default (Search, Get_by_id) => {
               res.send(layout({
                 title: rows[0].base_word || '',
                 string: word,
-                results: render(rows, req.query),
+                results: render(rows, req.query, { input_string: word }),
                 did_you_mean_in_footer: did_you_mean.slice(1).map(renderItemOnSearchPage).join(''),
                 id: rows[0].BIN_id,
                 embed,

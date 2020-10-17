@@ -510,6 +510,7 @@ h1 {
   margin-bottom: 10px;
   display: block;
   font-family: $serif;
+  color: #266bcf;
 }
 h1 a {
   color: #266bcf;

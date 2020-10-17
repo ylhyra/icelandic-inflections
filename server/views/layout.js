@@ -36,7 +36,9 @@ if (/[?&](q|id)=/.test(location.search)) {
 <body>
 
 ${!embed ? `
-<h1><a href="/">Icelandic inflections</a></h1>
+<h1>
+  ${title ? `<a href="/">Icelandic inflections</a>` : 'Icelandic inflections'}
+</h1>
 <form method="get" action="/">
   <input name="q" id="s" placeholder="Search" type="search" value="${string || ''}" spellcheck="false" autocomplete="off"/>
 </form>`:''}
@@ -66,11 +68,16 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
 
 </footer>
 
+<script type="text/javascript">
+document.getElementById("s").select();
+</script>
+
 ${id ? `
 <script type="text/javascript">
-  var el = document.getElementById("content");
-  el & el.scrollIntoView();
-</script>`:''}
+var el = document.getElementById("content");
+el & el.scrollIntoView();
+</script>`:`
+`}
 
 ${/*Only list on main page */''}
 ${!title ? `
