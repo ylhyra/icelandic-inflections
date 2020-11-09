@@ -488,6 +488,7 @@ Object.keys(type_aliases).forEach(key => {
 })
 
 export const normalizeTag = (tag, strict) => {
+  if(!tag) return null;
   if (typeof tag === 'number') return tag;
   if (typeof tag !== 'string') throw new Error(`normalizeTag received type ${typeof tag}`)
   let output = shortcuts[tag] || shortcuts[tag.toLowerCase().trim()]

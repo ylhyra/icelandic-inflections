@@ -64,6 +64,6 @@ export default function getSingleTable({
     } else {
       output = table
     }
-    return output + `<a href="/${encodeURIComponent(word.getBaseWord())}/${word.getId()}"><b>Show all tables</b></a>`
+    return output + `<a href="https://inflections.ylhyra.is/${encodeURIComponent(word.getBaseWord())}/${word.getId()}"><b>Show all tables</b></a>`
   }
 }
