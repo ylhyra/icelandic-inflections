@@ -24,14 +24,13 @@ export default (Search, Get_by_id) => {
   router.get('/api/inflections?', cors(), (req, res) => {
     res.setHeader('X-Robots-Tag', 'noindex')
     let { id, type, search, fuzzy, return_rows_if_only_one_match } = req.query
-    try {
-
-      if (search) {
-        return Search({ word: search, fuzzy, return_rows_if_only_one_match }, results => {
-          res.json({ results })
-        })
-      } else if (id) {
-        Get_by_id(id, (rows) => {
+    if (search) {
+      return Search({ word: search, fuzzy, return_rows_if_only_one_match }, results => {
+        res.json({ results })
+      })
+    } else if (id) {
+      Get_by_id(id, (rows) => {
+        try {
           /* Flat */
           if (type === 'flat') {
             return res.json(withLicense(rows, id))
@@ -44,13 +43,17 @@ export default (Search, Get_by_id) => {
           else {
             return res.send(withLicense(tree(rows), id))
           }
-        })
-      } else {
-        return res.status(400).send({ error: 'Parameters needed' })
-        // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
-      }
-    } catch (e) {
-      res.send({ error: `There was an error. The message was ${e.message}` })
+        } catch (e) {
+          if (type === 'html') {
+            res.status(400).send(`There was an error. <br><small>The message was ${e.message}</small>`)
+          } else {
+            res.status(400).send({ error: `There was an error. The message was ${e.message}` })
+          }
+        }
+      })
+    } else {
+      return res.status(400).send({ error: 'Parameters needed' })
+      // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
     }
   })
 
