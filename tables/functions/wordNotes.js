@@ -9,7 +9,7 @@ export function getWordNotes() {
       notes.push(`This word is not used in modern Icelandic`)
       break;
     case '2':
-      notes.push(`Using this word is usually considered to be incorrect in standard written Icelandic`)
+      notes.push(`This word is not considered to be proper standard Icelandic`)
       break;
     case '3':
       notes.push(`Don't use this word, it considered to be incorrect`)

@@ -2,14 +2,16 @@ import Word from 'tables/word'
 import { normalizeTag, types } from 'tables/classification/classification'
 import link, { ucfirst_link } from 'tables/link'
 
-export default (rows, options) => {
+export default (rows, options, more_options /* todo: merge */ ) => {
   let give_me = options && options.give_me
   let column_names = options && (options.columns || options.column_names)
   let row_names = options && (options.rows || options.row_names)
+  let input_string = more_options && more_options.input_string
 
   // console.log(rows.slice(0,10))
   // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == 1
   let word = (new Word(rows))
+    .highlight(input_string) // temp
   // console.log('hah')
   // const word = (new Word()).importTree(rows)
 
