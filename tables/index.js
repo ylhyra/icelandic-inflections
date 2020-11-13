@@ -11,10 +11,10 @@ export default (rows, options, more_options /* todo: merge */ ) => {
   // console.log(rows.slice(0,10))
   // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == 1
   let word = (new Word(rows))
-    .highlight(input_string) // temp
+    // .highlight(input_string) // temp
   // console.log('hah')
   // const word = (new Word()).importTree(rows)
-
+  // console.log(word)
   let table;
   if (give_me || column_names || row_names) {
     give_me = clean__temporary(give_me)
