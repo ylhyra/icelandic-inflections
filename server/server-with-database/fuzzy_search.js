@@ -17,6 +17,7 @@ export const WITHOUT_SPECIAL_CHARACTERS_MARKER = '@'
 export const WITH_SPELLING_ERROR_MARKER = '^'
 export const PHONETIC_MARKER = '~'
 import classify from 'server/inflection/tables/classification/BIN_classification'
+import { sort_by_classification } from 'server/inflection/tables/classification/sort_by_classification'
 
 export default ({ word, return_rows_if_only_one_match }, callback) => {
   query(sql `
@@ -88,7 +89,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
 
         let output = []
         words.forEach(rows1 => {
-          const word = new Word(rows1)
+          const word = new Word(rows1.sort(sort_by_classification))
           /* Prevent "null" from appearing during index creation, which causes Word() to fail */
           if (word.getId()) {
             output.push({
