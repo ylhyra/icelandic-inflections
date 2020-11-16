@@ -63,8 +63,9 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
          i1.should_be_taught DESC,
          i1.correctness_grade_of_inflectional_form ASC,
          i1.correctness_grade_of_word ASC,
-         i1.inflectional_form ASC,
-         i1.BIN_id ASC
+         i1.inflectional_form ASC
+         -- ,
+         -- i1.BIN_id ASC
        ) as inner_table
      LEFT JOIN inflection i2
        ON inner_table.BIN_id = i2.BIN_id
@@ -80,13 +81,15 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
       // console.log(rows.slice(0,2))
       try {
         let words = []
-        let lastBINid = null
+        let BIN_ids = []
         rows.forEach(row => {
-          if (lastBINid !== row.BIN_id) {
+          let index = BIN_ids.findIndex(i => i === row.BIN_id)
+          if (index < 0) {
+            BIN_ids.push(row.BIN_id)
             words.push([])
+            index = words.length - 1
           }
-          lastBINid = row.BIN_id
-          words.last.push(classify(row))
+          words[index].push(classify(row))
         })
 
         let output = []
@@ -124,12 +127,12 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
         /*
           Only one match, return rows so that a table may be printed immediately
         */
-        if(perfect_matches.length === 1 && return_rows_if_only_one_match) {
+        if (perfect_matches.length === 1 && return_rows_if_only_one_match) {
           returns.rows = words[0]
         }
 
         callback(returns)
-      } catch(e){
+      } catch (e) {
         console.error(e)
         callback('Error')
       }
