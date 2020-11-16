@@ -78,6 +78,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
     } else if (rows.length === 0) {
       callback(null)
     } else {
+      // console.log(rows.map(row => row.base_word).join(', '))
       // console.log(rows.slice(0,2))
       try {
         let words = []
@@ -103,7 +104,8 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
               base_word: word.getBaseWord(),
               description: removeLinks(word.getWordDescription()),
               snippet: removeLinks(word.getSnippet()),
-              matched_term: rows1[0].matched_term
+              matched_term: rows1[0].matched_term,
+              rows: rows1,
             })
           }
         })
@@ -124,12 +126,12 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
           did_you_mean,
         }
 
-        /*
-          Only one match, return rows so that a table may be printed immediately
-        */
-        if (perfect_matches.length === 1 && return_rows_if_only_one_match) {
-          returns.rows = words[0]
-        }
+        // /*
+        //   Only one match, return rows so that a table may be printed immediately
+        // */
+        // if (perfect_matches.length === 1 && return_rows_if_only_one_match) {
+        //   returns.rows = perfect_matches[0].rows
+        // }
 
         callback(returns)
       } catch (e) {

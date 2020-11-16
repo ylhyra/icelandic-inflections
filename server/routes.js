@@ -128,14 +128,17 @@ export default (Search, Get_by_id) => {
             } = results
 
             let output = ''
+            let did_you_mean_string = ''
             if (perfect_matches.length > 0) {
               output += `<ul class="results">
                   ${perfect_matches.map(renderItemOnSearchPage).join('')}
                 </ul>`
             }
             if (did_you_mean.length > 0) {
-              output += `
-                <h4 class="did-you-mean">${perfect_matches.length>0 ? 'Or did you mean:' : 'Did you mean:'}</h4>
+              did_you_mean_string += `
+                <h4 class="did-you-mean">
+                  ${perfect_matches.length>0 ? (perfect_matches.length === 1 ? 'You may also be looking for:' : 'Or did you mean:') : 'Did you mean:'
+                }</h4>
                 <ul class="results">
                   ${did_you_mean.map(renderItemOnSearchPage).join('')}
                 </ul>`
@@ -145,12 +148,12 @@ export default (Search, Get_by_id) => {
               One result
             */
             if (perfect_matches.length === 1) {
-              const { rows } = results
+              const { rows } = perfect_matches[0]
               res.send(layout({
                 title: rows[0].base_word || '',
                 string: word,
                 results: render(rows, req.query, { input_string: word }),
-                did_you_mean_in_footer: did_you_mean.slice(1).map(renderItemOnSearchPage).join(''),
+                did_you_mean_in_footer: did_you_mean_string,
                 id: rows[0].BIN_id,
                 embed,
               }))
@@ -162,7 +165,7 @@ export default (Search, Get_by_id) => {
               res.send(layout({
                 title: word,
                 string: word,
-                results: output,
+                results: output + did_you_mean_string,
                 embed,
               }))
             }
