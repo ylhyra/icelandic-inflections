@@ -260,9 +260,9 @@ class Word {
     A snippet is a short example of a conjugation to display in search results
   */
   getSnippet() {
-    if (this.is('verb')) {
-      return this.getPrincipalParts()
-    }
+    // if (this.is('verb')) {
+    //   return this.getPrincipalParts()
+    // }
 
     /* Which variant to highlight? */
     let chosen_variant_to_show = []
@@ -277,7 +277,7 @@ class Word {
         (a.should_be_taught + a.correctness_grade_of_inflectional_form + a.correctness_grade_of_word)
     })
     if (variants_matched.length > 0) {
-      chosen_variant_to_show = variants_matched[0].inflectional_form_categories
+      chosen_variant_to_show = variants_matched[0].inflectional_form_categories.filter(i => !isNumber(i))
     }
 
     return this.getSingleTable({

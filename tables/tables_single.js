@@ -2,6 +2,7 @@ import RenderTable from 'tables/render_table'
 import { without, flatten } from 'lodash'
 import { types } from 'tables/classification/classification'
 import link, { ucfirst_link } from 'tables/link'
+import { isNumber } from 'tables/tree'
 
 /**
  * Finds a single relevant table
@@ -29,6 +30,28 @@ export default function getSingleTable({
       } else {
         row_names = types['cases']
       }
+    } else if (word.is('verb')) {
+      /* Temp: Needs to be merged with the principalParts file */
+      /* TODO: Support generation for miðmynd */
+      const word = this.getOriginal()
+      let principalParts = [
+        word.get('infinitive').getFirstClassification(),
+        word.get( /*'indicative', */ 'past tense', '1st person', 'singular').getFirstClassification(),
+        word.isStrong() && word.get( /*'indicative',*/ 'past tense', '1st person', 'plural').getFirstClassification(),
+        word.get('supine').getFirstClassification(),
+      ].filter(Boolean)
+      row_names = principalParts
+
+      if (give_me && give_me.length > 0) {
+        /* The matched part is in the principal parts */
+        if (principalParts.find(principalPart => give_me.every((giveMeItem, index) => giveMeItem === principalPart[index]))) {
+          /* */
+        } else {
+          if (word.getType('person')) {
+            row_names = types['persons'] //['infinitive', ]
+          }
+        }
+      }
     }
   }
 
@@ -46,7 +69,7 @@ export default function getSingleTable({
 
   /* As string */
   if (returnAsString) {
-    return row_names.map(c => siblings.get(c)).map(i => i.render({ highlight: give_me })).filter(Boolean).join(', ')
+    return row_names.map(c => siblings.get(c)).map(i => i.getFirstAndItsVariants().render({ highlight: give_me })).filter(Boolean).join(', ')
   }
   /* As table */
   else {
