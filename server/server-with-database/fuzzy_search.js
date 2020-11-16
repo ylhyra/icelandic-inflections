@@ -41,7 +41,8 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
         i2.alternative_entry,
         inner_table.inflectional_form as matched_term,
         (output = i2.inflectional_form_lowercase) as variant_matched,
-        (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match
+        (CASE WHEN inner_table.score >= 4 THEN 1 ELSE 0 END) as word_has_perfect_match,
+        (output = i2.base_word) as base_word_matched
       FROM
       (
        SELECT score, i1.inflectional_form, i1.BIN_id, output FROM (
@@ -49,7 +50,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
            WHERE input = ${word}
            OR input = ${without_special_characters(word)}
            OR input = ${with_spelling_errors(word)}
-           OR input = ${phonetic(word)}
+           -- OR input = ${phonetic(word)}
            ORDER BY
            autocomplete.score DESC
            LIMIT 20 -- Necessary?
@@ -64,10 +65,11 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
          i1.correctness_grade_of_word ASC,
          i1.inflectional_form ASC,
          i1.BIN_id ASC
-
        ) as inner_table
      LEFT JOIN inflection i2
        ON inner_table.BIN_id = i2.BIN_id
+       ORDER BY
+         base_word_matched DESC
   `, (err, rows) => {
     if (err) {
       console.error(err)
@@ -98,6 +100,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
               base_word: word.getBaseWord(),
               description: removeLinks(word.getWordDescription()),
               snippet: removeLinks(word.getSnippet()),
+              matched_term: rows1[0].matched_term
             })
           }
         })

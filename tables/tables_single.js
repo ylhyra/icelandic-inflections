@@ -35,21 +35,18 @@ export default function getSingleTable({
   column_names = column_names || [null]
   row_names = row_names || [null]
 
-  word = word.getMeetingAny(...row_names, ...column_names)
-  const sibling_classification = without(word.getFirstClassification(), ...flatten(row_names), ...flatten(column_names))
-  // console.log({
-  //   sibling_classification,
-  //   // column_names,
-  //   // row_names,
-  //   // flat:flatten(row_names),
-  // })
-  const siblings = word.getOriginal().get(sibling_classification)
+  if (give_me && give_me.length > 0) {
+    word = word.get(...give_me)
+  } else {
+    word = word.getMeetingAny(...row_names, ...column_names)
+  }
 
-  // console.log(siblings.getFirst().getForms_describe_as_string__temp())
+  const sibling_classification = without(word.getFirstClassification(), ...flatten(row_names), ...flatten(column_names))
+  const siblings = word.getOriginal().get(sibling_classification)
 
   /* As string */
   if (returnAsString) {
-    return row_names.map(c => siblings.get(c)).map(i => i.render()).filter(Boolean).join(', ')
+    return row_names.map(c => siblings.get(c)).map(i => i.render({ highlight: give_me })).filter(Boolean).join(', ')
   }
   /* As table */
   else {

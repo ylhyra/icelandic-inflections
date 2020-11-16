@@ -180,7 +180,7 @@ export default (Search, Get_by_id) => {
 
 const renderItemOnSearchPage = (i) => `
   <li>
-    <a href="/${i.base_word ? encodeURIComponent(i.base_word) + '/' : ''}${i.BIN_id}">
+    <a href="/${i.matched_term ? encodeURIComponent(i.matched_term) + '/' : ''}${i.BIN_id}">
       ${i.snippet ?
         `<div class="snippet">${i.snippet}</div>` :
         `<div><strong>${i.base_word}</strong></div>`

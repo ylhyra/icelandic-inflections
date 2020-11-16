@@ -64,7 +64,7 @@ class Word {
 
   /* temp */
   highlight(input_string) {
-    if(!input_string) return this;
+    if (!input_string) return this;
   }
 
   getId() {
@@ -242,12 +242,19 @@ class Word {
     })
   }
   /* Returns string with helper words */
-  render() {
+  render(options) {
     let output =
       this.getHelperWordsBefore() + ' ' +
       this.renderForms().map(i => `<b>${i}</b>`).join(' / ') +
       this.getHelperWordsAfter()
-    return output.trim()
+    output = output.trim()
+
+    const highlight = options && options.highlight
+    if (highlight && this.is(highlight)) {
+      output = `<span class="highlight">${output}</span>`
+    }
+
+    return output
   }
   /**
     A snippet is a short example of a conjugation to display in search results
@@ -256,7 +263,27 @@ class Word {
     if (this.is('verb')) {
       return this.getPrincipalParts()
     }
-    return this.getSingleTable({ returnAsString: true })
+
+    /* Which variant to highlight? */
+    let chosen_variant_to_show = []
+    let variants_matched = []
+    this.rows.forEach(row => {
+      if (row.variant_matched) {
+        variants_matched.push(row)
+      }
+    })
+    variants_matched = variants_matched.sort((a, b) => {
+      return (b.should_be_taught + b.correctness_grade_of_inflectional_form + b.correctness_grade_of_word) -
+        (a.should_be_taught + a.correctness_grade_of_inflectional_form + a.correctness_grade_of_word)
+    })
+    if (variants_matched.length > 0) {
+      chosen_variant_to_show = variants_matched[0].inflectional_form_categories
+    }
+
+    return this.getSingleTable({
+      returnAsString: true,
+      give_me: chosen_variant_to_show,
+    })
   }
 }
 
