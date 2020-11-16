@@ -20,25 +20,36 @@ export default function getSingleTable({
   let description = ''
   let table = ''
 
+  if (give_me && give_me.length > 0) {
+    word = word.get(...give_me)
+  }
+
   if (!column_names && !row_names) {
     /* Nouns */
     if (word.is('noun')) {
       row_names = types['cases']
     } else if (word.is('adjective')) {
       if (word.getFirst().is('nominative')) {
-        row_names = types['genders']
+        if( word.getType('degree') === 'positive degree'){
+          row_names = types['genders']
+        } else {
+          row_names = types['degree']
+        }
       } else {
         row_names = types['cases']
       }
-    } else if (word.is('verb')) {
+    } else if (word.is('adverb') && word.getType('degree')) {
+        row_names = types['degree']
+    }
+    else if (word.is('verb')) {
       /* Temp: Needs to be merged with the principalParts file */
       /* TODO: Support generation for miðmynd */
-      const word = this.getOriginal()
+      const word2 = this.getOriginal()
       let principalParts = [
-        word.get('infinitive').getFirstClassification(),
-        word.get( /*'indicative', */ 'past tense', '1st person', 'singular').getFirstClassification(),
-        word.isStrong() && word.get( /*'indicative',*/ 'past tense', '1st person', 'plural').getFirstClassification(),
-        word.get('supine').getFirstClassification(),
+        word2.get('infinitive').getFirstClassification(),
+        word2.get( /*'indicative', */ 'past tense', '1st person', 'singular').getFirstClassification(),
+        word2.isStrong() && word2.get( /*'indicative',*/ 'past tense', '1st person', 'plural').getFirstClassification(),
+        word2.get('supine').getFirstClassification(),
       ].filter(Boolean)
       row_names = principalParts
 
@@ -47,9 +58,28 @@ export default function getSingleTable({
         if (principalParts.find(principalPart => give_me.every((giveMeItem, index) => giveMeItem === principalPart[index]))) {
           /* */
         } else {
-          if (word.getType('person')) {
-            row_names = types['persons'] //['infinitive', ]
+          // let row_names = ['infinitive']
+          // ['infinitive', relevant_word.getType('voice')].filter(Boolean),
+          if (word.getFirst().getType('person')) {
+            row_names = [
+              'infinitive',
+              ...types['persons'],
+            ]
           }
+          /* Nothing but infinitive and word */
+          else {
+            row_names = [
+              'infinitive',
+              give_me,
+            ]
+          }
+
+          // if (relevant_word.getType('person')) {
+          //   row_names = [
+          //     ['infinitive', relevant_word.getType('voice')].filter(Boolean),
+          //     ...types['persons'],
+          //   ]
+          // }
         }
       }
     }
@@ -64,15 +94,20 @@ export default function getSingleTable({
     word = word.getMeetingAny(...row_names, ...column_names)
   }
 
-  const sibling_classification = without(word.getFirstClassification(), ...flatten(row_names), ...flatten(column_names))
-  const siblings = word.getOriginal().get(sibling_classification)
+  // const sibling_classification = without(word.getFirstClassification(), ...flatten(row_names), ...flatten(column_names))
+  // const siblings = word.getOriginal().get(sibling_classification)
 
   /* As string */
   if (returnAsString) {
-    return row_names.map(c => siblings.get(c)).map(i => i.getFirstAndItsVariants().render({ highlight: give_me })).filter(Boolean).join(', ')
+    return row_names.map(c => word.getMostRelevantSibling(c)).map(i => i.getFirstAndItsVariants().render( /*{ highlight: give_me }*/ )).filter(Boolean).join(', ')
   }
   /* As table */
   else {
+
+    /* TEMPORARY; MERGE WITH ABOVE */
+    const sibling_classification = without(word.getFirstClassification(), ...flatten(row_names), ...flatten(column_names))
+    const siblings = word.getOriginal().get(sibling_classification)
+
     table = RenderTable(siblings, word.getOriginal(), { column_names, row_names }, give_me)
     description = ucfirst_link(sibling_classification.map(i => link(i)).join(', '))
     let output

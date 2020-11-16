@@ -29,3 +29,6 @@ http://localhost:4545/geta/479125
   - Supine ég hef	getið ég hef	getað
 
 Override variant order for "geta" supine
+
+Testing:
+- verst

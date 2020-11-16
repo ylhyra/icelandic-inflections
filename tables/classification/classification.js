@@ -448,10 +448,12 @@ let title_to_label = {}
 
 labels_array.forEach(label => {
   /* Types */
-  if (!types[label.type]) {
-    types[label.type] = []
+  if (label.type) {
+    if (!types[label.type]) {
+      types[label.type] = []
+    }
+    types[label.type].push(label.title)
   }
-  types[label.type].push(label.title)
 
   /* Shortcuts */
   let s = label.shortcuts
@@ -480,6 +482,7 @@ const type_aliases = {
   plurality: ['number'],
   case: ['cases'],
   gender: ['genders'],
+  person: ['persons'],
 }
 Object.keys(type_aliases).forEach(key => {
   type_aliases[key].forEach(type => {
@@ -488,7 +491,7 @@ Object.keys(type_aliases).forEach(key => {
 })
 
 export const normalizeTag = (tag, strict) => {
-  if(!tag) return null;
+  if (!tag) return null;
   if (typeof tag === 'number') return tag;
   if (/^\d+?$/.test(tag)) return parseInt(tag); /* Number on the form of a string */
   if (typeof tag !== 'string') throw new Error(`normalizeTag received type ${typeof tag}`)

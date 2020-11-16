@@ -8,7 +8,7 @@ import { getWordNotes } from 'tables/functions/wordNotes'
 import { getStem } from 'tables/functions/stem'
 import { isStrong, isWeak } from 'tables/functions/strong'
 import { discardUnnecessaryForms } from 'tables/functions/discard'
-import { types, normalizeTag } from 'tables/classification/classification'
+import { types, normalizeTag, getTagInfo } from 'tables/classification/classification'
 import { flatten } from 'lodash'
 import { FindIrregularities } from 'tables/functions/irregularities'
 
@@ -125,6 +125,50 @@ class Word {
     )), this)
   }
   /**
+   * Used in string table generation
+   */
+  getMostRelevantSibling(...values) {
+    if (!values) return this;
+    values = flatten(values)
+    let values_types = values.map(v => getTagInfo(v) && getTagInfo(v).type)
+    let try_to_match_as_many_as_possible = []
+    this.getFirstClassification().forEach(c => {
+      let relevant_type_index = values_types.findIndex(v => v === getTagInfo(c).type)
+      if (relevant_type_index >= 0) {
+        try_to_match_as_many_as_possible.push(values[relevant_type_index])
+      } else {
+        try_to_match_as_many_as_possible.push(c)
+      }
+    })
+
+    let possible_rows = this.getOriginal().rows.map(row => {
+      if(!values.every(j => row.inflectional_form_categories.includes(j))){
+        // console.log({values,in:row.inflectional_form_categories})
+        return null;
+      }
+
+      let match_score = 0
+      row.inflectional_form_categories.forEach(cat => {
+        if (try_to_match_as_many_as_possible.includes(cat)) {
+          match_score++
+        }
+      })
+      return { inflectional_form_categories: row.inflectional_form_categories, match_score }
+    }).filter(Boolean)
+
+    if (possible_rows.length>0){
+      let best_match = possible_rows.sort((a, b) => b.match_score - a.match_score)[0].inflectional_form_categories.filter(i => !isNumber(i))
+      // console.log({best_match,values})
+      return this.getOriginal().get(best_match)
+    } else {
+      // console.log({values,try_to_match_as_many_as_possible})
+      return this.returnEmptyWord()
+    }
+  }
+  returnEmptyWord(){
+    return new Word([], this)
+  }
+  /**
    * Returns all that meet *any* of the input values
    * @param  {array|...string} values
    */
@@ -238,7 +282,11 @@ class Word {
     let word = this
     return this.rows.map(row => {
       /* formattedOutput contains umlaut higlights */
-      return row.formattedOutput || row.inflectional_form
+      let out = row.formattedOutput || row.inflectional_form
+      if (row.matched_term === row.inflectional_form) {
+        out = `<span class="highlight">${out}</span>`
+      }
+      return out
     })
   }
   /* Returns string with helper words */
@@ -249,10 +297,10 @@ class Word {
       this.getHelperWordsAfter()
     output = output.trim()
 
-    const highlight = options && options.highlight
-    if (highlight && this.is(highlight)) {
-      output = `<span class="highlight">${output}</span>`
-    }
+    // const highlight = options && options.highlight
+    // if (highlight && this.is(highlight)) {
+    //   output = `<span class="highlight">${output}</span>`
+    // }
 
     return output
   }
