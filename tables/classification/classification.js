@@ -175,7 +175,7 @@ const labels_array = [
     icelandic_title: 'nafnháttur',
     type: '',
     shortcuts: ['nh', 'inf'],
-    has_article_on_ylhyra: false,
+    has_article_on_ylhyra: true,
   },
   {
     title: 'indicative',
@@ -200,11 +200,11 @@ const labels_array = [
     has_article_on_ylhyra: false,
   },
   {
-    title: 'mediopassive',
+    title: 'middle voice',
     icelandic_title: 'miðmynd',
     type: '',
-    shortcuts: ['mm', 'med'],
-    has_article_on_ylhyra: false,
+    shortcuts: ['mm', 'med', 'mediopassive', 'mid'],
+    has_article_on_ylhyra: true,
   },
   {
     title: 'imperative',
