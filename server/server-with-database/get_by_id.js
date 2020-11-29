@@ -12,7 +12,7 @@ import { sort_by_classification } from 'server/inflection/tables/classification/
 export default (id, callback) => {
   query(sql `
     SELECT
-      BIN_id,
+      inflection.BIN_id,
       base_word,
       inflectional_form,
       word_categories,
@@ -28,15 +28,24 @@ export default (id, callback) => {
       various_feature_markers,
       alternative_entry
     FROM inflection
-    WHERE BIN_id = ${id}
+    WHERE inflection.BIN_id = ${id};
     -- AND correctness_grade_of_inflectional_form = 1
     -- AND should_be_taught = 1
+    SELECT *
+    FROM inflection
+    LEFT JOIN vocabulary_input
+      ON inflection.BIN_id = vocabulary_input.BIN_ID
+    LEFT JOIN vocabulary_fields
+      ON vocabulary_fields.id = vocabulary_input.vocabulary_id
+    WHERE inflection.BIN_id = ${id};
   `, (err, results) => {
     if (err) {
       callback(null)
     } else {
+      // console.log(results[1])
+      // return callback([])
       try {
-        let output = results.map(i => classify(i)).sort(sort_by_classification)
+        let output = results[0].map(i => classify(i)).sort(sort_by_classification)
         callback(output)
       } catch (e) {
         console.error(e)
