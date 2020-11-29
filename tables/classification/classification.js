@@ -181,8 +181,8 @@ const labels_array = [
     title: 'indicative',
     icelandic_title: 'framsöguháttur',
     type: '',
-    shortcuts: ['fh', 'ind'],
-    has_article_on_ylhyra: false,
+    shortcuts: ['fh', 'ind','real','realis','realis mood','indicative mood'],
+    has_article_on_ylhyra: true,
   },
   {
     title: 'subjunctive',
@@ -211,7 +211,7 @@ const labels_array = [
     icelandic_title: 'boðháttur',
     type: '',
     shortcuts: ['bh', 'imp'],
-    has_article_on_ylhyra: false,
+    has_article_on_ylhyra: true,
   },
   {
     title: 'clipped imperative',
