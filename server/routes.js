@@ -78,103 +78,107 @@ export default (Search, Get_by_id) => {
       }))
     }
 
-    if (id) {
-      Get_by_id(id, (rows) => {
-        if (!rows || rows.length === 0) {
-          return res.send(layout({
-            title: word,
-            string: word,
-            results: rows === null ? 'Internal network error. Try reloading.' : 'No matches'
-          }))
-        }
-        try {
-          // console.log(rows)
-          res.send(layout({
-            title: rows[0].base_word || '',
-            string: word,
-            results: render(rows, req.query, { input_string: word }),
-            id,
-            embed,
-          }))
-        } catch (e) {
-          sendError(e)
-        }
-      })
-    } else if (word) {
-      Search({
-          word: word,
-          fuzzy: true,
-          return_rows_if_only_one_match: true
-        },
-        results => {
+    try {
+      if (id) {
+        Get_by_id(id, (rows) => {
+          if (!rows || rows.length === 0) {
+            return res.send(layout({
+              title: word,
+              string: word,
+              results: rows === null ? 'Internal network error. Try reloading.' : 'No matches'
+            }))
+          }
           try {
-            /*
-              No results
-            */
-            if (!results || results === 'Error') {
-              return res.send(layout({
-                title: word,
-                string: word,
-                embed,
-                results: results === 'Error' ? 'Error, try reloading' : 'No matches'
-              }))
-            }
+            // console.log(rows)
+            res.send(layout({
+              title: rows[0].base_word || '',
+              string: word,
+              results: render(rows, req.query, { input_string: word }),
+              id,
+              embed,
+            }))
+          } catch (e) {
+            sendError(e)
+          }
+        })
+      } else if (word) {
+        Search({
+            word: word,
+            fuzzy: true,
+            return_rows_if_only_one_match: true
+          },
+          results => {
+            try {
+              /*
+                No results
+              */
+              if (!results || results === 'Error') {
+                return res.send(layout({
+                  title: word,
+                  string: word,
+                  embed,
+                  results: results === 'Error' ? 'Error, try reloading' : 'No matches'
+                }))
+              }
 
-            // console.log(results)
+              // console.log(results)
 
-            const {
-              perfect_matches,
-              did_you_mean,
-            } = results
+              const {
+                perfect_matches,
+                did_you_mean,
+              } = results
 
-            let output = ''
-            let did_you_mean_string = ''
-            if (perfect_matches.length > 0) {
-              output += `<ul class="results">
+              let output = ''
+              let did_you_mean_string = ''
+              if (perfect_matches.length > 0) {
+                output += `<ul class="results">
                   ${perfect_matches.map(renderItemOnSearchPage).join('')}
                 </ul>`
-            }
-            if (did_you_mean.length > 0) {
-              did_you_mean_string += `
+              }
+              if (did_you_mean.length > 0) {
+                did_you_mean_string += `
                 <h4 class="did-you-mean">
                   ${perfect_matches.length>0 ? (perfect_matches.length === 1 ? 'You may also be looking for:' : 'Or did you mean:') : 'Did you mean:'
                 }</h4>
                 <ul class="results">
                   ${did_you_mean.map(renderItemOnSearchPage).join('')}
                 </ul>`
-            }
+              }
 
-            /*
-              One result
-            */
-            if (perfect_matches.length === 1) {
-              const { rows } = perfect_matches[0]
-              res.send(layout({
-                title: rows[0].base_word || '',
-                string: word,
-                results: render(rows, req.query, { input_string: word }),
-                did_you_mean_in_footer: did_you_mean_string,
-                id: rows[0].BIN_id,
-                embed,
-              }))
+              /*
+                One result
+              */
+              if (perfect_matches.length === 1) {
+                const { rows } = perfect_matches[0]
+                res.send(layout({
+                  title: rows[0].base_word || '',
+                  string: word,
+                  results: render(rows, req.query, { input_string: word }),
+                  did_you_mean_in_footer: did_you_mean_string,
+                  id: rows[0].BIN_id,
+                  embed,
+                }))
+              }
+              /*
+                Many results
+              */
+              else {
+                res.send(layout({
+                  title: word,
+                  string: word,
+                  results: output + did_you_mean_string,
+                  embed,
+                }))
+              }
+            } catch (e) {
+              sendError(e)
             }
-            /*
-              Many results
-            */
-            else {
-              res.send(layout({
-                title: word,
-                string: word,
-                results: output + did_you_mean_string,
-                embed,
-              }))
-            }
-          } catch (e) {
-            sendError(e)
-          }
-        })
-    } else {
-      res.send(layout({}))
+          })
+      } else {
+        res.send(layout({}))
+      }
+    } catch (e) {
+      res.status(400).send(`There was an error. <br><small>The message was ${e.message}</small>`)
     }
   })
 
