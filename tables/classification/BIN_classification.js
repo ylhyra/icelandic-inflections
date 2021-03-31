@@ -80,6 +80,7 @@ const classify = (input) => {
     word_categories: word_categories_output,
     inflectional_form_categories,
     original_grammatical_tag,
+    BIN_domain,
     ...rest,
     // ...input,
   }
@@ -127,7 +128,7 @@ const tagRegex = (() => {
   We are only interested in knowing wether a word is a name or not
   See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
 */
-const relevant_BIN_domains = {
+export const relevant_BIN_domains = {
   ism: 'human name',
   erm: 'human name', // Foreign human name
   föð: 'patronymic',
@@ -143,4 +144,4 @@ const relevant_BIN_domains = {
   örn: 'place name',
   erl: 'place name',
 }
-export const BIN_domains = Object.keys(relevant_BIN_domains).map(key => relevant_BIN_domains[key])
+// export const BIN_domains = Object.keys(relevant_BIN_domains).map(key => relevant_BIN_domains[key])

@@ -11,6 +11,7 @@ import { discardUnnecessaryForms } from 'tables/functions/discard'
 import { types, normalizeTag, getTagInfo } from 'tables/classification/classification'
 import { flatten } from 'lodash'
 import { FindIrregularities } from 'tables/functions/irregularities'
+import { relevant_BIN_domains } from 'tables/classification/BIN_classification'
 
 class Word {
   /**
@@ -142,7 +143,7 @@ class Word {
     })
 
     let possible_rows = this.getOriginal().rows.map(row => {
-      if(!values.every(j => row.inflectional_form_categories.includes(j))){
+      if (!values.every(j => row.inflectional_form_categories.includes(j))) {
         // console.log({values,in:row.inflectional_form_categories})
         return null;
       }
@@ -156,7 +157,7 @@ class Word {
       return { inflectional_form_categories: row.inflectional_form_categories, match_score }
     }).filter(Boolean)
 
-    if (possible_rows.length>0){
+    if (possible_rows.length > 0) {
       let best_match = possible_rows.sort((a, b) => b.match_score - a.match_score)[0].inflectional_form_categories.filter(i => !isNumber(i))
       // console.log({best_match,values})
       return this.getOriginal().get(best_match)
@@ -165,7 +166,7 @@ class Word {
       return this.returnEmptyWord()
     }
   }
-  returnEmptyWord(){
+  returnEmptyWord() {
     return new Word([], this)
   }
   /**
@@ -241,6 +242,10 @@ class Word {
     let relevantTypes = types[type]
     if (!relevantTypes) return;
     return classification.find(i => relevantTypes.includes(i))
+  }
+  getDomain() {
+    return this.rows.length > 0 && relevant_BIN_domains[this.rows[0].BIN_domain]
+    // console.log(this.getFirst())
   }
 
   /**

@@ -5,29 +5,35 @@ import link from 'tables/link'
  * @return {?string}
  */
 export function getWordDescription() {
-  let output = ''
+  let output = []
 
-  if (this.is('noun')) {
-    output += link(this.getType('gender')) + ' '
-  }
-  output += link(this.getType('class'))
+  output.push(this.getDomain())
+
+  output.push(
+    /* Gender for nouns */
+    (this.is('noun') ? (link(this.getType('gender')) + ' ') : '') +
+    /* Word class */ 
+    link(this.getType('class'))
+  )
 
   const isStrong = this.isStrong()
   if (isStrong === true) {
-    output += ', ' + link('strongly conjugated')
+    output.push(link('strongly conjugated'))
   } else if (isStrong === false) {
-    output += ', ' + link('weakly conjugated')
+    output.push(link('weakly conjugated'))
   }
 
   if (this.getIsWordIrregular()) {
-    output += ', ' + link('irregular inflection')
+    output.push(link('irregular inflection'))
   }
   if (this.getWordHasUmlaut()) {
-    output += ', ' + link('includes a sound change')
+    output.push(link('includes a sound change'))
   }
   if (!this.is('indeclinable') && this.getIsWordIrregular() === false && this.getWordHasUmlaut() === false) {
-    output += ', ' + link('regular inflection')
+    output.push(link('regular inflection'))
   }
+
+  output = output.filter(Boolean).join(', ')
 
   return output
 }

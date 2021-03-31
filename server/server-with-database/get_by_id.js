@@ -31,22 +31,25 @@ export default (id, callback) => {
     WHERE inflection.BIN_id = ${id};
     -- AND correctness_grade_of_inflectional_form = 1
     -- AND should_be_taught = 1
+
     SELECT *
-    FROM inflection
-    LEFT JOIN vocabulary_input
-      ON inflection.BIN_id = vocabulary_input.BIN_ID
+    FROM vocabulary_input
+    -- LEFT JOIN vocabulary_input
+    --   ON inflection.BIN_id = vocabulary_input.BIN_ID
     LEFT JOIN vocabulary_fields
       ON vocabulary_fields.id = vocabulary_input.vocabulary_id
-    WHERE inflection.BIN_id = ${id};
+    WHERE vocabulary_input.BIN_id = ${id};
+
   `, (err, results) => {
     if (err) {
       callback(null)
     } else {
-      // console.log(results[1])
-      // return callback([])
       try {
-        let output = results[0].map(i => classify(i)).sort(sort_by_classification)
-        callback(output)
+        const rows = results[0].map(i => classify(i)).sort(sort_by_classification)
+
+        // console.log(results[1][1])
+        // console.log(output)
+        callback(rows)
       } catch (e) {
         console.error(e)
         callback('Error')

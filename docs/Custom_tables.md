@@ -19,11 +19,11 @@ URL parameters to construct a custom table:
 
 <pre>
 <b>Nom</b>  hér eru apar
-<b>Acc</b>  um apa    
-<b>Dat</b>  frá öpum   
+<b>Acc</b>  um apa
+<b>Dat</b>  frá öpum
 <b>Gen</b>  til <b>apa</b>
 </pre>
-[/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl](/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl)
+[/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl](https://inflections.ylhyra.is/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl)
 
 <pre>
    <b>inf</b>  að fara
